@@ -7,7 +7,7 @@ import com.example.bookmarkse_kotlin.R
 import com.google.android.material.navigation.NavigationView
 import com.example.bookmarkse_kotlin.util.setupActionBar
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainHomeNavigator {
 
     private lateinit var mDrawerLayout: DrawerLayout
     private lateinit var mNavigationView: NavigationView
@@ -46,6 +46,10 @@ class MainActivity : AppCompatActivity() {
             mDrawerLayout.closeDrawers()
             true
         }
+    }
+
+    override fun setToolbarTitle(title: String) {
+        TODO("Not yet implemented")
     }
 
 }
