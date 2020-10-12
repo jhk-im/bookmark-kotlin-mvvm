@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="custom_item_background" format = "color" />
+    <attr name="custom_background" format="color" />
+    <attr name="custom_text" format="color" />
+</resources>
