@@ -6,7 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.1"
+        classpath 'com.android.tools.build:gradle:4.0.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -24,3 +24,19 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+/**
+ * instrumentation 용 DataBindingExportBuildInfoTasks 생성시
+ * app 과 instrumentation APK 에 중복 클래스가 생성되어
+ * java.lang.IllegalAccessError: 을 발생시킨다.
+ * 해결방법은 instrumentation APK 에 대한 DataBindingExportBuildInfoTasks 를 가져와
+ * 생성 후 바로 파일을 삭제하는 것이다.
+ **/
+//subprojects {
+//    tasks.withType(com.android.build.gradle.internal.tasks.databinding.DataBindingExportBuildInfoTask) {
+//        if(task.name.endsWith("AndroidTest")) {
+//            task.finalizedBy(tasks.create("${task.name}Workaround")) << {
+//                task.output.deleteDir()
+//            }
+//        }
+//    }
+//}
