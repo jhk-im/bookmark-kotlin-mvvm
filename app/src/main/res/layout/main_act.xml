@@ -71,6 +71,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true">
 
-    </com.google.android.material.navigation.NavigationView>
+        <include
+            android:id="@+id/drawer_include_layout"
+            layout="@layout/nav_container"/>
 
+    </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

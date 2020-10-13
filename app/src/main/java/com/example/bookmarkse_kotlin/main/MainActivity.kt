@@ -4,13 +4,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.bookmarkse_kotlin.R
+import com.example.bookmarkse_kotlin.main.home.HomeFragment
+import com.example.bookmarkse_kotlin.main.home.HomeViewModel
+import com.example.bookmarkse_kotlin.util.obtainViewModel
+import com.example.bookmarkse_kotlin.util.replaceFragmentInActivity
 import com.google.android.material.navigation.NavigationView
 import com.example.bookmarkse_kotlin.util.setupActionBar
 
 class MainActivity : AppCompatActivity(), MainHomeNavigator {
 
     private lateinit var mDrawerLayout: DrawerLayout
-    private lateinit var mNavigationView: NavigationView
+
+    private lateinit var mViewModel: HomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +28,15 @@ class MainActivity : AppCompatActivity(), MainHomeNavigator {
 
         setupNavigationDrawer()
 
+        setupViewFragment()
+
+    }
+
+    private fun setupViewFragment() {
+        supportFragmentManager.findFragmentById(R.id.content_frame) ?: replaceFragmentInActivity(
+            HomeFragment.newInstance(),
+            R.id.content_frame
+        )
     }
 
     private fun setupNavigationDrawer() {
@@ -52,4 +66,5 @@ class MainActivity : AppCompatActivity(), MainHomeNavigator {
         TODO("Not yet implemented")
     }
 
+    fun obtainViewModel(): HomeViewModel = obtainViewModel(HomeViewModel::class.java)
 }

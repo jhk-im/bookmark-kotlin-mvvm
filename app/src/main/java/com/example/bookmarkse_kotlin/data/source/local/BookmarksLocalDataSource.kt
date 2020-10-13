@@ -1,12 +1,13 @@
 package com.example.bookmarkse_kotlin.data.source.local
 
+import androidx.annotation.VisibleForTesting
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
 import com.example.bookmarkse_kotlin.util.AppExecutors
 
 class BookmarksLocalDataSource private constructor(
-    val appExecutors: AppExecutors,
-    val bookmarkDao: BookmarksDao
+    private val appExecutors: AppExecutors,
+    private val bookmarkDao: BookmarksDao
 ) : BookmarkDataSource {
 
     override fun getBookmarks(callback: BookmarkDataSource.LoadBookmarksCallback) {
@@ -48,5 +49,24 @@ class BookmarksLocalDataSource private constructor(
 
     override fun deleteBookmark(bookmarkId: String) {
         appExecutors.diskIO.execute { bookmarkDao.deleteBookmarkById(bookmarkId) }
+    }
+
+    companion object {
+        private var INSTANCE: BookmarksLocalDataSource? = null
+
+        @JvmStatic
+        fun getInstance(appExecutors: AppExecutors, bookmarkDao: BookmarksDao): BookmarksLocalDataSource {
+            if (INSTANCE == null) {
+                synchronized(BookmarksLocalDataSource::javaClass) {
+                    INSTANCE = BookmarksLocalDataSource(appExecutors, bookmarkDao)
+                }
+            }
+            return INSTANCE!!
+        }
+
+        @VisibleForTesting
+        fun clearInstance() {
+            INSTANCE = null
+        }
     }
 }
