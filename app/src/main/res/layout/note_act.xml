@@ -6,7 +6,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.MainActivity"
+    tools:context=".note.NoteActivity"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -16,32 +16,22 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:elevation="0dp">
-            <!-- toolbar  -->
+            android:layout_height="wrap_content">
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
                 android:theme="@style/Toolbar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinator_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <!--            <LinearLayout
-                            android:id="@+id/content_linear"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-                            &lt;!&ndash; fragment view &ndash;&gt;
-
-                        </LinearLayout>-->
 
             <FrameLayout
                 android:id="@+id/content_frame"
@@ -57,23 +47,15 @@
                 app:fabSize="normal"
                 app:layout_anchor="@id/content_frame"
                 app:layout_anchorGravity="bottom|right|end" />
-
-
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
     </LinearLayout>
 
-    <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true">
-
-        <include
-            android:id="@+id/drawer_include_layout"
-            layout="@layout/nav_container"/>
-
-    </com.google.android.material.navigation.NavigationView>
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/drawer_actions"/>
 </androidx.drawerlayout.widget.DrawerLayout>

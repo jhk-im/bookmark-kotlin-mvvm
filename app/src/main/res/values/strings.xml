@@ -36,5 +36,6 @@
     <string name="menu_search">검색</string>
     <string name="menu_close">종료</string>
     <string name="add_bookmark">북마크 추가</string>
+    <string name="logo">bookmark logo</string>
 
 </resources>
