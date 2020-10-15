@@ -23,4 +23,6 @@ interface BookmarkDataSource {
     fun deleteAllBookmarks()
 
     fun deleteBookmark(bookmarkId: String)
+
+    fun refreshBookmark()
 }

@@ -9,7 +9,7 @@ import com.example.bookmarkse_kotlin.data.Bookmark
 @Database(entities = [Bookmark::class], version = 1)
 abstract class BookmarkDatabase : RoomDatabase() {
 
-    abstract fun bookmarkDao(): BookmarksDao
+    abstract fun bookmarkDao(): BookmarkDao
 
     companion object {
 

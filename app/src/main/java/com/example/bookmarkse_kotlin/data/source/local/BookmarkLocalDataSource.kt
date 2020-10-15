@@ -5,9 +5,9 @@ import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
 import com.example.bookmarkse_kotlin.util.AppExecutors
 
-class BookmarksLocalDataSource private constructor(
+class BookmarkLocalDataSource private constructor(
     private val appExecutors: AppExecutors,
-    private val bookmarkDao: BookmarksDao
+    private val bookmarkDao: BookmarkDao
 ) : BookmarkDataSource {
 
     override fun getBookmarks(callback: BookmarkDataSource.LoadBookmarksCallback) {
@@ -51,14 +51,18 @@ class BookmarksLocalDataSource private constructor(
         appExecutors.diskIO.execute { bookmarkDao.deleteBookmarkById(bookmarkId) }
     }
 
+    override fun refreshBookmark() {
+        //
+    }
+
     companion object {
-        private var INSTANCE: BookmarksLocalDataSource? = null
+        private var INSTANCE: BookmarkLocalDataSource? = null
 
         @JvmStatic
-        fun getInstance(appExecutors: AppExecutors, bookmarkDao: BookmarksDao): BookmarksLocalDataSource {
+        fun getInstance(appExecutors: AppExecutors, bookmarkDao: BookmarkDao): BookmarkLocalDataSource {
             if (INSTANCE == null) {
-                synchronized(BookmarksLocalDataSource::javaClass) {
-                    INSTANCE = BookmarksLocalDataSource(appExecutors, bookmarkDao)
+                synchronized(BookmarkLocalDataSource::javaClass) {
+                    INSTANCE = BookmarkLocalDataSource(appExecutors, bookmarkDao)
                 }
             }
             return INSTANCE!!

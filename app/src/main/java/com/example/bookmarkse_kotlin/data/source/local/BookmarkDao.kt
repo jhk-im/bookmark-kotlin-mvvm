@@ -4,7 +4,7 @@ import androidx.room.*
 import com.example.bookmarkse_kotlin.data.Bookmark
 
 @Dao
-interface BookmarksDao {
+interface BookmarkDao {
 
     @Query("SELECT * FROM bookmarks")
     fun getBookmarks(): List<Bookmark>
