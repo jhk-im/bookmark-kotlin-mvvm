@@ -2,7 +2,7 @@ package com.example.bookmarkse_kotlin.data.source.local
 
 import androidx.room.*
 import com.example.bookmarkse_kotlin.data.Bookmark
-import java.time.LocalDate
+import java.util.*
 
 @Dao
 interface BookmarkDao {
@@ -25,5 +25,5 @@ interface BookmarkDao {
     @Query("DELETE FROM bookmarks") fun deleteBookmarks()
 
     @Query("UPDATE bookmarks SET selectedAt = :selectedAt WHERE id = :bookmarkId ")
-    fun selectedBookmarkById(bookmarkId: String, selectedAt: LocalDate): Bookmark?
+    fun selectedBookmarkById(bookmarkId: String, selectedAt: Date): Int
 }

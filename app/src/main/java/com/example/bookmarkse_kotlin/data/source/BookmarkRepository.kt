@@ -1,7 +1,6 @@
 package com.example.bookmarkse_kotlin.data.source
 
 import com.example.bookmarkse_kotlin.data.Bookmark
-import com.example.bookmarkse_kotlin.data.source.remote.BookmarkRemoteDataSource
 import java.time.LocalDate
 
 class BookmarkRepository(
@@ -49,10 +48,7 @@ class BookmarkRepository(
     private inline fun cacheAndPerform(bookmark: Bookmark, perform: (Bookmark) -> Unit) {
         val cachedBookmark =
             Bookmark(
-                bookmark.id,
-                bookmark.category,
-                bookmark.url,
-                bookmark.title
+                bookmark.title, bookmark.url, bookmark.category, bookmark.selectedAt, bookmark.id
             ).apply {
                 favicon = bookmark.favicon
                 position = bookmark.position
@@ -155,7 +151,7 @@ class BookmarkRepository(
     }
 
     override fun selectedBookmark(bookmarkId: String) {
-        getBookmarkId(bookmarkId)?. let {
+        getBookmarkId(bookmarkId)?.let {
             selectedBookmark(it)
         }
     }

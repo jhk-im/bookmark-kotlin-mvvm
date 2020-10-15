@@ -5,8 +5,9 @@ import androidx.annotation.RequiresApi
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
 import com.google.common.collect.Lists
 import java.time.LocalDate
+import java.util.*
+import kotlin.collections.LinkedHashMap
 
-@RequiresApi(Build.VERSION_CODES.O)
 object FakeBookmarkRemoteDataSource : BookmarkDataSource {
 
     private var BOOKMARK_SERVICE_DATA: LinkedHashMap<String, Bookmark> = LinkedHashMap()
@@ -41,11 +42,9 @@ object FakeBookmarkRemoteDataSource : BookmarkDataSource {
     }
 
     override fun selectedBookmark(bookmark: Bookmark) {
-        val localDate = LocalDate.now()
+        val localDate = Date()
         val selectedBookmark =
-            Bookmark(bookmark.title, bookmark.url, bookmark.category, bookmark.id).apply {
-                selectedAt = localDate
-            }
+            Bookmark(bookmark.title, bookmark.url, bookmark.category,localDate, bookmark.id)
         BOOKMARK_SERVICE_DATA.put(bookmark.id, selectedBookmark)
     }
 }
