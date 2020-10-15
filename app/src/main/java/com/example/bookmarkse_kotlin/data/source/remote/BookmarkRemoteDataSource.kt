@@ -1,12 +1,16 @@
 package com.example.bookmarkse_kotlin.data.source.remote
 
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import androidx.annotation.RequiresApi
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
 import com.google.common.collect.Lists
+import java.time.LocalDate
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 object BookmarkRemoteDataSource : BookmarkDataSource {
 
     private const val SERVICE_LATENCY_IN_MILLIS = 5000L
@@ -14,14 +18,17 @@ object BookmarkRemoteDataSource : BookmarkDataSource {
     private var BOOKMARKS_SERVICE_DATA = LinkedHashMap<String, Bookmark>(2)
 
     init {
-        addBookmark("Google", "Portal","https://www.google.com")
-        addBookmark("Naver", "Portal","https://www.naver.com")
-        addBookmark("Daum", "Portal","https://www.daum.net")
+        addBookmark("Google", "Portal", "https://www.google.com")
+        addBookmark("Naver", "Portal", "https://www.naver.com")
+        addBookmark("Daum", "Portal", "https://www.daum.net")
+        addBookmark("COUPANG", "Shop", "https://www.coupang.com")
     }
 
     private fun addBookmark(title: String, category: String, url: String) {
-
-        val newBookmark = Bookmark(title, category, url)
+        val localDate = LocalDate.now()
+        val newBookmark = Bookmark(title, category, url).apply {
+            selectedAt = localDate
+        }
 
         BOOKMARKS_SERVICE_DATA.put(newBookmark.id, newBookmark)
     }
@@ -70,5 +77,18 @@ object BookmarkRemoteDataSource : BookmarkDataSource {
 
     override fun refreshBookmark() {
         //
+    }
+
+    override fun selectedBookmark(bookmarkId: String) {
+        //
+    }
+
+    override fun selectedBookmark(bookmark: Bookmark) {
+        val localDate = LocalDate.now()
+        val selectedBookmark =
+            Bookmark(bookmark.title, bookmark.url, bookmark.category, bookmark.id).apply {
+                selectedAt = localDate
+            }
+        BOOKMARKS_SERVICE_DATA.put(bookmark.id, selectedBookmark)
     }
 }

@@ -1,10 +1,14 @@
 package com.example.bookmarkse_kotlin.data.source.local
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
 import com.example.bookmarkse_kotlin.util.AppExecutors
+import java.time.LocalDate
 
+@RequiresApi(Build.VERSION_CODES.O)
 class BookmarkLocalDataSource private constructor(
     private val appExecutors: AppExecutors,
     private val bookmarkDao: BookmarkDao
@@ -53,6 +57,15 @@ class BookmarkLocalDataSource private constructor(
 
     override fun refreshBookmark() {
         //
+    }
+
+    override fun selectedBookmark(bookmarkId: String) {
+        //
+    }
+
+    override fun selectedBookmark(bookmark: Bookmark) {
+        val localDate = LocalDate.now()
+        appExecutors.diskIO.execute { bookmarkDao.selectedBookmarkById(bookmark.id, localDate) }
     }
 
     companion object {

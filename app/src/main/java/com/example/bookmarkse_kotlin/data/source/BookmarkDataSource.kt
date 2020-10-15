@@ -1,6 +1,7 @@
 package com.example.bookmarkse_kotlin.data.source
 
 import com.example.bookmarkse_kotlin.data.Bookmark
+import java.time.LocalDate
 
 interface BookmarkDataSource {
 
@@ -25,4 +26,8 @@ interface BookmarkDataSource {
     fun deleteBookmark(bookmarkId: String)
 
     fun refreshBookmark()
+
+    fun selectedBookmark(bookmarkId: String)
+
+    fun selectedBookmark(bookmark: Bookmark)
 }
