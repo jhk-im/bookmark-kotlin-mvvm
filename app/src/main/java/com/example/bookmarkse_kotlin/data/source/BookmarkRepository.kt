@@ -1,8 +1,8 @@
 package com.example.bookmarkse_kotlin.data.source
 
 import com.example.bookmarkse_kotlin.data.Bookmark
-import com.example.bookmarkse_kotlin.data.source.local.BookmarkLocalDataSource
 import com.example.bookmarkse_kotlin.data.source.remote.BookmarkRemoteDataSource
+import java.time.LocalDate
 
 class BookmarkRepository(
     private val bookmarkLocalDataSource: BookmarkDataSource,
@@ -46,6 +46,22 @@ class BookmarkRepository(
 
     private fun getBookmarkId(id: String) = cachedBookmarks[id]
 
+    private inline fun cacheAndPerform(bookmark: Bookmark, perform: (Bookmark) -> Unit) {
+        val cachedBookmark =
+            Bookmark(
+                bookmark.id,
+                bookmark.category,
+                bookmark.url,
+                bookmark.title
+            ).apply {
+                favicon = bookmark.favicon
+                position = bookmark.position
+            }
+
+        cachedBookmarks[cachedBookmark.id] = cachedBookmark
+        perform(cachedBookmark)
+    }
+
     override fun getBookmarks(callback: BookmarkDataSource.LoadBookmarksCallback) {
 
         if (cachedBookmarks.isNotEmpty() && !cacheIsDirty) {
@@ -88,9 +104,9 @@ class BookmarkRepository(
             bookmarkId,
             object : BookmarkDataSource.GetBookmarkCallback {
 
-                override fun onBookmarkLoaded(book: Bookmark) {
+                override fun onBookmarkLoaded(bookmark: Bookmark) {
 
-                    cacheAndPerform(book) {
+                    cacheAndPerform(bookmark) {
                         callback.onBookmarkLoaded(it)
                     }
                 }
@@ -138,20 +154,17 @@ class BookmarkRepository(
         cacheIsDirty = true
     }
 
-    private inline fun cacheAndPerform(bookmark: Bookmark, perform: (Bookmark) -> Unit) {
-        val cachedBookmark =
-            Bookmark(
-                bookmark.id,
-                bookmark.category,
-                bookmark.url,
-                bookmark.title
-            ).apply {
-                favicon = bookmark.favicon
-                position = bookmark.position
-            }
+    override fun selectedBookmark(bookmarkId: String) {
+        getBookmarkId(bookmarkId)?. let {
+            selectedBookmark(it)
+        }
+    }
 
-        cachedBookmarks[cachedBookmark.id] = cachedBookmark
-        perform(cachedBookmark)
+    override fun selectedBookmark(bookmark: Bookmark) {
+        cacheAndPerform(bookmark) {
+            bookmarkLocalDataSource.selectedBookmark(it)
+            bookmarkRemoteDataSource.selectedBookmark(it)
+        }
     }
 
     companion object {

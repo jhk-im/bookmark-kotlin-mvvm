@@ -1,8 +1,12 @@
 package com.example.bookmarkse_kotlin.data
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
 import com.google.common.collect.Lists
+import java.time.LocalDate
 
+@RequiresApi(Build.VERSION_CODES.O)
 object FakeBookmarkRemoteDataSource : BookmarkDataSource {
 
     private var BOOKMARK_SERVICE_DATA: LinkedHashMap<String, Bookmark> = LinkedHashMap()
@@ -13,7 +17,7 @@ object FakeBookmarkRemoteDataSource : BookmarkDataSource {
 
     override fun getBookmark(bookmarkId: String, callback: BookmarkDataSource.GetBookmarkCallback) {
         val bookmark = BOOKMARK_SERVICE_DATA[bookmarkId]
-        bookmark?.let{ callback.onBookmarkLoaded(it) }
+        bookmark?.let { callback.onBookmarkLoaded(it) }
     }
 
     override fun saveBookmark(bookmark: Bookmark) {
@@ -30,5 +34,18 @@ object FakeBookmarkRemoteDataSource : BookmarkDataSource {
 
     override fun refreshBookmark() {
         //
+    }
+
+    override fun selectedBookmark(bookmarkId: String) {
+        //
+    }
+
+    override fun selectedBookmark(bookmark: Bookmark) {
+        val localDate = LocalDate.now()
+        val selectedBookmark =
+            Bookmark(bookmark.title, bookmark.url, bookmark.category, bookmark.id).apply {
+                selectedAt = localDate
+            }
+        BOOKMARK_SERVICE_DATA.put(bookmark.id, selectedBookmark)
     }
 }
