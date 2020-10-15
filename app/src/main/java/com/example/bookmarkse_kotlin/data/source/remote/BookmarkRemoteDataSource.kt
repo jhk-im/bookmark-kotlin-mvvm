@@ -7,10 +7,8 @@ import androidx.annotation.RequiresApi
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
 import com.google.common.collect.Lists
-import java.time.LocalDate
+import java.util.Date
 
-
-@RequiresApi(Build.VERSION_CODES.O)
 object BookmarkRemoteDataSource : BookmarkDataSource {
 
     private const val SERVICE_LATENCY_IN_MILLIS = 5000L
@@ -25,10 +23,8 @@ object BookmarkRemoteDataSource : BookmarkDataSource {
     }
 
     private fun addBookmark(title: String, category: String, url: String) {
-        val localDate = LocalDate.now()
-        val newBookmark = Bookmark(title, category, url).apply {
-            selectedAt = localDate
-        }
+        val localDate = Date()
+        val newBookmark = Bookmark(title, url, category, localDate)
 
         BOOKMARKS_SERVICE_DATA.put(newBookmark.id, newBookmark)
     }
@@ -84,11 +80,10 @@ object BookmarkRemoteDataSource : BookmarkDataSource {
     }
 
     override fun selectedBookmark(bookmark: Bookmark) {
-        val localDate = LocalDate.now()
+        val localDate = Date()
         val selectedBookmark =
-            Bookmark(bookmark.title, bookmark.url, bookmark.category, bookmark.id).apply {
-                selectedAt = localDate
-            }
+            Bookmark(bookmark.title, bookmark.url, bookmark.category, localDate, bookmark.id)
+
         BOOKMARKS_SERVICE_DATA.put(bookmark.id, selectedBookmark)
     }
 }

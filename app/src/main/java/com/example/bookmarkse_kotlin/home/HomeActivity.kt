@@ -1,20 +1,35 @@
 package com.example.bookmarkse_kotlin.home
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import androidx.annotation.RequiresApi
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.bookmarkse_kotlin.Injection
 import com.example.bookmarkse_kotlin.R
+import com.example.bookmarkse_kotlin.data.Bookmark
+import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
+import com.example.bookmarkse_kotlin.data.source.BookmarkRepository
+import com.example.bookmarkse_kotlin.data.source.local.BookmarkLocalDataSource
 import com.example.bookmarkse_kotlin.note.NoteActivity
 import com.example.bookmarkse_kotlin.notice.NoticeActivity
 import com.google.android.material.navigation.NavigationView
 import com.example.bookmarkse_kotlin.util.setupActionBar
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.math.log
 
 class HomeActivity : AppCompatActivity(), HomeNavigator {
 
     private lateinit var mDrawerLayout: DrawerLayout
+
+    private lateinit var bookmarkRepository: BookmarkRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +42,46 @@ class HomeActivity : AppCompatActivity(), HomeNavigator {
         }
 
         setupNavigationDrawer()
+
+        //testLocalDatabase()
+    }
+
+    private fun testLocalDatabase() {
+        bookmarkRepository = Injection.provideBookmarksRepository(this)
+
+        val localDate = Date()
+        val newBookmark = Bookmark("Google", "https://www.google.com", "Portal", localDate)
+        bookmarkRepository.saveBookmark(newBookmark)
+
+        val localDate2 = Date()
+        val newBookmark2 = Bookmark("Naver", "https://www.naver.com", "Portal", localDate2)
+        bookmarkRepository.saveBookmark(newBookmark2)
+
+        val localDate3 = Date()
+        val newBookmark3 = Bookmark("Daum", "https://www.daum.com", "Portal", localDate3)
+        bookmarkRepository.saveBookmark(newBookmark3)
+
+        val sd = SimpleDateFormat("HH:mm:ss.SSS")
+
+        bookmarkRepository.getBookmarks(object : BookmarkDataSource.LoadBookmarksCallback {
+            override fun onBookmarksLoaded(bookmarks: List<Bookmark>) {
+                for (bookmark in bookmarks) {
+                    Log.e(
+                        "bookmark",
+                        bookmark.id + "\n" +
+                                bookmark.title + "\n" +
+                                bookmark.url + "\n" +
+                                sd.format(bookmark.selectedAt)
+                    )
+                }
+            }
+
+            override fun onDataNotAvailable() {
+                //
+            }
+        })
+
+        bookmarkRepository.deleteAllBookmarks()
     }
 
     private fun setupNavigationDrawer() {
@@ -62,7 +117,7 @@ class HomeActivity : AppCompatActivity(), HomeNavigator {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> {
                 mDrawerLayout.openDrawer(GravityCompat.START)
                 true

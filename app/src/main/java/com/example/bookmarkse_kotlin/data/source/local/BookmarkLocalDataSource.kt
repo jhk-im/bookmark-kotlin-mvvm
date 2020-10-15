@@ -7,8 +7,8 @@ import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
 import com.example.bookmarkse_kotlin.util.AppExecutors
 import java.time.LocalDate
+import java.util.*
 
-@RequiresApi(Build.VERSION_CODES.O)
 class BookmarkLocalDataSource private constructor(
     private val appExecutors: AppExecutors,
     private val bookmarkDao: BookmarkDao
@@ -64,7 +64,7 @@ class BookmarkLocalDataSource private constructor(
     }
 
     override fun selectedBookmark(bookmark: Bookmark) {
-        val localDate = LocalDate.now()
+        val localDate = Date()
         appExecutors.diskIO.execute { bookmarkDao.selectedBookmarkById(bookmark.id, localDate) }
     }
 
