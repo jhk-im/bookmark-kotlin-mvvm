@@ -14,16 +14,12 @@ import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
 import com.example.bookmarkse_kotlin.data.source.BookmarkRepository
-import com.example.bookmarkse_kotlin.data.source.local.BookmarkLocalDataSource
 import com.example.bookmarkse_kotlin.note.NoteActivity
 import com.example.bookmarkse_kotlin.notice.NoticeActivity
 import com.google.android.material.navigation.NavigationView
 import com.example.bookmarkse_kotlin.util.setupActionBar
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.math.log
 
 class HomeActivity : AppCompatActivity(), HomeNavigator {
 

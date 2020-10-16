@@ -37,5 +37,8 @@
     <string name="menu_close">종료</string>
     <string name="add_bookmark">북마크 추가</string>
     <string name="logo">bookmark logo</string>
+    <string name="label_recent">Recent Selected Bookmarks</string>
+    <string name="no_bookmarks">You have no Bookmarks</string>
+    <string name="label_category">Bookmarks by category</string>
 
 </resources>
