@@ -6,28 +6,34 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.bookmarkse_kotlin.data.Bookmark
+import com.example.bookmarkse_kotlin.data.Category
 
-@Database(entities = [Bookmark::class], version = 1)
+@Database(entities = [Bookmark::class, Category::class], version = 2)
 @TypeConverters(Converters::class)
-abstract class BookmarkDatabase : RoomDatabase() {
+abstract class LocalDatabase : RoomDatabase() {
 
     abstract fun bookmarkDao(): BookmarkDao
 
+    abstract fun categoryDao(): CategoryDao
+
     companion object {
 
-        private var INSTANCE: BookmarkDatabase? = null
+        private var INSTANCE: LocalDatabase? = null
 
         private val lock = Any()
 
-        fun getInstance(context: Context): BookmarkDatabase {
+        fun getInstance(context: Context): LocalDatabase {
+
             synchronized(lock) {
+
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(
                         context.applicationContext,
-                        BookmarkDatabase::class.java,
-                        "bookmarks.db"
+                        LocalDatabase::class.java,
+                        "localDatabase.db"
                     ).build()
                 }
+
                 return  INSTANCE!!
             }
         }

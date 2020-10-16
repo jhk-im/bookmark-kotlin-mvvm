@@ -1,6 +1,7 @@
 package com.example.bookmarkse_kotlin.data.source
 
 import com.example.bookmarkse_kotlin.data.Bookmark
+import com.example.bookmarkse_kotlin.data.Category
 import java.time.LocalDate
 
 interface BookmarkDataSource {

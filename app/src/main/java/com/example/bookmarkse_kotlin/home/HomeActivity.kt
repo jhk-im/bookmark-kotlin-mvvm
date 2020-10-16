@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.example.bookmarkse_kotlin.Injection
 import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.data.Bookmark
+import com.example.bookmarkse_kotlin.data.Category
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
 import com.example.bookmarkse_kotlin.data.source.BookmarkRepository
 import com.example.bookmarkse_kotlin.note.NoteActivity
@@ -39,27 +40,34 @@ class HomeActivity : AppCompatActivity(), HomeNavigator {
 
         setupNavigationDrawer()
 
-        //testLocalDatabase()
+        testLocalDatabase()
     }
 
     private fun testLocalDatabase() {
         bookmarkRepository = Injection.provideBookmarksRepository(this)
 
-        val localDate = Date()
-        val newBookmark = Bookmark("Google", "https://www.google.com", "Portal", localDate)
+        val selectedAt = Date()
+        val newCategory = Category("Portal")
+        val newBookmark =
+            Bookmark("Google", "https://www.google.com", newCategory, newCategory.id, selectedAt)
         bookmarkRepository.saveBookmark(newBookmark)
 
-        val localDate2 = Date()
-        val newBookmark2 = Bookmark("Naver", "https://www.naver.com", "Portal", localDate2)
+        val selectedAt2 = Date()
+        val newCategory2 = Category("Portal")
+        val newBookmark2 =
+            Bookmark("Naver", "https://www.naver.com", newCategory2, newCategory2.id, selectedAt2)
         bookmarkRepository.saveBookmark(newBookmark2)
 
-        val localDate3 = Date()
-        val newBookmark3 = Bookmark("Daum", "https://www.daum.com", "Portal", localDate3)
+        val selectedAt3 = Date()
+        val newCategory3 = Category("Portal")
+        val newBookmark3 =
+            Bookmark("Daum", "https://www.daum.com", newCategory3, newCategory3.id, selectedAt3)
         bookmarkRepository.saveBookmark(newBookmark3)
 
         val sd = SimpleDateFormat("HH:mm:ss.SSS")
 
         bookmarkRepository.getBookmarks(object : BookmarkDataSource.LoadBookmarksCallback {
+
             override fun onBookmarksLoaded(bookmarks: List<Bookmark>) {
                 for (bookmark in bookmarks) {
                     Log.e(
@@ -67,7 +75,9 @@ class HomeActivity : AppCompatActivity(), HomeNavigator {
                         bookmark.id + "\n" +
                                 bookmark.title + "\n" +
                                 bookmark.url + "\n" +
-                                sd.format(bookmark.selectedAt)
+                                sd.format(bookmark.selectedAt) + "\n" +
+                                bookmark.category.id + "\n" +
+                                bookmark.category.title
                     )
                 }
             }

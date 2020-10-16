@@ -1,10 +1,9 @@
 package com.example.bookmarkse_kotlin.data.source.remote
 
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import androidx.annotation.RequiresApi
 import com.example.bookmarkse_kotlin.data.Bookmark
+import com.example.bookmarkse_kotlin.data.Category
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
 import com.google.common.collect.Lists
 import java.util.Date
@@ -23,8 +22,9 @@ object BookmarkRemoteDataSource : BookmarkDataSource {
     }
 
     private fun addBookmark(title: String, category: String, url: String) {
-        val localDate = Date()
-        val newBookmark = Bookmark(title, url, category, localDate)
+        val selectedAt = Date()
+        val newCategory = Category(category)
+        val newBookmark = Bookmark(title, url, newCategory, newCategory.id, selectedAt)
 
         BOOKMARKS_SERVICE_DATA.put(newBookmark.id, newBookmark)
     }
@@ -57,7 +57,6 @@ object BookmarkRemoteDataSource : BookmarkDataSource {
     }
 
     override fun saveBookmark(bookmark: Bookmark) {
-
         BOOKMARKS_SERVICE_DATA.put(bookmark.id, bookmark)
     }
 
@@ -82,7 +81,14 @@ object BookmarkRemoteDataSource : BookmarkDataSource {
     override fun selectedBookmark(bookmark: Bookmark) {
         val localDate = Date()
         val selectedBookmark =
-            Bookmark(bookmark.title, bookmark.url, bookmark.category, localDate, bookmark.id)
+            Bookmark(
+                bookmark.title,
+                bookmark.url,
+                bookmark.category,
+                bookmark.categoryId,
+                localDate,
+                bookmark.id
+            )
 
         BOOKMARKS_SERVICE_DATA.put(bookmark.id, selectedBookmark)
     }
