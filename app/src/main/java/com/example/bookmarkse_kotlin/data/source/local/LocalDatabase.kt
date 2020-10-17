@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
 
-@Database(entities = [Bookmark::class, Category::class], version = 2)
+@Database(entities = [Bookmark::class, Category::class], version = 3)
 @TypeConverters(Converters::class)
 abstract class LocalDatabase : RoomDatabase() {
 

@@ -44,7 +44,7 @@ object FakeBookmarkRemoteDataSource : BookmarkDataSource {
     override fun selectedBookmark(bookmark: Bookmark) {
         val localDate = Date()
         val selectedBookmark =
-            Bookmark(bookmark.title, bookmark.url, bookmark.category,localDate, bookmark.id)
+            Bookmark(bookmark.title, bookmark.url, localDate, bookmark.id)
         BOOKMARK_SERVICE_DATA.put(bookmark.id, selectedBookmark)
     }
 }

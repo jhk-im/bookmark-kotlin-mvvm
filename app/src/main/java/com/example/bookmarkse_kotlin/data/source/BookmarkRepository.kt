@@ -49,7 +49,7 @@ class BookmarkRepository(
     private inline fun cacheAndPerform(bookmark: Bookmark, perform: (Bookmark) -> Unit) {
         val cachedBookmark =
             Bookmark(
-                bookmark.title, bookmark.url, bookmark.category, bookmark.selectedAt, bookmark.id
+                bookmark.title, bookmark.url, bookmark.selectedAt, bookmark.id
             ).apply {
                 favicon = bookmark.favicon
                 position = bookmark.position
