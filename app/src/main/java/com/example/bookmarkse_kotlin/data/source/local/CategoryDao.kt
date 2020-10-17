@@ -9,7 +9,7 @@ interface CategoryDao {
     @Query("SELECT * FROM categories")
     fun getCategories(): List<Category>
 
-    @Query("SELECT * FROM categories WHERE id = :categoryId")
+    @Query("SELECT * FROM categories WHERE categoryId = :categoryId")
     fun getCategoryById(categoryId: String): Category?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -18,11 +18,11 @@ interface CategoryDao {
     @Update
     fun updateCategory(category: Category): Int
 
-    @Query("DELETE FROM categories WHERE id = :categoryId")
+    @Query("DELETE FROM categories WHERE categoryId = :categoryId")
     fun deleteCategoryById(categoryId: String): Int
 
     @Query("DELETE FROM categories") fun deleteCategories()
 
-    @Query("UPDATE categories SET isSelected = :isSelected WHERE id = :categoryId ")
+    @Query("UPDATE categories SET isSelected = :isSelected WHERE categoryId = :categoryId ")
     fun selectedCategoryById(categoryId: String, isSelected: Boolean): Int
 }

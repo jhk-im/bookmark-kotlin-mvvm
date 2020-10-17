@@ -47,21 +47,21 @@ class HomeActivity : AppCompatActivity(), HomeNavigator {
         bookmarkRepository = Injection.provideBookmarksRepository(this)
 
         val selectedAt = Date()
-        val newCategory = Category("Portal")
+        // val newCategory = Category("Portal")
         val newBookmark =
-            Bookmark("Google", "https://www.google.com", newCategory, newCategory.id, selectedAt)
+            Bookmark("Google", "https://www.google.com", selectedAt)
         bookmarkRepository.saveBookmark(newBookmark)
 
         val selectedAt2 = Date()
-        val newCategory2 = Category("Portal")
+        // val newCategory2 = Category("Portal")
         val newBookmark2 =
-            Bookmark("Naver", "https://www.naver.com", newCategory2, newCategory2.id, selectedAt2)
+            Bookmark("Naver", "https://www.naver.com", selectedAt2)
         bookmarkRepository.saveBookmark(newBookmark2)
 
         val selectedAt3 = Date()
-        val newCategory3 = Category("Portal")
+        // val newCategory3 = Category("Portal")
         val newBookmark3 =
-            Bookmark("Daum", "https://www.daum.com", newCategory3, newCategory3.id, selectedAt3)
+            Bookmark("Daum", "https://www.daum.com", selectedAt3)
         bookmarkRepository.saveBookmark(newBookmark3)
 
         val sd = SimpleDateFormat("HH:mm:ss.SSS")
@@ -75,9 +75,7 @@ class HomeActivity : AppCompatActivity(), HomeNavigator {
                         bookmark.id + "\n" +
                                 bookmark.title + "\n" +
                                 bookmark.url + "\n" +
-                                sd.format(bookmark.selectedAt) + "\n" +
-                                bookmark.category.id + "\n" +
-                                bookmark.category.title
+                                sd.format(bookmark.selectedAt) + "\n"
                     )
                 }
             }

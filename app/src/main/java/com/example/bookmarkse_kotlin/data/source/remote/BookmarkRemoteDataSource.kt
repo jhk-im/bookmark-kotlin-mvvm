@@ -24,7 +24,7 @@ object BookmarkRemoteDataSource : BookmarkDataSource {
     private fun addBookmark(title: String, category: String, url: String) {
         val selectedAt = Date()
         val newCategory = Category(category)
-        val newBookmark = Bookmark(title, url, newCategory, newCategory.id, selectedAt)
+        val newBookmark = Bookmark(title, url, selectedAt)
 
         BOOKMARKS_SERVICE_DATA.put(newBookmark.id, newBookmark)
     }
@@ -84,8 +84,6 @@ object BookmarkRemoteDataSource : BookmarkDataSource {
             Bookmark(
                 bookmark.title,
                 bookmark.url,
-                bookmark.category,
-                bookmark.categoryId,
                 localDate,
                 bookmark.id
             )

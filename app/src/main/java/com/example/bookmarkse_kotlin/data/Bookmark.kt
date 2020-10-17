@@ -8,8 +8,6 @@ import java.util.*
 data class Bookmark @JvmOverloads constructor(
     @NonNull @ColumnInfo(name = "title") var title: String = "",
     @NonNull @ColumnInfo(name = "url") var url: String = "",
-    @Embedded val category: Category,
-    @Relation(parentColumn = "id", entityColumn = "categoryId") val categoryId: String,
     @ColumnInfo(name = "selectedAt") var selectedAt: Date?,
     @PrimaryKey @ColumnInfo(name = "id") var id: String = UUID.randomUUID().toString()
 ) {

@@ -8,12 +8,12 @@ import java.util.*
 
 @Entity(tableName = "categories")
 data class Category @JvmOverloads constructor(
-    @NonNull @ColumnInfo(name = "title") var title: String = "",
-    @PrimaryKey @ColumnInfo(name = "id") var id: String = UUID.randomUUID().toString()
+    @NonNull @ColumnInfo(name = "categoryTitle") var categoryTitle: String = "",
+    @PrimaryKey @ColumnInfo(name = "categoryId") var categoryId: String = UUID.randomUUID().toString()
 ) {
 
     @ColumnInfo(name = "isSelected") var isSelected: Boolean = false
 
     val isEmpty
-        get() = title.isEmpty()
+        get() = categoryTitle.isEmpty()
 }
