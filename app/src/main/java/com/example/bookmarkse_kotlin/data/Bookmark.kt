@@ -12,6 +12,9 @@ data class Bookmark @JvmOverloads constructor(
     @PrimaryKey @ColumnInfo(name = "id") var id: String = UUID.randomUUID().toString()
 ) {
 
+    @ColumnInfo(name = "categoryId")
+    var categoryId: String = ""
+
     @ColumnInfo(name = "position")
     var position: Int = 0
 

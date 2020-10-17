@@ -24,7 +24,7 @@ class BookmarkRepository(
     private fun refreshLocalDataSource(bookmarks: List<Bookmark>) {
         bookmarkLocalDataSource.deleteAllBookmarks()
         for (bookmark in bookmarks) {
-            bookmarkLocalDataSource.saveBookmark(bookmark)
+            bookmarkLocalDataSource.saveBookmark("", bookmark)
         }
     }
 
@@ -51,6 +51,7 @@ class BookmarkRepository(
             Bookmark(
                 bookmark.title, bookmark.url, bookmark.selectedAt, bookmark.id
             ).apply {
+                categoryId = bookmark.categoryId
                 favicon = bookmark.favicon
                 position = bookmark.position
             }
@@ -128,10 +129,10 @@ class BookmarkRepository(
             })
     }
 
-    override fun saveBookmark(bookmark: Bookmark) {
+    override fun saveBookmark(category: String, bookmark: Bookmark) {
         cacheAndPerform(bookmark) {
-            bookmarkLocalDataSource.saveBookmark(it)
-            bookmarkRemoteDataSource.saveBookmark(it)
+            bookmarkLocalDataSource.saveBookmark(category, it)
+            bookmarkRemoteDataSource.saveBookmark(category, it)
         }
     }
 

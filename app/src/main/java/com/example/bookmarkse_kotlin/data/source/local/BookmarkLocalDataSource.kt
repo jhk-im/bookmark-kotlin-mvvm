@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
 import com.example.bookmarkse_kotlin.data.Bookmark
+import com.example.bookmarkse_kotlin.data.Category
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
 import com.example.bookmarkse_kotlin.util.AppExecutors
 import java.time.LocalDate
@@ -11,7 +12,8 @@ import java.util.*
 
 class BookmarkLocalDataSource private constructor(
     private val appExecutors: AppExecutors,
-    private val bookmarkDao: BookmarkDao
+    private val bookmarkDao: BookmarkDao,
+    private val categoryDao: CategoryDao
 ) : BookmarkDataSource {
 
     override fun getBookmarks(callback: BookmarkDataSource.LoadBookmarksCallback) {
@@ -43,7 +45,10 @@ class BookmarkLocalDataSource private constructor(
         }
     }
 
-    override fun saveBookmark(bookmark: Bookmark) {
+    override fun saveBookmark(category: String, bookmark: Bookmark) {
+        val newCategory = Category(category)
+        appExecutors.diskIO.execute { categoryDao.insertCategory(newCategory) }
+        bookmark.categoryId = newCategory.categoryId
         appExecutors.diskIO.execute { bookmarkDao.insertBookmark(bookmark) }
     }
 
@@ -72,10 +77,14 @@ class BookmarkLocalDataSource private constructor(
         private var INSTANCE: BookmarkLocalDataSource? = null
 
         @JvmStatic
-        fun getInstance(appExecutors: AppExecutors, bookmarkDao: BookmarkDao): BookmarkLocalDataSource {
+        fun getInstance(
+            appExecutors: AppExecutors,
+            bookmarkDao: BookmarkDao,
+            categoryDao: CategoryDao
+        ): BookmarkLocalDataSource {
             if (INSTANCE == null) {
                 synchronized(BookmarkLocalDataSource::javaClass) {
-                    INSTANCE = BookmarkLocalDataSource(appExecutors, bookmarkDao)
+                    INSTANCE = BookmarkLocalDataSource(appExecutors, bookmarkDao, categoryDao)
                 }
             }
             return INSTANCE!!

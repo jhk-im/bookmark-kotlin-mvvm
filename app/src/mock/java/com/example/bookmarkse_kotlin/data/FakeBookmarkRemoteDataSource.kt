@@ -21,7 +21,9 @@ object FakeBookmarkRemoteDataSource : BookmarkDataSource {
         bookmark?.let { callback.onBookmarkLoaded(it) }
     }
 
-    override fun saveBookmark(bookmark: Bookmark) {
+    override fun saveBookmark(category: String, bookmark: Bookmark) {
+        val newCategory = Category(category)
+        bookmark.categoryId = newCategory.categoryId
         BOOKMARK_SERVICE_DATA.put(bookmark.id, bookmark)
     }
 
