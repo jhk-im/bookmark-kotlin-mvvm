@@ -1,5 +1,6 @@
 package com.example.bookmarkse_kotlin.data.source
 
+import androidx.annotation.Nullable
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
 import java.time.LocalDate
@@ -20,7 +21,7 @@ interface BookmarkDataSource {
 
     fun getBookmark(bookmarkId: String, callback: GetBookmarkCallback)
 
-    fun saveBookmark(bookmark: Bookmark)
+    fun saveBookmark(category: String, bookmark: Bookmark)
 
     fun deleteAllBookmarks()
 

@@ -14,7 +14,8 @@ object Injection {
         return BookmarkRepository.getInstance(
             BookmarkLocalDataSource.getInstance(
                 AppExecutors(),
-                database.bookmarkDao()
+                database.bookmarkDao(),
+                database.categoryDao()
             ),
             FakeBookmarkRemoteDataSource
         )
