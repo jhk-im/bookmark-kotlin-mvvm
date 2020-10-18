@@ -123,7 +123,6 @@ class BookmarkRepository(
                             override fun onDataNotAvailable() {
                                 callback.onDataNotAvailable()
                             }
-
                         })
                 }
             })

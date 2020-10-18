@@ -21,7 +21,7 @@ interface BookmarkDataSource {
 
     fun getBookmark(bookmarkId: String, callback: GetBookmarkCallback)
 
-    fun saveBookmark(category: String, bookmark: Bookmark)
+    fun saveBookmark(categoryId: String, bookmark: Bookmark)
 
     fun deleteAllBookmarks()
 
