@@ -9,6 +9,9 @@ interface CategoryDao {
     @Query("SELECT * FROM categories")
     fun getCategories(): List<Category>
 
+    @Query("SELECT * FROM categories WHERE categoryTitle = :categoryTitle")
+    fun getCategoryByTitle(categoryTitle: String): Category?
+
     @Query("SELECT * FROM categories WHERE categoryId = :categoryId")
     fun getCategoryById(categoryId: String): Category?
 

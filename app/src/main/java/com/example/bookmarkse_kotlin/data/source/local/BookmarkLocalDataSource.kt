@@ -1,13 +1,10 @@
 package com.example.bookmarkse_kotlin.data.source.local
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
 import com.example.bookmarkse_kotlin.util.AppExecutors
-import java.time.LocalDate
 import java.util.*
 
 class BookmarkLocalDataSource private constructor(
@@ -45,8 +42,8 @@ class BookmarkLocalDataSource private constructor(
         }
     }
 
-    override fun saveBookmark(category: String, bookmark: Bookmark) {
-        val newCategory = Category(category)
+    override fun saveBookmark(categoryId: String, bookmark: Bookmark) {
+        val newCategory = Category(categoryId)
         appExecutors.diskIO.execute { categoryDao.insertCategory(newCategory) }
         bookmark.categoryId = newCategory.categoryId
         appExecutors.diskIO.execute { bookmarkDao.insertBookmark(bookmark) }

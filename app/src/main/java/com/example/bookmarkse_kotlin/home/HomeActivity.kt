@@ -17,6 +17,7 @@ import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
 import com.example.bookmarkse_kotlin.data.source.BookmarkRepository
 import com.example.bookmarkse_kotlin.note.NoteActivity
 import com.example.bookmarkse_kotlin.notice.NoticeActivity
+import com.example.bookmarkse_kotlin.util.obtainViewModel
 import com.google.android.material.navigation.NavigationView
 import com.example.bookmarkse_kotlin.util.setupActionBar
 import java.text.SimpleDateFormat
@@ -40,7 +41,7 @@ class HomeActivity : AppCompatActivity(), HomeNavigator {
 
         setupNavigationDrawer()
 
-        testLocalDatabase()
+        // testLocalDatabase()
     }
 
     private fun testLocalDatabase() {
@@ -133,4 +134,6 @@ class HomeActivity : AppCompatActivity(), HomeNavigator {
     override fun addNewItem() {
         TODO("Not yet implemented")
     }
+
+    fun obtainViewModel(): HomeViewModel = obtainViewModel(HomeViewModel::class.java)
 }
