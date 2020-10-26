@@ -7,8 +7,7 @@ import android.view.MenuItem
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.bookmarkse_kotlin.R
-import com.example.bookmarkse_kotlin.home.HomeActivity
-import com.example.bookmarkse_kotlin.note.NoteActivity
+import com.example.bookmarkse_kotlin.bookmark.BookmarkActivity
 import com.example.bookmarkse_kotlin.util.setupActionBar
 import com.google.android.material.navigation.NavigationView
 
@@ -39,20 +38,14 @@ class NoticeActivity : AppCompatActivity() {
     private fun setupDrawerContent(navigationView: NavigationView) {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.navigation_menu_home -> {
-                    val intent = Intent(this@NoticeActivity, HomeActivity::class.java).apply {
+                R.id.navigation_menu_bookmark -> {
+                    val intent = Intent(this@NoticeActivity, BookmarkActivity::class.java).apply {
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     }
                     startActivity(intent)
                 }
                 R.id.navigation_menu_notice -> {
                     //
-                }
-                R.id.navigation_menu_note -> {
-                    val intent = Intent(this@NoticeActivity, NoteActivity::class.java).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    }
-                    startActivity(intent)
                 }
             }
             menuItem.isChecked = true

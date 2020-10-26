@@ -28,6 +28,8 @@
     <string name="edit_delete_questions">아이템을 삭제하시겠습니까?</string>
     <string name="user_title">사용자 정보</string>
 
+    <string name="no_bookmarks_add">Click to add a Bookmarks</string>
+
     <string name="appbar_scrolling_view_behavior" translatable="false">
         com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior
     </string>
@@ -40,5 +42,7 @@
     <string name="label_recent">Recent Selected Bookmarks</string>
     <string name="no_bookmarks">You have no Bookmarks</string>
     <string name="label_category">Bookmarks by category</string>
+    <string name="nav_recent">Recent</string>
+    <string name="nav_category">Category</string>
 
 </resources>

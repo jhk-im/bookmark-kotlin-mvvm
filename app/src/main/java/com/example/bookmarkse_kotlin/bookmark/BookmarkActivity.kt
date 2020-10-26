@@ -1,32 +1,52 @@
-package com.example.bookmarkse_kotlin.note
+package com.example.bookmarkse_kotlin.bookmark
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.bookmarkse_kotlin.R
-import com.example.bookmarkse_kotlin.home.HomeActivity
+import com.example.bookmarkse_kotlin.data.Bookmark
+import com.example.bookmarkse_kotlin.data.Injection
+import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
+import com.example.bookmarkse_kotlin.data.source.BookmarkRepository
 import com.example.bookmarkse_kotlin.notice.NoticeActivity
+import com.example.bookmarkse_kotlin.util.obtainViewModel
+import com.example.bookmarkse_kotlin.util.replaceFragmentInActivity
 import com.example.bookmarkse_kotlin.util.setupActionBar
 import com.google.android.material.navigation.NavigationView
+import java.text.SimpleDateFormat
+import java.util.*
 
-class NoteActivity : AppCompatActivity() {
+class BookmarkActivity : AppCompatActivity(), BookmarkNavigator {
 
     private lateinit var mDrawerLayout: DrawerLayout
 
+    lateinit var mViewModel: BookmarkViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.note_act)
+        setContentView(R.layout.bookmark_act)
 
         setupActionBar(R.id.toolbar) {
             setHomeAsUpIndicator(R.drawable.ic_menu)
             setDisplayHomeAsUpEnabled(true)
-            setTitle(R.string.note_title)
+            setTitle(R.string.home_title)
         }
 
         setupNavigationDrawer()
+        setupFragment()
+
+        mViewModel = BookmarkViewModel(
+            Injection.provideBookmarkRepository(application.applicationContext)
+        )
+    }
+
+    private fun setupFragment() {
+        supportFragmentManager.findFragmentById(R.id.content_frame)
+            ?: replaceFragmentInActivity(BookmarkFragment.newInstance(), R.id.content_frame)
     }
 
     private fun setupNavigationDrawer() {
@@ -39,20 +59,14 @@ class NoteActivity : AppCompatActivity() {
     private fun setupDrawerContent(navigationView: NavigationView) {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.navigation_menu_home -> {
-                    val intent = Intent(this@NoteActivity, HomeActivity::class.java).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    }
-                    startActivity(intent)
+                R.id.navigation_menu_bookmark -> {
+                    //
                 }
                 R.id.navigation_menu_notice -> {
-                    val intent = Intent(this@NoteActivity, NoticeActivity::class.java).apply {
+                    val intent = Intent(this@BookmarkActivity, NoticeActivity::class.java).apply {
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     }
                     startActivity(intent)
-                }
-                R.id.navigation_menu_note -> {
-                    //
                 }
             }
             menuItem.isChecked = true
@@ -62,11 +76,16 @@ class NoteActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> {
                 mDrawerLayout.openDrawer(GravityCompat.START)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+
+    override fun addNewItem() {
+        TODO("Not yet implemented")
+    }
+
 }

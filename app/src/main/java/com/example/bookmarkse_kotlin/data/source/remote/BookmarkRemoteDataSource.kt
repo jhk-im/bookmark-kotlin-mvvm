@@ -5,7 +5,6 @@ import android.os.Looper
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
-import com.google.common.collect.Lists
 import java.util.Date
 
 object BookmarkRemoteDataSource : BookmarkDataSource {
@@ -32,12 +31,12 @@ object BookmarkRemoteDataSource : BookmarkDataSource {
 
     override fun getBookmarks(callback: BookmarkDataSource.LoadBookmarksCallback) {
 
-        val bookmarks = Lists.newArrayList<Bookmark>(BOOKMARKS_SERVICE_DATA.values)
-
-        // Simulate network
-        Handler(Looper.getMainLooper()).postDelayed({
-            callback.onBookmarksLoaded(bookmarks)
-        }, SERVICE_LATENCY_IN_MILLIS)
+//        val bookmarks = Lists.newArrayList<Bookmark>(BOOKMARKS_SERVICE_DATA.values)
+//
+//        // Simulate network
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            callback.onBookmarksLoaded(bookmarks)
+//        }, SERVICE_LATENCY_IN_MILLIS)
     }
 
     override fun getBookmark(
