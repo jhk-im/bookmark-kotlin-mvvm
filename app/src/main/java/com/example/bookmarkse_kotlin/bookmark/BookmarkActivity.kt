@@ -7,7 +7,11 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.get
 import com.example.bookmarkse_kotlin.R
+import com.example.bookmarkse_kotlin.ViewModelFactory
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Injection
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
@@ -24,7 +28,7 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator {
 
     private lateinit var mDrawerLayout: DrawerLayout
 
-    lateinit var mViewModel: BookmarkViewModel
+    private lateinit var mViewModel: BookmarkViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +43,12 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator {
         setupNavigationDrawer()
         setupFragment()
 
-        mViewModel = BookmarkViewModel(
-            Injection.provideBookmarkRepository(application.applicationContext)
-        )
+        mViewModel = obtainViewModel()
     }
+
+    fun obtainViewModel(): BookmarkViewModel =
+        obtainViewModel(BookmarkViewModel::class.java,this)
+
 
     private fun setupFragment() {
         supportFragmentManager.findFragmentById(R.id.content_frame)

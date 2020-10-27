@@ -129,29 +129,35 @@ class BookmarkViewModel(
     }
 
     private fun loadBookmarks(forceUpdate: Boolean, showLoadingUI: Boolean) {
-
-        if (showLoadingUI) {
-            _dataLoading.setValue(true)
-        }
-
-        if (forceUpdate) {
-            bookmarkRepository.refreshBookmark()
-        }
-
-        // testLocalDatabase()
+//        if (showLoadingUI) {
+//            _dataLoading.setValue(true)
+//        }
+//
+//        if (forceUpdate) {
+//            bookmarkRepository.refreshBookmark()
+//        }
+//
+//        // testLocalDatabase()
 
         bookmarkRepository.getBookmarks(object : BookmarkDataSource.LoadBookmarksCallback {
             override fun onBookmarksLoaded(bookmarks: List<Bookmark>) {
                 val bookmarksToShow = ArrayList<Bookmark>()
-
+                val sd = SimpleDateFormat("HH:mm:ss.SSS")
                 for (bookmark in bookmarks) {
-                    when (currentFiltering) {
-                        BookmarkFilterType.RECENT_BOOKMARKS -> bookmarksToShow.add(bookmark)
-                        BookmarkFilterType.CATEGORY_BOOKMARKS -> {
-                            // category
-                            bookmarksToShow.add(bookmark)
-                        }
-                    }
+//                    when (currentFiltering) {
+//                        BookmarkFilterType.RECENT_BOOKMARKS -> bookmarksToShow.add(bookmark)
+//                        BookmarkFilterType.CATEGORY_BOOKMARKS -> bookmarksToShow.add(bookmark)
+//
+//                    }
+                    bookmarksToShow.add(bookmark)
+//                    Log.e(
+//                        "bookmark",
+//                        bookmark.id + "\n" +
+//                                bookmark.title + "\n" +
+//                                bookmark.url + "\n" +
+//                                sd.format(bookmark.selectedAt) + "\n" +
+//                                bookmark.categoryId
+//                    )
                 }
 
                 if (showLoadingUI) {
@@ -192,9 +198,8 @@ class BookmarkViewModel(
         bookmarkRepository.saveBookmark("Three", newBookmark3)
 
         val sd = SimpleDateFormat("HH:mm:ss.SSS")
-
+        Log.e("1","fuck")
         bookmarkRepository.getBookmarks(object : BookmarkDataSource.LoadBookmarksCallback {
-
             override fun onBookmarksLoaded(bookmarks: List<Bookmark>) {
                 for (bookmark in bookmarks) {
                     Log.e(

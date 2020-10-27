@@ -1,5 +1,6 @@
 package com.example.bookmarkse_kotlin.data.source
 
+import android.util.Log
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
 import java.time.LocalDate
@@ -9,32 +10,32 @@ class BookmarkRepository(
     private val bookmarkRemoteDataSource: BookmarkDataSource
 ) : BookmarkDataSource {
 
-    var cachedBookmarks: LinkedHashMap<String, Bookmark> = LinkedHashMap()
+//    var cachedBookmarks: LinkedHashMap<String, Bookmark> = LinkedHashMap()
+//
+//    var cacheIsDirty = false
+//
+//    private fun refreshCache(bookmarks: List<Bookmark>) {
+//        cachedBookmarks.clear()
+//        bookmarks.forEach {
+//            cacheAndPerform(it) {}
+//        }
+//        cacheIsDirty = false
+//    }
 
-    var cacheIsDirty = false
-
-    private fun refreshCache(bookmarks: List<Bookmark>) {
-        cachedBookmarks.clear()
-        bookmarks.forEach {
-            cacheAndPerform(it) {}
-        }
-        cacheIsDirty = false
-    }
-
-    private fun refreshLocalDataSource(bookmarks: List<Bookmark>) {
-        bookmarkLocalDataSource.deleteAllBookmarks()
-        for (bookmark in bookmarks) {
-            bookmarkLocalDataSource.saveBookmark("", bookmark)
-        }
-    }
+//    private fun refreshLocalDataSource(bookmarks: List<Bookmark>) {
+//        bookmarkLocalDataSource.deleteAllBookmarks()
+//        for (bookmark in bookmarks) {
+//            bookmarkLocalDataSource.saveBookmark("", bookmark)
+//        }
+//    }
 
     private fun getBookmarkFromRemoteDataSource(callback: BookmarkDataSource.LoadBookmarksCallback) {
         bookmarkRemoteDataSource.getBookmarks(object : BookmarkDataSource.LoadBookmarksCallback {
             override fun onBookmarksLoaded(bookmarks: List<Bookmark>) {
-                refreshCache(bookmarks)
-                refreshLocalDataSource(bookmarks)
+                //refreshCache(bookmarks)
+                //refreshLocalDataSource(bookmarks)
 
-                callback.onBookmarksLoaded(ArrayList(cachedBookmarks.values))
+                callback.onBookmarksLoaded(bookmarks)
             }
 
             override fun onDataNotAvailable() {
@@ -44,124 +45,147 @@ class BookmarkRepository(
         })
     }
 
-    private fun getBookmarkId(id: String) = cachedBookmarks[id]
+    //private fun getBookmarkId(id: String) = cachedBookmarks[id]
 
-    private inline fun cacheAndPerform(bookmark: Bookmark, perform: (Bookmark) -> Unit) {
-        val cachedBookmark =
-            Bookmark(
-                bookmark.title, bookmark.url, bookmark.selectedAt, bookmark.id
-            ).apply {
-                categoryId = bookmark.categoryId
-                favicon = bookmark.favicon
-                position = bookmark.position
-            }
-
-        cachedBookmarks[cachedBookmark.id] = cachedBookmark
-        perform(cachedBookmark)
-    }
+//    private inline fun cacheAndPerform(bookmark: Bookmark, perform: (Bookmark) -> Unit) {
+//        val cachedBookmark =
+//            Bookmark(
+//                bookmark.title, bookmark.url, bookmark.selectedAt, bookmark.id
+//            ).apply {
+//                categoryId = bookmark.categoryId
+//                favicon = bookmark.favicon
+//                position = bookmark.position
+//            }
+//
+//        //cachedBookmarks[cachedBookmark.id] = cachedBookmark
+//        perform(cachedBookmark)
+//    }
 
     override fun getBookmarks(callback: BookmarkDataSource.LoadBookmarksCallback) {
+        bookmarkLocalDataSource.getBookmarks(object :
+            BookmarkDataSource.LoadBookmarksCallback {
 
-        if (cachedBookmarks.isNotEmpty() && !cacheIsDirty) {
+            override fun onBookmarksLoaded(bookmarks: List<Bookmark>) {
+                callback.onBookmarksLoaded(bookmarks)
+            }
 
-            callback.onBookmarksLoaded(ArrayList(cachedBookmarks.values))
-            return
-        }
-
-        if (cacheIsDirty) {
-            getBookmarkFromRemoteDataSource(callback)
-        } else {
-
-            bookmarkLocalDataSource.getBookmarks(object :
-                BookmarkDataSource.LoadBookmarksCallback {
-
-                override fun onBookmarksLoaded(bookmarks: List<Bookmark>) {
-                    callback.onBookmarksLoaded(ArrayList(cachedBookmarks.values))
-                }
-
-                override fun onDataNotAvailable() {
-                    getBookmarkFromRemoteDataSource(callback)
-                }
-            })
-        }
+            override fun onDataNotAvailable() {
+                callback.onDataNotAvailable()
+            }
+        })
+//        if (cachedBookmarks.isNotEmpty() && !cacheIsDirty) {
+//
+//            callback.onBookmarksLoaded(ArrayList(cachedBookmarks.values))
+//            return
+//        }
+//
+//        if (cacheIsDirty) {
+//            getBookmarkFromRemoteDataSource(callback)
+//        } else {
+//
+//            bookmarkLocalDataSource.getBookmarks(object :
+//                BookmarkDataSource.LoadBookmarksCallback {
+//
+//                override fun onBookmarksLoaded(bookmarks: List<Bookmark>) {
+//                    callback.onBookmarksLoaded(ArrayList(cachedBookmarks.values))
+//                }
+//
+//                override fun onDataNotAvailable() {
+//                    getBookmarkFromRemoteDataSource(callback)
+//                }
+//            })
+//        }
     }
 
     override fun getBookmark(
         bookmarkId: String,
         callback: BookmarkDataSource.GetBookmarkCallback
     ) {
-
-        val bookmarkInCache = getBookmarkId(bookmarkId)
-
-        if (bookmarkInCache != null) {
-            callback.onBookmarkLoaded(bookmarkInCache)
-            return
-        }
-
         bookmarkLocalDataSource.getBookmark(
             bookmarkId,
             object : BookmarkDataSource.GetBookmarkCallback {
 
                 override fun onBookmarkLoaded(bookmark: Bookmark) {
-
-                    cacheAndPerform(bookmark) {
-                        callback.onBookmarkLoaded(it)
-                    }
+                    callback.onBookmarkLoaded(bookmark)
                 }
 
                 override fun onDataNotAvailable() {
-                    bookmarkRemoteDataSource.getBookmark(
-                        bookmarkId,
-                        object : BookmarkDataSource.GetBookmarkCallback {
-
-                            override fun onBookmarkLoaded(bookmark: Bookmark) {
-                                cacheAndPerform(bookmark) {
-                                    callback.onBookmarkLoaded(it)
-                                }
-                            }
-
-                            override fun onDataNotAvailable() {
-                                callback.onDataNotAvailable()
-                            }
-                        })
+                   onDataNotAvailable()
                 }
             })
+//        val bookmarkInCache = getBookmarkId(bookmarkId)
+//
+//        if (bookmarkInCache != null) {
+//            callback.onBookmarkLoaded(bookmarkInCache)
+//            return
+//        }
+//
+//        bookmarkLocalDataSource.getBookmark(
+//            bookmarkId,
+//            object : BookmarkDataSource.GetBookmarkCallback {
+//
+//                override fun onBookmarkLoaded(bookmark: Bookmark) {
+//
+//                    cacheAndPerform(bookmark) {
+//                        callback.onBookmarkLoaded(it)
+//                    }
+//                }
+//
+//                override fun onDataNotAvailable() {
+//                    bookmarkRemoteDataSource.getBookmark(
+//                        bookmarkId,
+//                        object : BookmarkDataSource.GetBookmarkCallback {
+//
+//                            override fun onBookmarkLoaded(bookmark: Bookmark) {
+//                                cacheAndPerform(bookmark) {
+//                                    callback.onBookmarkLoaded(it)
+//                                }
+//                            }
+//
+//                            override fun onDataNotAvailable() {
+//                                callback.onDataNotAvailable()
+//                            }
+//                        })
+//                }
+//            })
     }
 
     override fun saveBookmark(category: String, bookmark: Bookmark) {
-        cacheAndPerform(bookmark) {
-            bookmarkLocalDataSource.saveBookmark(category, it)
-            bookmarkRemoteDataSource.saveBookmark(category, it)
-        }
+        bookmarkLocalDataSource.saveBookmark(category,bookmark)
+//        cacheAndPerform(bookmark) {
+//            bookmarkLocalDataSource.saveBookmark(category, it)
+//            bookmarkRemoteDataSource.saveBookmark(category, it)
+//        }
     }
 
     override fun deleteAllBookmarks() {
         bookmarkLocalDataSource.deleteAllBookmarks()
-        bookmarkRemoteDataSource.deleteAllBookmarks()
-        cachedBookmarks.clear()
+//        bookmarkRemoteDataSource.deleteAllBookmarks()
+//        cachedBookmarks.clear()
     }
 
     override fun deleteBookmark(bookmarkId: String) {
         bookmarkLocalDataSource.deleteBookmark(bookmarkId)
-        bookmarkRemoteDataSource.deleteBookmark(bookmarkId)
-        cachedBookmarks.remove(bookmarkId)
+//        bookmarkRemoteDataSource.deleteBookmark(bookmarkId)
+//        cachedBookmarks.remove(bookmarkId)
     }
 
     override fun refreshBookmark() {
-        cacheIsDirty = true
+        // cacheIsDirty = true
     }
 
     override fun selectedBookmark(bookmarkId: String) {
-        getBookmarkId(bookmarkId)?.let {
-            selectedBookmark(it)
-        }
+//        saveBookmark()
+//        getBookmarkId(bookmarkId)?.let {
+//            selectedBookmark(it)
+//        }
     }
 
     override fun selectedBookmark(bookmark: Bookmark) {
-        cacheAndPerform(bookmark) {
-            bookmarkLocalDataSource.selectedBookmark(it)
-            bookmarkRemoteDataSource.selectedBookmark(it)
-        }
+//        cacheAndPerform(bookmark) {
+//            bookmarkLocalDataSource.selectedBookmark(it)
+//            bookmarkRemoteDataSource.selectedBookmark(it)
+//        }
     }
 
     companion object {

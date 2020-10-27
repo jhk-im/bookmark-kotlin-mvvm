@@ -1,11 +1,14 @@
 package com.example.bookmarkse_kotlin.bookmark
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.LinearLayout
 import androidx.core.graphics.convertTo
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.databinding.BookmarkItemBinding
@@ -13,17 +16,13 @@ import java.lang.IllegalStateException
 import java.util.zip.Inflater
 
 class BookmarkAdapter(
-    private var mBookmarks: List<Bookmark>
+    private var mBookmarks: List<Bookmark>,
+    private var viewModel: BookmarkViewModel
 ) : RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder>() {
 
-    init {
-        setBookmarks(mBookmarks)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkAdapter.BookmarkViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = BookmarkItemBinding.inflate(inflater)
-
+        val view = BookmarkItemBinding.inflate(inflater,parent,false)
         return BookmarkViewHolder(view)
     }
 
@@ -44,10 +43,13 @@ class BookmarkAdapter(
         RecyclerView.ViewHolder(viewBinding.root) {
 
         fun bindViewHolder(bookmark: Bookmark) {
-            viewBinding.bookmark = bookmark
-            viewBinding.clBookmark.setOnClickListener {
-                viewBinding.listener?.onBookmarkClicked(bookmark)
+            with(viewBinding){
+                viewBinding.bookmark = bookmark
+                executePendingBindings()
             }
+//            viewBinding.clBookmark.setOnClickListener {
+//                viewBinding.listener?.onBookmarkClicked(bookmark)
+//            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.bookmarkse_kotlin.data.source.local
 
+import android.util.Log
 import androidx.annotation.VisibleForTesting
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
@@ -44,7 +45,7 @@ class BookmarkLocalDataSource private constructor(
 
     override fun saveBookmark(categoryId: String, bookmark: Bookmark) {
         val newCategory = Category(categoryId)
-        appExecutors.diskIO.execute { categoryDao.insertCategory(newCategory) }
+//        appExecutors.diskIO.execute { categoryDao.insertCategory(newCategory) }
         bookmark.categoryId = newCategory.categoryId
         appExecutors.diskIO.execute { bookmarkDao.insertBookmark(bookmark) }
     }

@@ -28,10 +28,10 @@ object Injection {
     fun provideBookmarkRepository(context: Context): BookmarkRepository {
         val database = LocalDatabase.getInstance(context)
         return BookmarkRepository.getInstance(
-            BookmarkRemoteDataSource,
             BookmarkLocalDataSource.getInstance(
                 AppExecutors(),
                 database.bookmarkDao(),
-                database.categoryDao()))
+                database.categoryDao()),
+            BookmarkRemoteDataSource)
     }
 }
