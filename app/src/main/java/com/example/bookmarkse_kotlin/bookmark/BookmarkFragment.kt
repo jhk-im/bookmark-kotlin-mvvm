@@ -3,6 +3,7 @@ package com.example.bookmarkse_kotlin.bookmark
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bookmarkse_kotlin.R
@@ -33,26 +34,44 @@ class BookmarkFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {
-            R.id.menu_recent -> {
-                //viewDataBinding.viewModel?
-                true
-            }
-            R.id.menu_category -> {
-                //viewDatBinding.vewModel?
+            R.id.menu_filter -> {
+                setUpFilteringPopUpMenu()
                 true
             }
             else -> false
         }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.filter_tasks, menu)
+        inflater.inflate(R.menu.bookmarks_fragment_menu, menu)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewDataBinding.setLifecycleOwner(this.viewLifecycleOwner)
+        setUpFilteringPopUpMenu()
         setUpListAdapter()
         setupFab()
+    }
+
+    private fun setUpFilteringPopUpMenu() {
+        val view = activity?.findViewById<View>(R.id.menu_filter) ?: return
+        PopupMenu(requireContext(), view).run {
+            menuInflater.inflate(R.menu.filter_tasks, menu)
+
+            setOnMenuItemClickListener {
+                viewDataBinding.viewModel?.run {
+                    setFiltering(
+                        when (it.itemId) {
+                            R.id.menu_recent -> BookmarkFilterType.RECENT_BOOKMARKS
+                            else -> BookmarkFilterType.CATEGORY_BOOKMARKS
+                        }
+                    )
+                    loadItems(false)
+                }
+                true
+            }
+            show()
+        }
     }
 
     private fun setUpListAdapter() {

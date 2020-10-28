@@ -1,6 +1,5 @@
 package com.example.bookmarkse_kotlin.bookmark
 
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
@@ -13,7 +12,6 @@ import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
 import com.example.bookmarkse_kotlin.data.source.ItemsDataSource
 import com.example.bookmarkse_kotlin.data.source.ItemsRepository
-import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
 
 class BookmarkViewModel(
@@ -74,16 +72,16 @@ class BookmarkViewModel(
 
     init {
         setFiltering(BookmarkFilterType.RECENT_BOOKMARKS)
-        itemsRepository.deleteAllItems()
-        testLocalDatabase()
+        // itemsRepository.deleteAllItems()
+        // testLocalDatabase()
     }
 
     fun start() {
-        loadBookmarks(false)
+        loadItems(false)
     }
 
-    fun loadBookmarks(forceUpdate: Boolean) {
-        loadBookmarks(forceUpdate, true)
+    fun loadItems(forceUpdate: Boolean) {
+        loadItems(forceUpdate, true)
     }
 
     fun setFiltering(requestType: BookmarkFilterType) {
@@ -137,7 +135,7 @@ class BookmarkViewModel(
         _bookmarksAddViewVisible.value = bookmarkAddVisible
     }
 
-    private fun loadBookmarks(forceUpdate: Boolean, showLoadingUI: Boolean) {
+    private fun loadItems(forceUpdate: Boolean, showLoadingUI: Boolean) {
         if (showLoadingUI) {
             _dataLoading.setValue(true)
         }

@@ -42,5 +42,5 @@ fun View.setupSnackbar(
 @BindingAdapter("android:onRefresh")
 fun ScrollChildSwipeRefreshLayout.setSwipeRefreshLayoutOnRefreshListener(
     viewModel: BookmarkViewModel ) {
-    setOnRefreshListener { viewModel.loadBookmarks(true) }
+    setOnRefreshListener { viewModel.loadItems(true) }
 }
