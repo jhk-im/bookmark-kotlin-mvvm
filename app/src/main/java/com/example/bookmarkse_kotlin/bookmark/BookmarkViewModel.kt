@@ -1,6 +1,5 @@
 package com.example.bookmarkse_kotlin.bookmark
 
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
@@ -10,19 +9,24 @@ import androidx.lifecycle.ViewModel
 import com.example.bookmarkse_kotlin.Event
 import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.data.Bookmark
-import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
-import com.example.bookmarkse_kotlin.data.source.BookmarkRepository
+import com.example.bookmarkse_kotlin.data.Category
+import com.example.bookmarkse_kotlin.data.source.ItemsDataSource
+import com.example.bookmarkse_kotlin.data.source.ItemsRepository
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 class BookmarkViewModel(
-    private val bookmarkRepository: BookmarkRepository
+    private val bookmarkRepository: ItemsRepository
 ) : ViewModel() {
 
-    private val _items = MutableLiveData<List<Bookmark>>().apply { value = emptyList() }
-    val items: LiveData<List<Bookmark>>
-        get() = _items
+    private val _bookmarks = MutableLiveData<List<Bookmark>>().apply { value = emptyList() }
+    val bookmarks: LiveData<List<Bookmark>>
+        get() = _bookmarks
+
+    private val _categories = MutableLiveData<List<Category>>().apply { value = emptyList() }
+    val categories: LiveData<List<Category>>
+        get() = _categories
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean>
@@ -60,14 +64,14 @@ class BookmarkViewModel(
 
     private var currentFiltering = BookmarkFilterType.RECENT_BOOKMARKS
 
-    val empty: LiveData<Boolean> = Transformations.map(_items) {
+    val empty: LiveData<Boolean> = Transformations.map(_bookmarks) {
         it.isEmpty()
     }
 
     init {
         setFiltering(BookmarkFilterType.RECENT_BOOKMARKS)
-        // bookmarkRepository.deleteAllBookmarks()
-        // testLocalDatabase()
+        //bookmarkRepository.deleteAllBookmarks()
+        //testLocalDatabase()
     }
 
     fun start() {
@@ -86,7 +90,7 @@ class BookmarkViewModel(
                 setFilter(
                     R.string.label_recent,
                     R.string.no_bookmarks,
-                    R.drawable.ic_assignment_turned_in_24dp,
+                    R.drawable.ic_bookmark_grey,
                     true
                 )
             }
@@ -94,7 +98,7 @@ class BookmarkViewModel(
                 setFilter(
                     R.string.label_category,
                     R.string.no_bookmarks,
-                    R.drawable.ic_assignment_turned_in_24dp,
+                    R.drawable.ic_bookmark_grey,
                     false
                 )
             }
@@ -138,24 +142,28 @@ class BookmarkViewModel(
             bookmarkRepository.refreshBookmark()
         }
 
-        bookmarkRepository.getBookmarks(object : BookmarkDataSource.LoadBookmarksCallback {
-            override fun onBookmarksLoaded(bookmarks: List<Bookmark>) {
+        bookmarkRepository.getItems(object : ItemsDataSource.LoadItemsCallback {
+            override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
                 val bookmarksToShow = ArrayList<Bookmark>()
-                val sd = SimpleDateFormat("HH:mm:ss.SSS")
+                val categoriesToShow = ArrayList<Category>()
+                var currentCategory = ""
+                for (category in categories) {
+                    when (currentFiltering) {
+                        BookmarkFilterType.CATEGORY_BOOKMARKS -> {
+                            categoriesToShow.add(category)
+                            if(category.isSelected)
+                                currentCategory = category.categoryId
+                        }
+                    }
+                }
                 for (bookmark in bookmarks) {
                     when (currentFiltering) {
                         BookmarkFilterType.RECENT_BOOKMARKS -> bookmarksToShow.add(bookmark)
-                        BookmarkFilterType.CATEGORY_BOOKMARKS -> bookmarksToShow.add(bookmark)
-
+                        BookmarkFilterType.CATEGORY_BOOKMARKS -> {
+                            if(bookmark.categoryId == currentCategory)
+                            bookmarksToShow.add(bookmark)
+                        }
                     }
-                    Log.d(
-                        "bookmark",
-                        bookmark.id + "\n" +
-                                bookmark.title + "\n" +
-                                bookmark.url + "\n" +
-                                sd.format(bookmark.selectedAt) + "\n" +
-                                bookmark.categoryId
-                    )
                 }
 
                 if (showLoadingUI) {
@@ -163,36 +171,30 @@ class BookmarkViewModel(
                 }
                 isDataLoadingError.value = false
 
-                val itemsValue = ArrayList(bookmarksToShow)
-                _items.value = itemsValue
+                val bookmarksValue = ArrayList(bookmarksToShow)
+                _bookmarks.value = bookmarksValue
+                val categoriesValue = ArrayList(categoriesToShow)
+                _categories.value = categoriesValue
             }
+
 
             override fun onDataNotAvailable() {
                 isDataLoadingError.value = true
+                _dataLoading.value = false
             }
-
         })
     }
 
 
     private fun testLocalDatabase() {
 
-        val selectedAt = Date()
-        // val newCategory = Category("Portal")
-        val newBookmark =
-            Bookmark("Google", "https://www.google.com", selectedAt)
+        val newBookmark = Bookmark("Google", "https://www.google.com")
         bookmarkRepository.saveBookmark("One", newBookmark)
 
-        val selectedAt2 = Date()
-        // val newCategory2 = Category("Portal")
-        val newBookmark2 =
-            Bookmark("Naver", "https://www.naver.com", selectedAt2)
+        val newBookmark2 = Bookmark("Naver", "https://www.naver.com")
         bookmarkRepository.saveBookmark("Two", newBookmark2)
 
-        val selectedAt3 = Date()
-        // val newCategory3 = Category("Portal")
-        val newBookmark3 =
-            Bookmark("Daum", "https://www.daum.com", selectedAt3)
+        val newBookmark3 = Bookmark("Daum", "https://www.daum.com")
         bookmarkRepository.saveBookmark("Three", newBookmark3)
 
         // val sd = SimpleDateFormat("HH:mm:ss.SSS")

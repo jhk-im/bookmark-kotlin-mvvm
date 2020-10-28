@@ -1,27 +1,27 @@
 package com.example.bookmarkse_kotlin.data.source.local
 
-import android.util.Log
 import androidx.annotation.VisibleForTesting
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
-import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
+import com.example.bookmarkse_kotlin.data.source.ItemsDataSource
 import com.example.bookmarkse_kotlin.util.AppExecutors
 import java.util.*
 
-class BookmarkLocalDataSource private constructor(
+class ItemsLocalDataSource private constructor(
     private val appExecutors: AppExecutors,
     private val bookmarkDao: BookmarkDao,
     private val categoryDao: CategoryDao
-) : BookmarkDataSource {
+) : ItemsDataSource {
 
-    override fun getBookmarks(callback: BookmarkDataSource.LoadBookmarksCallback) {
+    override fun getItems(callback: ItemsDataSource.LoadItemsCallback) {
         appExecutors.diskIO.execute {
             val bookmarks = bookmarkDao.getBookmarks()
+            val categories = categoryDao.getCategories()
             appExecutors.mainThread.execute {
                 if (bookmarks.isEmpty()) {
                     callback.onDataNotAvailable()
                 } else {
-                    callback.onBookmarksLoaded(bookmarks)
+                    callback.onItemsLoaded(bookmarks, categories)
                 }
             }
         }
@@ -29,7 +29,7 @@ class BookmarkLocalDataSource private constructor(
 
     override fun getBookmark(
         bookmarkId: String,
-        callback: BookmarkDataSource.GetBookmarkCallback
+        callback: ItemsDataSource.GetBookmarkCallback
     ) {
         appExecutors.diskIO.execute {
             val bookmark = bookmarkDao.getBookmarkById(bookmarkId)
@@ -43,15 +43,38 @@ class BookmarkLocalDataSource private constructor(
         }
     }
 
-    override fun saveBookmark(categoryId: String, bookmark: Bookmark) {
-        val newCategory = Category(categoryId)
-        //appExecutors.diskIO.execute { categoryDao.insertCategory(newCategory) }
-        bookmark.categoryId = newCategory.categoryId
-        appExecutors.diskIO.execute { bookmarkDao.insertBookmark(bookmark) }
+    override fun saveBookmark(categoryTitle: String, bookmark: Bookmark) {
+        appExecutors.diskIO.execute {
+            categoryTitle.let{
+                val getCategory = categoryDao.getCategoryByTitle(categoryTitle)
+                if (getCategory != null) {
+                    bookmark.categoryId = getCategory.categoryId
+                }
+                val selected = Date()
+                bookmark.selectedAt = selected
+            }
+
+            bookmarkDao.insertBookmark(bookmark)
+        }
     }
 
-    override fun deleteAllBookmarks() {
-        appExecutors.diskIO.execute { bookmarkDao.deleteBookmarks() }
+    override fun saveCategory(category: Category) {
+        appExecutors.diskIO.execute {
+            category.let {
+                val selected = Date()
+                category.selectedAt = selected
+                if (categoryDao.getCategoryByTitle(category.categoryTitle) == null) {
+                    categoryDao.insertCategory(category)
+                }
+            }
+        }
+    }
+
+    override fun deleteAllItems() {
+        appExecutors.diskIO.execute {
+            bookmarkDao.deleteBookmarks()
+            categoryDao.deleteCategories()
+        }
     }
 
     override fun deleteBookmark(bookmarkId: String) {
@@ -67,22 +90,22 @@ class BookmarkLocalDataSource private constructor(
     }
 
     override fun selectedBookmark(bookmark: Bookmark) {
-        val localDate = Date()
-        appExecutors.diskIO.execute { bookmarkDao.selectedBookmarkById(bookmark.id, localDate) }
+        val selected = Date()
+        appExecutors.diskIO.execute { bookmarkDao.selectedBookmarkById(bookmark.id, selected) }
     }
 
     companion object {
-        private var INSTANCE: BookmarkLocalDataSource? = null
+        private var INSTANCE: ItemsLocalDataSource? = null
 
         @JvmStatic
         fun getInstance(
             appExecutors: AppExecutors,
             bookmarkDao: BookmarkDao,
             categoryDao: CategoryDao
-        ): BookmarkLocalDataSource {
+        ): ItemsLocalDataSource {
             if (INSTANCE == null) {
-                synchronized(BookmarkLocalDataSource::javaClass) {
-                    INSTANCE = BookmarkLocalDataSource(appExecutors, bookmarkDao, categoryDao)
+                synchronized(ItemsLocalDataSource::javaClass) {
+                    INSTANCE = ItemsLocalDataSource(appExecutors, bookmarkDao, categoryDao)
                 }
             }
             return INSTANCE!!

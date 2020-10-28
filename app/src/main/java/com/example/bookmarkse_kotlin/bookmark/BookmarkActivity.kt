@@ -8,24 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
-import androidx.lifecycle.get
 import com.example.bookmarkse_kotlin.Event
 import com.example.bookmarkse_kotlin.R
-import com.example.bookmarkse_kotlin.ViewModelFactory
 import com.example.bookmarkse_kotlin.addeditbookmark.AddEditBookmarkActivity
-import com.example.bookmarkse_kotlin.data.Bookmark
-import com.example.bookmarkse_kotlin.data.Injection
-import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
-import com.example.bookmarkse_kotlin.data.source.BookmarkRepository
 import com.example.bookmarkse_kotlin.notice.NoticeActivity
 import com.example.bookmarkse_kotlin.util.obtainViewModel
 import com.example.bookmarkse_kotlin.util.replaceFragmentInActivity
 import com.example.bookmarkse_kotlin.util.setupActionBar
 import com.google.android.material.navigation.NavigationView
-import java.text.SimpleDateFormat
-import java.util.*
 
 class BookmarkActivity : AppCompatActivity(), BookmarkNavigator {
 

@@ -5,10 +5,10 @@ import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
 import java.time.LocalDate
 
-interface BookmarkDataSource {
+interface ItemsDataSource {
 
-    interface LoadBookmarksCallback {
-        fun onBookmarksLoaded(bookmarks: List<Bookmark>)
+    interface LoadItemsCallback {
+        fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>)
         fun onDataNotAvailable()
     }
 
@@ -17,13 +17,16 @@ interface BookmarkDataSource {
         fun onDataNotAvailable()
     }
 
-    fun getBookmarks(callback: LoadBookmarksCallback)
+
+    fun getItems(callback: LoadItemsCallback)
 
     fun getBookmark(bookmarkId: String, callback: GetBookmarkCallback)
 
-    fun saveBookmark(categoryId: String, bookmark: Bookmark)
+    fun saveBookmark(categoryTitle: String, bookmark: Bookmark)
 
-    fun deleteAllBookmarks()
+    fun saveCategory(category: Category)
+
+    fun deleteAllItems()
 
     fun deleteBookmark(bookmarkId: String)
 

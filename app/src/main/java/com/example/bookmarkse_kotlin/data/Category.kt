@@ -11,6 +11,7 @@ data class Category @JvmOverloads constructor(
     @NonNull @ColumnInfo(name = "categoryTitle") var categoryTitle: String = "",
     @PrimaryKey @ColumnInfo(name = "categoryId") var categoryId: String = UUID.randomUUID().toString()
 ) {
+    @ColumnInfo(name = "selectedAt") var selectedAt: Date? = null
 
     @ColumnInfo(name = "isSelected") var isSelected: Boolean = false
 

@@ -7,12 +7,12 @@ import com.example.bookmarkse_kotlin.data.Bookmark
 
 object BookmarksListBinding {
 
-    @BindingAdapter("app:items")
+    @BindingAdapter("app:bookmarks")
     @JvmStatic
-    fun setItems(list: RecyclerView,@NonNull items: List<Bookmark>) {
+    fun setBookmarks(list: RecyclerView,@NonNull bookmarks: List<Bookmark>) {
 
         with(list.adapter as? BookmarkAdapter) {
-            this?.replaceBookmarks(items)
+            this?.replaceBookmarks(bookmarks)
         }
     }
 }

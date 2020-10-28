@@ -28,7 +28,6 @@ class BookmarkFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.e("0","resume")
         viewDataBinding.viewModel?.start()
     }
 
