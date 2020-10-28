@@ -25,22 +25,22 @@ object ItemsRemoteDataSource : ItemsDataSource {
     private fun addItems(title: String, category: String, url: String) {
         val selected = Date()
         val newCategory = Category(category).apply { selectedAt = selected }
-        if(CATEGORIES_SERVICE_DATA[newCategory.categoryTitle] == null){
+        if(CATEGORIES_SERVICE_DATA[newCategory.title] == null){
             val newBookmark =
                 Bookmark(title, url).apply {
                     selectedAt = selected
-                    categoryId = newCategory.categoryId
+                    categoryId = newCategory.id
                 }
 
-            CATEGORIES_SERVICE_DATA.put(newCategory.categoryTitle, newCategory)
-            BOOKMARKS_SERVICE_DATA.put(newBookmark.id, newBookmark)
+            CATEGORIES_SERVICE_DATA[newCategory.title] = newCategory
+            BOOKMARKS_SERVICE_DATA[newBookmark.id] = newBookmark
         } else {
             val newBookmark =
                 Bookmark(title, url).apply {
                     selectedAt = selected
-                    categoryId = CATEGORIES_SERVICE_DATA[newCategory.categoryTitle]?.categoryId.toString()
+                    categoryId = CATEGORIES_SERVICE_DATA[newCategory.title]?.id.toString()
                 }
-            BOOKMARKS_SERVICE_DATA.put(newBookmark.id, newBookmark)
+            BOOKMARKS_SERVICE_DATA[newBookmark.id] = newBookmark
         }
     }
 
@@ -73,19 +73,19 @@ object ItemsRemoteDataSource : ItemsDataSource {
     }
 
     override fun saveBookmark(categoryTitle: String,bookmark: Bookmark) {
-        val categoryId = CATEGORIES_SERVICE_DATA[categoryTitle]?.categoryId
+        val categoryId = CATEGORIES_SERVICE_DATA[categoryTitle]?.id
         if (categoryId != null) {
             bookmark.categoryId = categoryId
         }
-        BOOKMARKS_SERVICE_DATA.put(bookmark.id, bookmark)
+        BOOKMARKS_SERVICE_DATA[bookmark.id] = bookmark
     }
 
     override fun saveCategory(category: Category) {
-        val getCategory = CATEGORIES_SERVICE_DATA[category.categoryTitle]
+        val getCategory = CATEGORIES_SERVICE_DATA[category.title]
         if (getCategory != null) {
             val selected = Date()
-            val newCategory = Category(category.categoryTitle).apply { selectedAt = selected }
-            CATEGORIES_SERVICE_DATA.put(newCategory.categoryTitle, newCategory)
+            val newCategory = Category(category.title).apply { selectedAt = selected }
+            CATEGORIES_SERVICE_DATA[newCategory.title] = newCategory
         }
     }
 
@@ -112,6 +112,6 @@ object ItemsRemoteDataSource : ItemsDataSource {
         val selectedBookmark =
             Bookmark(bookmark.title, bookmark.url).apply { selectedAt = selected }
 
-        BOOKMARKS_SERVICE_DATA.put(bookmark.id, selectedBookmark)
+        BOOKMARKS_SERVICE_DATA[bookmark.id] = selectedBookmark
     }
 }

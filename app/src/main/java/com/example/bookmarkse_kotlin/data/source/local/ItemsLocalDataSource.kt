@@ -48,7 +48,7 @@ class ItemsLocalDataSource private constructor(
             categoryTitle.let{
                 val getCategory = categoryDao.getCategoryByTitle(categoryTitle)
                 if (getCategory != null) {
-                    bookmark.categoryId = getCategory.categoryId
+                    bookmark.categoryId = getCategory.id
                 }
                 val selected = Date()
                 bookmark.selectedAt = selected
@@ -63,7 +63,7 @@ class ItemsLocalDataSource private constructor(
             category.let {
                 val selected = Date()
                 category.selectedAt = selected
-                if (categoryDao.getCategoryByTitle(category.categoryTitle) == null) {
+                if (categoryDao.getCategoryByTitle(category.title) == null) {
                     categoryDao.insertCategory(category)
                 }
             }

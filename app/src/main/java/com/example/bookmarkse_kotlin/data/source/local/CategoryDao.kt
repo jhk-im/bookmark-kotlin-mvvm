@@ -6,14 +6,14 @@ import com.example.bookmarkse_kotlin.data.Category
 @Dao
 interface CategoryDao {
 
-    @Query("SELECT * FROM categories")
+    @Query("SELECT * FROM categories ORDER BY selectedAt DESC")
     fun getCategories(): List<Category>
 
-    @Query("SELECT * FROM categories WHERE categoryTitle = :categoryTitle")
-    fun getCategoryByTitle(categoryTitle: String): Category?
+    @Query("SELECT * FROM categories WHERE title = :title")
+    fun getCategoryByTitle(title: String): Category?
 
-    @Query("SELECT * FROM categories WHERE categoryId = :categoryId")
-    fun getCategoryById(categoryId: String): Category?
+    @Query("SELECT * FROM categories WHERE id = :id")
+    fun getCategoryById(id: String): Category?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCategory(category: Category)
@@ -21,11 +21,8 @@ interface CategoryDao {
     @Update
     fun updateCategory(category: Category): Int
 
-    @Query("DELETE FROM categories WHERE categoryId = :categoryId")
-    fun deleteCategoryById(categoryId: String): Int
+    @Query("DELETE FROM categories WHERE id = :id")
+    fun deleteCategoryById(id: String): Int
 
     @Query("DELETE FROM categories") fun deleteCategories()
-
-    @Query("UPDATE categories SET isSelected = :isSelected WHERE categoryId = :categoryId ")
-    fun selectedCategoryById(categoryId: String, isSelected: Boolean): Int
 }

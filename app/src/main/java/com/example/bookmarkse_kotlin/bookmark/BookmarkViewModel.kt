@@ -1,5 +1,6 @@
 package com.example.bookmarkse_kotlin.bookmark
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
@@ -13,11 +14,10 @@ import com.example.bookmarkse_kotlin.data.Category
 import com.example.bookmarkse_kotlin.data.source.ItemsDataSource
 import com.example.bookmarkse_kotlin.data.source.ItemsRepository
 import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 class BookmarkViewModel(
-    private val bookmarkRepository: ItemsRepository
+    private val itemsRepository: ItemsRepository
 ) : ViewModel() {
 
     private val _bookmarks = MutableLiveData<List<Bookmark>>().apply { value = emptyList() }
@@ -27,6 +27,10 @@ class BookmarkViewModel(
     private val _categories = MutableLiveData<List<Category>>().apply { value = emptyList() }
     val categories: LiveData<List<Category>>
         get() = _categories
+
+    private val _currentCategory = MutableLiveData<String>()
+    val currentCategory: LiveData<String>
+        get() = _currentCategory
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean>
@@ -48,13 +52,13 @@ class BookmarkViewModel(
     val bookmarksAddViewVisible: LiveData<Boolean>
         get() = _bookmarksAddViewVisible
 
-    private val _snackbarText = MutableLiveData<Event<Int>>()
-    val snackbarMessage: LiveData<Event<Int>>
-        get() = _snackbarText
-
-    private val _openBookmarkEvent = MutableLiveData<Event<String>>()
-    val openBookmarkEvent: LiveData<Event<String>>
-        get() = _openBookmarkEvent
+//    private val _snackbarText = MutableLiveData<Event<Int>>()
+//    val snackbarMessage: LiveData<Event<Int>>
+//        get() = _snackbarText
+//
+//    private val _openBookmarkEvent = MutableLiveData<Event<String>>()
+//    val openBookmarkEvent: LiveData<Event<String>>
+//        get() = _openBookmarkEvent
 
     private val _newBookmarkEvent = MutableLiveData<Event<Unit>>()
     val newBookmarkEvent: LiveData<Event<Unit>>
@@ -70,8 +74,8 @@ class BookmarkViewModel(
 
     init {
         setFiltering(BookmarkFilterType.RECENT_BOOKMARKS)
-        //bookmarkRepository.deleteAllBookmarks()
-        //testLocalDatabase()
+        itemsRepository.deleteAllItems()
+        testLocalDatabase()
     }
 
     fun start() {
@@ -139,28 +143,30 @@ class BookmarkViewModel(
         }
 
         if (forceUpdate) {
-            bookmarkRepository.refreshBookmark()
+            itemsRepository.refreshBookmark()
         }
 
-        bookmarkRepository.getItems(object : ItemsDataSource.LoadItemsCallback {
+        itemsRepository.getItems(object : ItemsDataSource.LoadItemsCallback {
             override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
+
                 val bookmarksToShow = ArrayList<Bookmark>()
                 val categoriesToShow = ArrayList<Category>()
-                var currentCategory = ""
+                //val sd = SimpleDateFormat("HH:mm:ss.SSS")
+
                 for (category in categories) {
-                    when (currentFiltering) {
-                        BookmarkFilterType.CATEGORY_BOOKMARKS -> {
-                            categoriesToShow.add(category)
-                            if(category.isSelected)
-                                currentCategory = category.categoryId
-                        }
+                    if(categories.indexOf(category) == 0) {
+                        _currentCategory.value = category.id
                     }
+                    categoriesToShow.add(category)
                 }
+
                 for (bookmark in bookmarks) {
                     when (currentFiltering) {
-                        BookmarkFilterType.RECENT_BOOKMARKS -> bookmarksToShow.add(bookmark)
+                        BookmarkFilterType.RECENT_BOOKMARKS -> {
+                            bookmarksToShow.add(bookmark)
+                        }
                         BookmarkFilterType.CATEGORY_BOOKMARKS -> {
-                            if(bookmark.categoryId == currentCategory)
+                            if(bookmark.categoryId == _currentCategory.value )
                             bookmarksToShow.add(bookmark)
                         }
                     }
@@ -177,7 +183,6 @@ class BookmarkViewModel(
                 _categories.value = categoriesValue
             }
 
-
             override fun onDataNotAvailable() {
                 isDataLoadingError.value = true
                 _dataLoading.value = false
@@ -189,15 +194,18 @@ class BookmarkViewModel(
     private fun testLocalDatabase() {
 
         val newBookmark = Bookmark("Google", "https://www.google.com")
-        bookmarkRepository.saveBookmark("One", newBookmark)
+        val newCategory = Category("One")
+        itemsRepository.saveCategory(newCategory)
+        itemsRepository.saveBookmark(newCategory.title, newBookmark)
 
         val newBookmark2 = Bookmark("Naver", "https://www.naver.com")
-        bookmarkRepository.saveBookmark("Two", newBookmark2)
+        val newCategory2 = Category("Two")
+        itemsRepository.saveCategory(newCategory2)
+        itemsRepository.saveBookmark(newCategory2.title, newBookmark2)
 
         val newBookmark3 = Bookmark("Daum", "https://www.daum.com")
-        bookmarkRepository.saveBookmark("Three", newBookmark3)
-
-        // val sd = SimpleDateFormat("HH:mm:ss.SSS")
-
+        val newCategory3 = Category("Three")
+        itemsRepository.saveCategory(newCategory3)
+        itemsRepository.saveBookmark(newCategory3.title, newBookmark3)
     }
 }

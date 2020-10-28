@@ -71,12 +71,8 @@ class ItemsRepository(
 
     private inline fun cacheCategoryAndPerform(category: Category, perform: (Category) -> Unit) {
         val cachedCategory =
-            Category(
-                category.categoryTitle, category.categoryId
-            ).apply {
-                isSelected = category.isSelected
-            }
-        cachedCategories[cachedCategory.categoryTitle] = cachedCategory
+            Category(category.title, category.id)
+        cachedCategories[cachedCategory.title] = cachedCategory
         perform(cachedCategory)
     }
 
