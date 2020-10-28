@@ -45,7 +45,7 @@ class BookmarkLocalDataSource private constructor(
 
     override fun saveBookmark(categoryId: String, bookmark: Bookmark) {
         val newCategory = Category(categoryId)
-//        appExecutors.diskIO.execute { categoryDao.insertCategory(newCategory) }
+        //appExecutors.diskIO.execute { categoryDao.insertCategory(newCategory) }
         bookmark.categoryId = newCategory.categoryId
         appExecutors.diskIO.execute { bookmarkDao.insertBookmark(bookmark) }
     }

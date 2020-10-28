@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.databinding.BookmarkFragBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class BookmarkFragment : Fragment() {
 
@@ -27,6 +28,7 @@ class BookmarkFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        Log.e("0","resume")
         viewDataBinding.viewModel?.start()
     }
 
@@ -43,17 +45,6 @@ class BookmarkFragment : Fragment() {
             else -> false
         }
 
-    private fun setUpListAdapter() {
-        val viewModel = viewDataBinding.viewModel
-        if (viewModel != null) {
-            val layoutManager = LinearLayoutManager(context)
-            listAdapter = BookmarkAdapter(ArrayList(0), viewModel)
-            viewDataBinding.bookmarksList.adapter = listAdapter
-        } else {
-            Log.w(TAG, "ViewModel not initialized when attempting to set up adapter.")
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.filter_tasks, menu)
     }
@@ -62,6 +53,26 @@ class BookmarkFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewDataBinding.setLifecycleOwner(this.viewLifecycleOwner)
         setUpListAdapter()
+        setupFab()
+    }
+
+    private fun setUpListAdapter() {
+        val viewModel = viewDataBinding.viewModel
+        if (viewModel != null) {
+            listAdapter = BookmarkAdapter(ArrayList(0), viewModel)
+            viewDataBinding.bookmarksList.adapter = listAdapter
+        } else {
+            Log.w(TAG, "ViewModel not initialized when attempting to set up adapter.")
+        }
+    }
+
+    private fun setupFab() {
+        activity?.findViewById<FloatingActionButton>(R.id.fab_add_items)?.let {
+            it.setImageResource(R.drawable.ic_add)
+            it.setOnClickListener {
+                viewDataBinding.viewModel?.addNewBookmarks()
+            }
+        }
     }
 
     companion object {

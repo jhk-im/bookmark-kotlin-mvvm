@@ -31,12 +31,12 @@ object BookmarkRemoteDataSource : BookmarkDataSource {
 
     override fun getBookmarks(callback: BookmarkDataSource.LoadBookmarksCallback) {
 
-//        val bookmarks = Lists.newArrayList<Bookmark>(BOOKMARKS_SERVICE_DATA.values)
-//
-//        // Simulate network
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            callback.onBookmarksLoaded(bookmarks)
-//        }, SERVICE_LATENCY_IN_MILLIS)
+        val bookmarks = ArrayList<Bookmark>(BOOKMARKS_SERVICE_DATA.values)
+
+        // Simulate network
+        Handler(Looper.getMainLooper()).postDelayed({
+            callback.onBookmarksLoaded(bookmarks)
+        }, SERVICE_LATENCY_IN_MILLIS)
     }
 
     override fun getBookmark(

@@ -7,11 +7,14 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.get
+import com.example.bookmarkse_kotlin.Event
 import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.ViewModelFactory
+import com.example.bookmarkse_kotlin.addeditbookmark.AddEditBookmarkActivity
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Injection
 import com.example.bookmarkse_kotlin.data.source.BookmarkDataSource
@@ -43,7 +46,13 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator {
         setupNavigationDrawer()
         setupFragment()
 
-        mViewModel = obtainViewModel()
+        mViewModel = obtainViewModel().apply {
+            newBookmarkEvent.observe(this@BookmarkActivity, Observer<Event<Unit>> { event ->
+                event.getContentIfNotHandled()?.let{
+                    this@BookmarkActivity.addNewItem()
+                }
+            })
+        }
     }
 
     fun obtainViewModel(): BookmarkViewModel =
@@ -91,7 +100,8 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator {
         }
 
     override fun addNewItem() {
-        TODO("Not yet implemented")
+        val intent = Intent(this, AddEditBookmarkActivity::class.java)
+        startActivityForResult(intent, AddEditBookmarkActivity.REQUEST_CODE)
     }
 
 }
