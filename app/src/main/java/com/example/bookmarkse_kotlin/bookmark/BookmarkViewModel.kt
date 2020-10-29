@@ -71,8 +71,8 @@ class BookmarkViewModel(
 
     init {
         setFiltering(BookmarkFilterType.RECENT_BOOKMARKS)
-        itemsRepository.deleteAllItems()
-        testLocalDatabase()
+        // itemsRepository.deleteAllItems()
+        // testLocalDatabase()
     }
 
     fun start() {
@@ -163,7 +163,7 @@ class BookmarkViewModel(
                             bookmarksToShow.add(bookmark)
                         }
                         BookmarkFilterType.CATEGORY_BOOKMARKS -> {
-                            if(bookmark.categoryId == _currentCategory.value )
+                            if(bookmark.categoryId == currentCategory.value )
                                 bookmarksToShow.add(bookmark)
                         }
                     }

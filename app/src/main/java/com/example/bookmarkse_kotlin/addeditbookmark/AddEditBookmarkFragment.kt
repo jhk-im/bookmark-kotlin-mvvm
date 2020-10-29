@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.databinding.AddEditBookmarkFragBinding
+import com.example.bookmarkse_kotlin.util.setupSnackbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 
 class AddEditBookmarkFragment : Fragment() {
 
@@ -16,6 +18,10 @@ class AddEditBookmarkFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupFab()
+        viewDataBinding.viewModel?.let {
+            view?.setupSnackbar(this, it.snackbarMessage, Snackbar.LENGTH_LONG)
+        }
+        loadData()
     }
 
     override fun onCreateView(
@@ -30,6 +36,11 @@ class AddEditBookmarkFragment : Fragment() {
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
         retainInstance = false
         return viewDataBinding.root
+    }
+
+    private fun loadData() {
+        // Add or edit an existing task?
+        viewDataBinding.viewModel?.start(arguments?.getString(ARGUMENT_EDIT_ID))
     }
 
     private fun setupFab() {

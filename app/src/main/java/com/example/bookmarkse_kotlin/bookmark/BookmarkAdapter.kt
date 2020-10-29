@@ -10,6 +10,8 @@ import androidx.core.graphics.convertTo
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.databinding.BookmarkItemBinding
 import java.lang.IllegalStateException
@@ -44,9 +46,15 @@ class BookmarkAdapter(
 
         fun bindViewHolder(bookmark: Bookmark) {
             with(viewBinding){
-                viewBinding.bookmark = bookmark
+                this.bookmark = bookmark
+                Glide.with(viewBinding.root)
+                    .load(bookmark.favicon)
+                    .placeholder(R.drawable.logo)
+                    .error(R.drawable.logo)
+                    .into(ivUrlImage)
                 executePendingBindings()
             }
+
 //            viewBinding.clBookmark.setOnClickListener {
 //                viewBinding.listener?.onBookmarkClicked(bookmark)
 //            }

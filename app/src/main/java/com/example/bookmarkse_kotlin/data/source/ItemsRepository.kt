@@ -91,7 +91,7 @@ class ItemsRepository(
             itemsLocalDataSource.getItems(object: ItemsDataSource.LoadItemsCallback {
                 override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
                     refreshCache(bookmarks, categories)
-                    EspressoIdlingResource.decrement()
+                    //EspressoIdlingResource.decrement()
                     callback.onItemsLoaded(bookmarks,categories)
                 }
 

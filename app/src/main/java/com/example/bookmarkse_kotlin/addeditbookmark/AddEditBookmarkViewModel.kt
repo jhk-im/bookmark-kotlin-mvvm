@@ -1,5 +1,6 @@
 package com.example.bookmarkse_kotlin.addeditbookmark
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,16 +10,19 @@ import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
 import com.example.bookmarkse_kotlin.data.source.ItemsDataSource
 import com.example.bookmarkse_kotlin.data.source.ItemsRepository
+import java.util.*
+import java.util.regex.Pattern
 
 class AddEditBookmarkViewModel(
     private val itemsRepository: ItemsRepository
 ): ViewModel(), ItemsDataSource.GetBookmarkCallback {
 
-    val title = MutableLiveData<String>()
-    val url = MutableLiveData<String>()
-    val category = MutableLiveData<String>()
+    val bookmarkTitle = MutableLiveData<String>()
+    val urlAddress = MutableLiveData<String>()
+    val categoryTitle = MutableLiveData<String>()
 
     private var bookmarkId: String? = null
+    private var getFavicon: String? = null
     private var isNewItem: Boolean = false
     private var isDataLoaded = false
 
@@ -57,8 +61,8 @@ class AddEditBookmarkViewModel(
     }
 
     override fun onBookmarkLoaded(book: Bookmark) {
-        title.value = book.title
-        url.value = book.url
+        bookmarkTitle.value = book.title
+        urlAddress.value = book.url
         //itemsRepository.getCategory
         _dataLoading.value = false
         isDataLoaded = true
@@ -70,30 +74,57 @@ class AddEditBookmarkViewModel(
 
     internal fun saveItem() {
         val newCategory: Category?
-        val newBookmark: Bookmark?
+        val currentTitle = bookmarkTitle.value
+        val currentUrl = urlAddress.value
+        val currentCategory = categoryTitle.value
 
-        if( title.value == null || url.value == null || category.value == null){
+        if( currentTitle == null || currentUrl == null || currentCategory == null){
             _snackbarText.value = Event(R.string.empty_input_message)
+            return
         }
 
-        newCategory = Category(category.value.toString())
+        if( !checkUrlValidation() ) {
+            _snackbarText.value = Event(R.string.url_validation_check)
+            return
+        }
+
+        newCategory = Category(currentCategory)
         itemsRepository.saveCategory(newCategory)
 
-        if (isNewItem || bookmarkId == null) {
-            newBookmark = Bookmark(
-                title.value.toString(),
-                url.value.toString()
-            )
+        val newBookmark: Bookmark? = if (isNewItem || bookmarkId == null) {
+            Bookmark(
+                currentTitle,
+                currentUrl
+            ).apply { favicon = getFavicon.toString() }
         } else {
-
-            newBookmark = Bookmark(
-                title.value.toString(),
-                url.value.toString(),
+            Bookmark(
+                currentTitle,
+                currentUrl,
                 bookmarkId.toString()
-            )
+            ).apply { favicon = getFavicon.toString() }
         }
-        itemsRepository.saveBookmark(category.value.toString(),newBookmark)
+        if (newBookmark != null) {
+            itemsRepository.saveBookmark(currentCategory,newBookmark)
+        }
         _itemUpdated.value = Event(Unit)
     }
 
+    private fun checkUrlValidation() : Boolean{
+        val checkUrl = urlAddress.value
+        val regex = "^((http|https)://){1}([a-zA-Z0-9]+[.]{1})?([a-zA-Z0-9]+){1}[.]{1}[a-z]+([/]{1}[a-zA-Z0-9]*)*"
+        val match = Objects.requireNonNull(checkUrl)!!.matches(regex.toRegex())
+        val urlPattern = Pattern.compile("^(https?):\\/\\/([^:\\/\\s]+)((\\/[^\\s\\/]+)*)")
+
+        return if (match) {
+            val matcher = urlPattern.matcher(checkUrl)
+            if (matcher.matches()) {
+                getFavicon = matcher.group(1) + "://" + matcher.group(2) + "/favicon.ico"
+                true
+            } else {
+                false
+            }
+        } else {
+            false
+        }
+    }
 }

@@ -8,6 +8,7 @@ import com.example.bookmarkse_kotlin.util.setupActionBar
 import com.example.bookmarkse_kotlin.util.obtainViewModel
 import com.example.bookmarkse_kotlin.util.replaceFragmentInActivity
 import androidx.lifecycle.Observer
+import com.example.bookmarkse_kotlin.util.ADD_EDIT_RESULT_OK
 
 class AddEditBookmarkActivity : AppCompatActivity(), AddEditBookmarkNavigator {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,8 +59,9 @@ class AddEditBookmarkActivity : AppCompatActivity(), AddEditBookmarkNavigator {
     }
 
     override fun onItemSaved() {
-
-        TODO("Not yet implemented")
+        setResult(ADD_EDIT_RESULT_OK)
+        finish()
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout)
     }
 
     companion object {
