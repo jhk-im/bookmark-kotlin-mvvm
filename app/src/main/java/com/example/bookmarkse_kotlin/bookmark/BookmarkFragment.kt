@@ -47,7 +47,7 @@ class BookmarkFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewDataBinding.setLifecycleOwner(this.viewLifecycleOwner)
+        viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
         setUpFilteringPopUpMenu()
         setUpListAdapter()
         setupFab()

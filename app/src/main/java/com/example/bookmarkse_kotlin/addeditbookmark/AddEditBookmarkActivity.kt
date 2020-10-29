@@ -13,4 +13,10 @@ class AddEditBookmarkActivity : AppCompatActivity() {
     companion object {
         const val REQUEST_CODE = 1
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout)
+    }
 }

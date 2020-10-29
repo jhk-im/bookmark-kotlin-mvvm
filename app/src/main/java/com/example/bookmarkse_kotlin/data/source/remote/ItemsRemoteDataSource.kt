@@ -15,12 +15,12 @@ object ItemsRemoteDataSource : ItemsDataSource {
     private var BOOKMARKS_SERVICE_DATA = LinkedHashMap<String, Bookmark>(2)
     private var CATEGORIES_SERVICE_DATA = LinkedHashMap<String, Category>(2)
 
-    init {
-        addItems("Google", "Portal", "https://www.google.com")
-        addItems("Naver", "Portal", "https://www.naver.com")
-        addItems("Daum", "Portal", "https://www.daum.net")
-        addItems("COUPANG", "Shop", "https://www.coupang.com")
-    }
+//    init {
+//        addItems("Google", "Portal", "https://www.google.com")
+//        addItems("Naver", "Portal", "https://www.naver.com")
+//        addItems("Daum", "Portal", "https://www.daum.net")
+//        addItems("COUPANG", "Shop", "https://www.coupang.com")
+//    }
 
     private fun addItems(title: String, category: String, url: String) {
         val selected = Date()

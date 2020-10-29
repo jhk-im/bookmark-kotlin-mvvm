@@ -2,7 +2,6 @@ package com.example.bookmarkse_kotlin.bookmark
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -92,6 +91,7 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator {
     override fun addNewItem() {
         val intent = Intent(this, AddEditBookmarkActivity::class.java)
         startActivityForResult(intent, AddEditBookmarkActivity.REQUEST_CODE)
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout)
     }
 
 }

@@ -44,5 +44,7 @@
     <string name="label_category">Bookmarks by category</string>
     <string name="nav_recent">Recent</string>
     <string name="nav_category">Category</string>
+    <string name="bookmark_et">Bookmark Title</string>
+    <string name="https_hint">https://</string>
 
 </resources>

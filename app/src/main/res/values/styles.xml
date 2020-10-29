@@ -32,8 +32,6 @@
     <!-- toolbar -->
     <style name="Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-
-
     <!-- Dark Theme Popup -->
     <style name="DarkAppPopup" parent="Base.PopupTheme">
         <item name="colorPrimary">#26518a</item>
@@ -47,6 +45,7 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
     </style>
+
     <!-- Dark Theme Main , Item touch-->
     <style name="DarkAppTheme" parent="Base.AppTheme">
         <item name="colorPrimary">#26518a</item>

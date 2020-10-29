@@ -14,7 +14,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".addeditbookmark.AddEditBookmarkActivity"></activity>
+        <activity
+            android:name=".addeditbookmark.AddEditBookmarkActivity" />
         <activity
             android:name=".bookmark.BookmarkActivity"
             android:theme="@style/Base.AppTheme">
@@ -24,7 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".notice.NoticeActivity" />
+        <activity
+            android:name=".notice.NoticeActivity"
+            android:theme="@style/Base.AppTheme" />
     </application>
 
 </manifest>

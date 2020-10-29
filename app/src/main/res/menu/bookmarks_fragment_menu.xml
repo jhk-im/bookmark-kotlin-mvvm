@@ -20,16 +20,8 @@
 
     <item
         android:id="@+id/menu_filter"
-        android:icon="@drawable/ic_menu"
+        android:icon="@drawable/ic_baseline_filter"
         app:showAsAction="ifRoom"
         android:title="@string/bookmark_title" />
-    <item
-        android:id="@+id/menu_recent"
-        android:title="@string/nav_recent"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_category"
-        android:title="@string/nav_category"
-        app:showAsAction="never" />
 
 </menu>

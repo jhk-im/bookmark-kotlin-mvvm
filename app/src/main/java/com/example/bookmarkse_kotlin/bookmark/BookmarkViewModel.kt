@@ -73,7 +73,7 @@ class BookmarkViewModel(
     init {
         setFiltering(BookmarkFilterType.RECENT_BOOKMARKS)
         // itemsRepository.deleteAllItems()
-        // testLocalDatabase()
+        testLocalDatabase()
     }
 
     fun start() {
