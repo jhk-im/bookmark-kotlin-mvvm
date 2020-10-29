@@ -46,5 +46,8 @@
     <string name="nav_category">Category</string>
     <string name="bookmark_et">Bookmark Title</string>
     <string name="https_hint">https://</string>
+    <string name="edit_bookmark">Edit Bookmark</string>
+    <string name="empty_input_message">Input values Cannot be empty</string>
+
 
 </resources>

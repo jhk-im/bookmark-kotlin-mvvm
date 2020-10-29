@@ -1,71 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".addeditbookmark.AddEditBookmarkActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <EditText
-        android:id="@+id/bookmark_et"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.bookmarkse_kotlin.addeditbookmark.AddEditBookmarkViewModel" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="15dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:ems="10"
-        android:background="@drawable/custom_input"
-        android:hint="@string/bookmark_et"
-        android:inputType="text"
-        android:textSize="14sp"
-        android:drawablePadding="12dp"
-        android:drawableLeft="@drawable/custom_bookmark_icon"
-        android:drawableStart="@drawable/custom_bookmark_icon" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".addeditbookmark.AddEditBookmarkActivity">
 
-    <EditText
-        android:id="@+id/url_et"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/custom_input"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:ems="10"
-        android:hint="@string/https_hint"
-        android:inputType="textPostalAddress"
-        android:textSize="14sp"
-        android:drawablePadding="12dp"
-        android:drawableLeft="@drawable/custom_url_icon"
-        android:drawableStart="@drawable/custom_url_icon" />
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/category_et"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/custom_input"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:ems="10"
-        android:hint="@string/nav_category"
-        android:inputType="text"
-        android:textSize="14sp"
-        android:drawablePadding="12dp"
-        android:drawableLeft="@drawable/custom_category_icon"
-        android:drawableStart="@drawable/custom_category_icon" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/Toolbar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/category_cg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="15dp">
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </com.google.android.material.chip.ChipGroup>
+            <FrameLayout
+                android:id="@+id/content_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-</LinearLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_edit_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@drawable/ic_done"
+                app:fabSize="normal"
+                app:layout_anchor="@id/content_frame"
+                app:layout_anchorGravity="bottom|right|end" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </LinearLayout>
+</layout>

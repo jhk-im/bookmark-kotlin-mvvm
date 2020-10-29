@@ -1,7 +1,6 @@
 package com.example.bookmarkse_kotlin.util
 
-import android.app.Application
-import android.content.Context
+import android.app.Activity
 import androidx.annotation.IdRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.example.bookmarkse_kotlin.ViewModelFactory
 
+const val ADD_EDIT_RESULT_OK = Activity.RESULT_FIRST_USER + 1
 
 fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.() -> Unit) {
     setSupportActionBar(findViewById(toolbarId))

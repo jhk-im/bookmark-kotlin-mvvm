@@ -7,7 +7,7 @@ import java.util.*
 @Dao
 interface BookmarkDao {
 
-    @Query("SELECT * FROM bookmarks ORDER BY selectedAt ASC")
+    @Query("SELECT * FROM bookmarks ORDER BY selectedAt DESC")
     fun getBookmarks(): List<Bookmark>
 
     @Query("SELECT * FROM bookmarks WHERE id = :bookmarkId")

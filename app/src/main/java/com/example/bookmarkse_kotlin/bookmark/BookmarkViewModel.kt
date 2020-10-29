@@ -12,7 +12,6 @@ import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
 import com.example.bookmarkse_kotlin.data.source.ItemsDataSource
 import com.example.bookmarkse_kotlin.data.source.ItemsRepository
-import kotlin.collections.ArrayList
 
 class BookmarkViewModel(
     private val itemsRepository: ItemsRepository
@@ -72,7 +71,7 @@ class BookmarkViewModel(
 
     init {
         setFiltering(BookmarkFilterType.RECENT_BOOKMARKS)
-        // itemsRepository.deleteAllItems()
+        itemsRepository.deleteAllItems()
         testLocalDatabase()
     }
 
@@ -137,7 +136,7 @@ class BookmarkViewModel(
 
     private fun loadItems(forceUpdate: Boolean, showLoadingUI: Boolean) {
         if (showLoadingUI) {
-            _dataLoading.setValue(true)
+            _dataLoading.value = true
         }
 
         if (forceUpdate) {
@@ -165,7 +164,7 @@ class BookmarkViewModel(
                         }
                         BookmarkFilterType.CATEGORY_BOOKMARKS -> {
                             if(bookmark.categoryId == _currentCategory.value )
-                            bookmarksToShow.add(bookmark)
+                                bookmarksToShow.add(bookmark)
                         }
                     }
                 }
@@ -205,5 +204,16 @@ class BookmarkViewModel(
         val newCategory3 = Category("Three")
         itemsRepository.saveCategory(newCategory3)
         itemsRepository.saveBookmark(newCategory3.title, newBookmark3)
+
+        val newBookmark4 = Bookmark("Nate", "https://www.nate.com")
+        val newCategory4 = Category("One")
+        itemsRepository.saveCategory(newCategory4)
+        itemsRepository.saveBookmark(newCategory4.title, newBookmark4)
+
+        val newBookmark5 = Bookmark("Google", "https://www.google.com",newBookmark.id)
+        val newCategory5 = Category("One")
+        itemsRepository.saveCategory(newCategory5)
+        itemsRepository.saveBookmark(newCategory5.title, newBookmark5)
+
     }
 }

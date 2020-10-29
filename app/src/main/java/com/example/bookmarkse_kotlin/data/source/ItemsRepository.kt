@@ -1,6 +1,6 @@
 package com.example.bookmarkse_kotlin.data.source
 
-import android.util.Log
+import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
 
@@ -42,12 +42,11 @@ class ItemsRepository(
             override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
                 refreshCache(bookmarks, categories)
                 refreshLocalDataSource(bookmarks, categories)
-
-                callback.onItemsLoaded(bookmarks, categories)
+                callback.onItemsLoaded(ArrayList(cachedBookmarks.values),ArrayList(cachedCategories.values))
             }
 
             override fun onDataNotAvailable() {
-                callback.onDataNotAvailable()
+                TODO("Not yet implemented")
             }
 
         })
@@ -89,20 +88,17 @@ class ItemsRepository(
             getItemsFromRemoteDataSource(callback)
         } else {
 
-            itemsLocalDataSource.getItems(object :
-                ItemsDataSource.LoadItemsCallback {
-
+            itemsLocalDataSource.getItems(object: ItemsDataSource.LoadItemsCallback {
                 override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
                     refreshCache(bookmarks, categories)
-                    callback.onItemsLoaded(
-                        ArrayList(cachedBookmarks.values),
-                        ArrayList(cachedCategories.values)
-                    )
+                    EspressoIdlingResource.decrement()
+                    callback.onItemsLoaded(bookmarks,categories)
                 }
 
                 override fun onDataNotAvailable() {
                     getItemsFromRemoteDataSource(callback)
                 }
+
             })
         }
     }

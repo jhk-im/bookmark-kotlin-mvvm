@@ -1,9 +1,7 @@
 package com.example.bookmarkse_kotlin.data.source
 
-import androidx.annotation.Nullable
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
-import java.time.LocalDate
 
 interface ItemsDataSource {
 
@@ -16,8 +14,7 @@ interface ItemsDataSource {
         fun onBookmarkLoaded(book: Bookmark)
         fun onDataNotAvailable()
     }
-
-
+    
     fun getItems(callback: LoadItemsCallback)
 
     fun getBookmark(bookmarkId: String, callback: GetBookmarkCallback)

@@ -2,7 +2,6 @@ package com.example.bookmarkse_kotlin.data.source.remote
 
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
 import com.example.bookmarkse_kotlin.data.source.ItemsDataSource
