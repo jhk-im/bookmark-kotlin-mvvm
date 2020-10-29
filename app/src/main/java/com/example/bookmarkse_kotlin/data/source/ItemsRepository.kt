@@ -1,6 +1,6 @@
 package com.example.bookmarkse_kotlin.data.source
 
-import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource
+import android.util.Log
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
 
@@ -76,13 +76,13 @@ class ItemsRepository(
     }
 
     override fun getItems(callback: ItemsDataSource.LoadItemsCallback) {
-        if (cachedBookmarks.isNotEmpty() && !cacheIsDirty) {
-            callback.onItemsLoaded(
-                ArrayList(cachedBookmarks.values),
-                ArrayList(cachedCategories.values)
-            )
-            return
-        }
+//        if (cachedBookmarks.isNotEmpty() && !cacheIsDirty) {
+//            callback.onItemsLoaded(
+//                ArrayList(cachedBookmarks.values),
+//                ArrayList(cachedCategories.values)
+//            )
+//            return
+//        }
 
         if (cacheIsDirty) {
             getItemsFromRemoteDataSource(callback)
@@ -91,7 +91,6 @@ class ItemsRepository(
             itemsLocalDataSource.getItems(object: ItemsDataSource.LoadItemsCallback {
                 override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
                     refreshCache(bookmarks, categories)
-                    //EspressoIdlingResource.decrement()
                     callback.onItemsLoaded(bookmarks,categories)
                 }
 

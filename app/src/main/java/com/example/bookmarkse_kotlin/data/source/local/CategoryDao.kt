@@ -6,7 +6,7 @@ import com.example.bookmarkse_kotlin.data.Category
 @Dao
 interface CategoryDao {
 
-    @Query("SELECT * FROM categories ORDER BY selectedAt ASC")
+    @Query("SELECT * FROM categories ORDER BY selectedAt DESC")
     fun getCategories(): List<Category>
 
     @Query("SELECT * FROM categories WHERE title = :title")

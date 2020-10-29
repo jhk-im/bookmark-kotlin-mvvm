@@ -1,5 +1,6 @@
 package com.example.bookmarkse_kotlin.bookmark
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
@@ -8,10 +9,12 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.example.bookmarkse_kotlin.Event
 import com.example.bookmarkse_kotlin.R
+import com.example.bookmarkse_kotlin.addeditbookmark.AddEditBookmarkActivity
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
 import com.example.bookmarkse_kotlin.data.source.ItemsDataSource
 import com.example.bookmarkse_kotlin.data.source.ItemsRepository
+import com.example.bookmarkse_kotlin.util.ADD_EDIT_RESULT_OK
 
 class BookmarkViewModel(
     private val itemsRepository: ItemsRepository
@@ -49,10 +52,10 @@ class BookmarkViewModel(
     val bookmarksAddViewVisible: LiveData<Boolean>
         get() = _bookmarksAddViewVisible
 
-//    private val _snackbarText = MutableLiveData<Event<Int>>()
-//    val snackbarMessage: LiveData<Event<Int>>
-//        get() = _snackbarText
-//
+    private val _snackbarText = MutableLiveData<Event<Int>>()
+    val snackbarMessage: LiveData<Event<Int>>
+        get() = _snackbarText
+
 //    private val _openBookmarkEvent = MutableLiveData<Event<String>>()
 //    val openBookmarkEvent: LiveData<Event<String>>
 //        get() = _openBookmarkEvent
@@ -115,7 +118,14 @@ class BookmarkViewModel(
     }
 
     fun handleActivityResult(requestCode: Int, resultCode: Int) {
-        // AddEditBookmarkActivity ..
+        if (requestCode == AddEditBookmarkActivity.REQUEST_CODE) {
+            when(resultCode) {
+                ADD_EDIT_RESULT_OK -> {
+                    _snackbarText.value = Event(R.string.successfully_saved_message)
+                    start()
+                }
+            }
+        }
     }
 
     private fun showSnackbarMessage(message: Int) {

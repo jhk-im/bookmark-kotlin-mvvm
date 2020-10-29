@@ -49,5 +49,5 @@
     <string name="edit_bookmark">Edit Bookmark</string>
     <string name="empty_input_message">Input values Cannot be empty</string>
     <string name="url_validation_check">Check the URL format</string>
-
+    <string name="successfully_saved_message">Item saved</string>
 </resources>

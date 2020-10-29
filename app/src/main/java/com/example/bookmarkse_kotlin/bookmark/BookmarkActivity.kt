@@ -2,6 +2,7 @@ package com.example.bookmarkse_kotlin.bookmark
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -77,6 +78,11 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator {
             mDrawerLayout.closeDrawers()
             true
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        mViewModel.handleActivityResult(requestCode, resultCode)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =

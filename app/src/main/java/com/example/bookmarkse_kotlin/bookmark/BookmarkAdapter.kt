@@ -1,24 +1,15 @@
 package com.example.bookmarkse_kotlin.bookmark
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.LinearLayout
-import androidx.core.graphics.convertTo
-import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.databinding.BookmarkItemBinding
-import java.lang.IllegalStateException
-import java.util.zip.Inflater
 
 class BookmarkAdapter(
-    private var mBookmarks: List<Bookmark>,
+    private var bookmarks: List<Bookmark>,
     private var viewModel: BookmarkViewModel
 ) : RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder>() {
 
@@ -29,13 +20,13 @@ class BookmarkAdapter(
     }
 
     override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
-        holder.bindViewHolder(mBookmarks[position])
+        holder.bindViewHolder(bookmarks[position])
     }
 
-    override fun getItemCount(): Int = mBookmarks.size
+    override fun getItemCount(): Int = bookmarks.size
 
     private fun setBookmarks(bookmarks: List<Bookmark>) {
-        mBookmarks = bookmarks
+        this.bookmarks = bookmarks
         notifyDataSetChanged()
     }
 
