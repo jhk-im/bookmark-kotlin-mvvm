@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelStoreOwner
 import com.example.bookmarkse_kotlin.ViewModelFactory
 
 const val ADD_EDIT_RESULT_OK = Activity.RESULT_FIRST_USER + 1
+const val DETAIL_RESULT_OK = Activity.RESULT_FIRST_USER + 2
+
 
 fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.() -> Unit) {
     setSupportActionBar(findViewById(toolbarId))
