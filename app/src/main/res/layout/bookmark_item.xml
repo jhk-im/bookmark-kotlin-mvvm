@@ -52,9 +52,11 @@
             android:text="@{bookmark.title}"
             android:textColor="#ffffff"
             android:maxLines="1"
+            android:transitionName="@string/transition_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_url_image"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:targetApi="lollipop" />
 
         <TextView
             android:id="@+id/tv_bookmark_url"
@@ -64,13 +66,15 @@
             android:layout_marginBottom="10dp"
             android:textSize="10sp"
             android:text="@{bookmark.url}"
+            android:transitionName="@string/transition_url"
             android:textColor="#ffffff"
             android:maxLines="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/tv_bookmark_title"
             app:layout_constraintStart_toStartOf="@+id/tv_bookmark_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_bookmark_title"
-            tools:ignore="SmallSp" />
+            tools:ignore="SmallSp"
+            tools:targetApi="lollipop" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

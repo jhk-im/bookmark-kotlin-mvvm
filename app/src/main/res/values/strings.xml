@@ -51,4 +51,6 @@
     <string name="url_validation_check">Check the URL format</string>
     <string name="successfully_saved_message">Item saved</string>
     <string name="transition_img">transition_img</string>
+    <string name="transition_title">transition_title</string>
+    <string name="transition_url">transition_url</string>
 </resources>

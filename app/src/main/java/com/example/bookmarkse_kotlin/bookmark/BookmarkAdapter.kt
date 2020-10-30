@@ -47,7 +47,12 @@ class BookmarkAdapter(
             }
 
             viewBinding.clBookmark.setOnClickListener {
-                viewModel.openBookmark(bookmark.id, viewBinding.ivUrlImage)
+                viewModel.openBookmark(
+                    bookmark.id,
+                    viewBinding.ivUrlImage,
+                    viewBinding.tvBookmarkTitle,
+                    viewBinding.tvBookmarkUrl
+                )
             }
         }
     }

@@ -14,12 +14,12 @@
             type="com.example.bookmarkse_kotlin.bookmark.BookmarkViewModel"/>
     </data>
 
-    <com.example.bookmarkse_kotlin.ScrollChildSwipeRefreshLayout
-        android:id="@+id/refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:onRefresh="@{viewModel}"
-        app:refreshing="@{viewModel.dataLoading}">
+<!--    <com.example.bookmarkse_kotlin.ScrollChildSwipeRefreshLayout-->
+<!--        android:id="@+id/refresh_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:onRefresh="@{viewModel}"-->
+<!--        app:refreshing="@{viewModel.dataLoading}">-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bookmark_container"
@@ -108,5 +108,5 @@
                     android:visibility="@{viewModel.bookmarksAddViewVisible ? View.VISIBLE : View.GONE}" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.example.bookmarkse_kotlin.ScrollChildSwipeRefreshLayout>
+<!--    </com.example.bookmarkse_kotlin.ScrollChildSwipeRefreshLayout>-->
 </layout>
