@@ -30,6 +30,7 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNav
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout)
         setContentView(R.layout.bookmark_act)
 
         setupActionBar(R.id.toolbar) {
@@ -128,7 +129,5 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNav
             AddEditBookmarkActivity.REQUEST_CODE,
             options.toBundle()
         )
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
-
 }
