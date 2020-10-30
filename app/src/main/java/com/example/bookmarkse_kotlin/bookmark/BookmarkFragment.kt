@@ -80,7 +80,7 @@ class BookmarkFragment : Fragment() {
         if (viewModel != null) {
             bookmarkAdapter = BookmarkAdapter(ArrayList(0), viewModel)
             viewDataBinding.bookmarksList.adapter = bookmarkAdapter
-            categoryAdapter = CategoryAdapter(ArrayList(0))
+            categoryAdapter = CategoryAdapter(ArrayList(0), viewModel)
             viewDataBinding.categoryList.adapter = categoryAdapter
         } else {
             Log.w(TAG, "ViewModel not initialized when attempting to set up adapter.")

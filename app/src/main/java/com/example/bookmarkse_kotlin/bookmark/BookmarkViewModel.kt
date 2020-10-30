@@ -74,8 +74,8 @@ class BookmarkViewModel(
 
     init {
         setFiltering(BookmarkFilterType.RECENT_BOOKMARKS)
-        // itemsRepository.deleteAllItems()
-        // testLocalDatabase()
+         //itemsRepository.deleteAllItems()
+         //testLocalDatabase()
     }
 
     fun start() {
@@ -117,9 +117,13 @@ class BookmarkViewModel(
         //_openBookmarkEvent.value = Event(bookmarkId)
     }
 
+    internal fun clickedCategory(categoryId: String){
+
+    }
+
     fun handleActivityResult(requestCode: Int, resultCode: Int) {
         if (requestCode == AddEditBookmarkActivity.REQUEST_CODE) {
-            when(resultCode) {
+            when (resultCode) {
                 ADD_EDIT_RESULT_OK -> {
                     _snackbarText.value = Event(R.string.successfully_saved_message)
                     start()
@@ -161,7 +165,7 @@ class BookmarkViewModel(
                 //val sd = SimpleDateFormat("HH:mm:ss.SSS")
 
                 for (category in categories) {
-                    if(categories.indexOf(category) == 0) {
+                    if (categories.indexOf(category) == 0) {
                         _currentCategory.value = category.id
                     }
                     categoriesToShow.add(category)
@@ -174,7 +178,7 @@ class BookmarkViewModel(
                             categoriesToShow.clear()
                         }
                         BookmarkFilterType.CATEGORY_BOOKMARKS -> {
-                            if(bookmark.categoryId == currentCategory.value )
+                            if (bookmark.categoryId == currentCategory.value)
                                 bookmarksToShow.add(bookmark)
                         }
                     }
@@ -201,30 +205,34 @@ class BookmarkViewModel(
 
     private fun testLocalDatabase() {
 
-        val newBookmark = Bookmark("Google", "https://www.google.com")
+        val newBookmark = Bookmark("Google", "https://www.google.com").apply {
+            favicon = "https://www.google.com/favicon.ico"
+        }
         val newCategory = Category("One")
         itemsRepository.saveCategory(newCategory)
         itemsRepository.saveBookmark(newCategory.title, newBookmark)
 
-        val newBookmark2 = Bookmark("Naver", "https://www.naver.com")
+        val newBookmark2 = Bookmark("Naver", "https://www.naver.com").apply {
+            favicon = "https://www.naver.com/favicon.ico"
+        }
         val newCategory2 = Category("Two")
         itemsRepository.saveCategory(newCategory2)
         itemsRepository.saveBookmark(newCategory2.title, newBookmark2)
 
-        val newBookmark3 = Bookmark("Daum", "https://www.daum.com")
+        val newBookmark3 = Bookmark("Daum", "https://www.daum.net").apply {
+            favicon = "https://www.daum.net/favicon.ico"
+        }
         val newCategory3 = Category("Three")
         itemsRepository.saveCategory(newCategory3)
         itemsRepository.saveBookmark(newCategory3.title, newBookmark3)
 
-        val newBookmark4 = Bookmark("Nate", "https://www.nate.com")
+        val newBookmark4 = Bookmark("Nate", "https://www.nate.com").apply {
+            favicon = "https://www.nate.com/favicon.ico"
+        }
         val newCategory4 = Category("One")
         itemsRepository.saveCategory(newCategory4)
         itemsRepository.saveBookmark(newCategory4.title, newBookmark4)
 
-        val newBookmark5 = Bookmark("Google", "https://www.google.com",newBookmark.id)
-        val newCategory5 = Category("One")
-        itemsRepository.saveCategory(newCategory5)
-        itemsRepository.saveBookmark(newCategory5.title, newBookmark5)
 
     }
 }

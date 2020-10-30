@@ -20,7 +20,7 @@ class BookmarkAdapter(
     }
 
     override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
-        holder.bindViewHolder(bookmarks[position])
+        holder.bindViewHolder(bookmarks[position], position)
     }
 
     override fun getItemCount(): Int = bookmarks.size
@@ -35,7 +35,7 @@ class BookmarkAdapter(
     class BookmarkViewHolder(private val viewBinding: BookmarkItemBinding) :
         RecyclerView.ViewHolder(viewBinding.root) {
 
-        fun bindViewHolder(bookmark: Bookmark) {
+        fun bindViewHolder(bookmark: Bookmark, position: Int) {
             with(viewBinding){
                 this.bookmark = bookmark
                 Glide.with(viewBinding.root)
