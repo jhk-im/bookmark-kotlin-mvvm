@@ -16,7 +16,7 @@ class BookmarkAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkAdapter.BookmarkViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = BookmarkItemBinding.inflate(inflater,parent,false)
-        return BookmarkViewHolder(view)
+        return BookmarkViewHolder(view, viewModel)
     }
 
     override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
@@ -32,7 +32,7 @@ class BookmarkAdapter(
 
     fun replaceBookmarks(bookmarks: List<Bookmark>) = setBookmarks(bookmarks)
 
-    class BookmarkViewHolder(private val viewBinding: BookmarkItemBinding) :
+    class BookmarkViewHolder(private val viewBinding: BookmarkItemBinding, private val viewModel: BookmarkViewModel) :
         RecyclerView.ViewHolder(viewBinding.root) {
 
         fun bindViewHolder(bookmark: Bookmark, position: Int) {
@@ -46,9 +46,9 @@ class BookmarkAdapter(
                 executePendingBindings()
             }
 
-//            viewBinding.clBookmark.setOnClickListener {
-//                viewBinding.listener?.onBookmarkClicked(bookmark)
-//            }
+            viewBinding.clBookmark.setOnClickListener {
+                viewModel.openBookmark(bookmark.id, viewBinding.ivUrlImage)
+            }
         }
     }
 }

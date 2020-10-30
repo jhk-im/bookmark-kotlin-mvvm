@@ -14,8 +14,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity
-            android:name=".addeditbookmark.AddEditBookmarkActivity" />
+        <activity android:name=".bookmarkdetail.BookmarkDetailActivity"></activity>
+        <activity android:name=".addeditbookmark.AddEditBookmarkActivity" />
         <activity
             android:name=".bookmark.BookmarkActivity"
             android:theme="@style/Base.AppTheme">
