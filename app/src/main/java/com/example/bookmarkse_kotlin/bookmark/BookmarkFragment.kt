@@ -13,7 +13,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class BookmarkFragment : Fragment() {
 
     private lateinit var viewDataBinding: BookmarkFragBinding
-    private lateinit var listAdapter: BookmarkAdapter
+    private lateinit var bookmarkAdapter: BookmarkAdapter
+    private lateinit var categoryAdapter: CategoryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,8 +78,10 @@ class BookmarkFragment : Fragment() {
     private fun setUpListAdapter() {
         val viewModel = viewDataBinding.viewModel
         if (viewModel != null) {
-            listAdapter = BookmarkAdapter(ArrayList(0), viewModel)
-            viewDataBinding.bookmarksList.adapter = listAdapter
+            bookmarkAdapter = BookmarkAdapter(ArrayList(0), viewModel)
+            viewDataBinding.bookmarksList.adapter = bookmarkAdapter
+            categoryAdapter = CategoryAdapter(ArrayList(0))
+            viewDataBinding.categoryList.adapter = categoryAdapter
         } else {
             Log.w(TAG, "ViewModel not initialized when attempting to set up adapter.")
         }

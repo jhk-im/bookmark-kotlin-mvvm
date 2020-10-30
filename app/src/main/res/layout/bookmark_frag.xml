@@ -52,11 +52,22 @@
                     android:text="@{context.getString(viewModel.currentFilteringLabel)}" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/bookmarks_list"
-                    app:bookmarks="@{viewModel.bookmarks}"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:id="@+id/category_list"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    app:categories="@{viewModel.categories}"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="5" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/bookmarks_list"
+                    android:padding="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:bookmarks="@{viewModel.bookmarks}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
             </LinearLayout>
 
             <LinearLayout

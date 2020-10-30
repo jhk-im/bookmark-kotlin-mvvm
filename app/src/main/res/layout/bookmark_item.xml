@@ -13,7 +13,7 @@
 
         <variable
             name="listener"
-            type="com.example.bookmarkse_kotlin.bookmark.BookmarkUserActionsListener" />
+            type="com.example.bookmarkse_kotlin.bookmark.ItemUserActionsListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

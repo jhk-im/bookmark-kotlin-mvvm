@@ -171,6 +171,7 @@ class BookmarkViewModel(
                     when (currentFiltering) {
                         BookmarkFilterType.RECENT_BOOKMARKS -> {
                             bookmarksToShow.add(bookmark)
+                            categoriesToShow.clear()
                         }
                         BookmarkFilterType.CATEGORY_BOOKMARKS -> {
                             if(bookmark.categoryId == currentCategory.value )
