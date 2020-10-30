@@ -17,6 +17,7 @@ import com.example.bookmarkse_kotlin.data.Category
 import com.example.bookmarkse_kotlin.data.source.ItemsDataSource
 import com.example.bookmarkse_kotlin.data.source.ItemsRepository
 import com.example.bookmarkse_kotlin.util.ADD_EDIT_RESULT_OK
+import com.example.bookmarkse_kotlin.util.DETAIL_RESULT_OK
 
 class BookmarkViewModel(
     private val itemsRepository: ItemsRepository
@@ -97,7 +98,7 @@ class BookmarkViewModel(
     }
 
     fun start() {
-        _isCategoriesSetup.value = true
+        // _isCategoriesSetup.value = true
         loadItems(false)
     }
 
@@ -152,6 +153,9 @@ class BookmarkViewModel(
                     _snackbarText.value = Event(R.string.successfully_saved_message)
                     start()
                 }
+//                DETAIL_RESULT_OK -> {
+//                    _isCategoriesSetup.value = false
+//                }
             }
         }
     }
@@ -189,8 +193,8 @@ class BookmarkViewModel(
                 //val sd = SimpleDateFormat("HH:mm:ss.SSS")
 
                 for (category in categories) {
-                    if (_currentCategory.value == null && categories.indexOf(category) == 0)
-                        _currentCategory.value = category.id
+//                    if (_currentCategory.value == null && categories.indexOf(category) == 0)
+//                        _currentCategory.value = category.id
 
                     categoriesToShow.add(category)
                 }
