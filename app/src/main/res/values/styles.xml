@@ -48,6 +48,14 @@
         <!-- 타이틀 바 제거 -->
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+
+        <!-- Set the transitions which are used for the entrance and exit of shared elements -->
+        <item name="android:windowActivityTransitions" tools:ignore="NewApi">true</item>
+        <!-- specify shared element transitions -->
+        <item name="android:windowSharedElementEnterTransition" tools:ignore="NewApi">
+            @transition/change_image_transform</item>
+        <item name="android:windowSharedElementExitTransition" tools:ignore="NewApi">
+            @transition/change_image_transform</item>
     </style>
 
 

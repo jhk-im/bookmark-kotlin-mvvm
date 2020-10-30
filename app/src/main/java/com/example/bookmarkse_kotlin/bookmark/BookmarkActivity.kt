@@ -19,6 +19,7 @@ import com.example.bookmarkse_kotlin.util.obtainViewModel
 import com.example.bookmarkse_kotlin.util.replaceFragmentInActivity
 import com.example.bookmarkse_kotlin.util.setupActionBar
 import com.google.android.material.navigation.NavigationView
+import android.util.Pair as UtilPair
 
 class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNavigator {
 
@@ -118,14 +119,16 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNav
         val options = ActivityOptions
             .makeSceneTransitionAnimation(
                 this,
-                viewModel.bookmarkImage.value,
-                "transition_img")
+                UtilPair(viewModel.bookmarkImage.value, "transition_img"),
+                UtilPair(viewModel.bookmarkTitle.value, "transition_title"),
+                UtilPair(viewModel.bookmarkUrl.value, "transition_url"))
         //startActivity(intent, options.toBundle())
         startActivityForResult(
             intent,
             AddEditBookmarkActivity.REQUEST_CODE,
             options.toBundle()
         )
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
 }

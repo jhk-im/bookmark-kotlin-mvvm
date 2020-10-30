@@ -29,12 +29,12 @@
             type="com.example.bookmarkse_kotlin.addeditbookmark.AddEditBookmarkViewModel" />
     </data>
 
-    <com.example.bookmarkse_kotlin.ScrollChildSwipeRefreshLayout
-        android:id="@+id/refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:enabled="@{viewModel.dataLoading}"
-        app:refreshing="@{viewModel.dataLoading}">
+<!--    <com.example.bookmarkse_kotlin.ScrollChildSwipeRefreshLayout-->
+<!--        android:id="@+id/refresh_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:enabled="@{viewModel.dataLoading}"-->
+<!--        app:refreshing="@{viewModel.dataLoading}">-->
 
         <ScrollView
             android:layout_width="match_parent"
@@ -113,5 +113,5 @@
                 </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
         </ScrollView>
-    </com.example.bookmarkse_kotlin.ScrollChildSwipeRefreshLayout>
+<!--    </com.example.bookmarkse_kotlin.ScrollChildSwipeRefreshLayout>-->
 </layout>

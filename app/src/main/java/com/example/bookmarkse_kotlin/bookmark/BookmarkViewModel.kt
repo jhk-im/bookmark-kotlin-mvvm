@@ -2,6 +2,7 @@ package com.example.bookmarkse_kotlin.bookmark
 
 import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
@@ -65,6 +66,14 @@ class BookmarkViewModel(
     val openBookmarkEvent: LiveData<Event<String>>
         get() = _openBookmarkEvent
 
+    private val _bookmarkTitle = MutableLiveData<TextView>()
+    val bookmarkTitle: LiveData<TextView>
+        get() = _bookmarkTitle
+
+    private val _bookmarkUrl = MutableLiveData<TextView>()
+    val bookmarkUrl: LiveData<TextView>
+        get() = _bookmarkUrl
+
     private val _bookmarkImage = MutableLiveData<ImageView>()
     val bookmarkImage: LiveData<ImageView>
         get() = _bookmarkImage
@@ -123,8 +132,10 @@ class BookmarkViewModel(
         _newBookmarkEvent.value = Event(Unit)
     }
 
-    internal fun openBookmark(bookmarkId: String, view: ImageView) {
-        _bookmarkImage.value = view
+    internal fun openBookmark(bookmarkId: String, image: ImageView, title: TextView, url:TextView) {
+        _bookmarkImage.value = image
+        _bookmarkTitle.value = title
+        _bookmarkUrl.value = url
         _openBookmarkEvent.value = Event(bookmarkId)
     }
 
