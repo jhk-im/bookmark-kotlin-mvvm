@@ -52,6 +52,10 @@ class BookmarkViewModel(
     val bookmarksAddViewVisible: LiveData<Boolean>
         get() = _bookmarksAddViewVisible
 
+    private val _isCategoriesSetup = MutableLiveData<Boolean>()
+    val isCategoriesSetup: LiveData<Boolean>
+        get() = _isCategoriesSetup
+
     private val _snackbarText = MutableLiveData<Event<Int>>()
     val snackbarMessage: LiveData<Event<Int>>
         get() = _snackbarText
@@ -79,6 +83,7 @@ class BookmarkViewModel(
     }
 
     fun start() {
+        _isCategoriesSetup.value = true
         loadItems(false)
     }
 
@@ -118,7 +123,9 @@ class BookmarkViewModel(
     }
 
     internal fun clickedCategory(categoryId: String){
-
+        _currentCategory.value = categoryId
+        _isCategoriesSetup.value = false
+        loadItems(false, showLoadingUI = false)
     }
 
     fun handleActivityResult(requestCode: Int, resultCode: Int) {
@@ -165,9 +172,9 @@ class BookmarkViewModel(
                 //val sd = SimpleDateFormat("HH:mm:ss.SSS")
 
                 for (category in categories) {
-                    if (categories.indexOf(category) == 0) {
+                    if (_currentCategory.value == null && categories.indexOf(category) == 0)
                         _currentCategory.value = category.id
-                    }
+
                     categoriesToShow.add(category)
                 }
 
@@ -175,6 +182,8 @@ class BookmarkViewModel(
                     when (currentFiltering) {
                         BookmarkFilterType.RECENT_BOOKMARKS -> {
                             bookmarksToShow.add(bookmark)
+                            _currentCategory.value = null
+                            _isCategoriesSetup.value = true
                             categoriesToShow.clear()
                         }
                         BookmarkFilterType.CATEGORY_BOOKMARKS -> {

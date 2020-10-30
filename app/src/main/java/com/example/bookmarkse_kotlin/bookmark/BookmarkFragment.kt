@@ -14,7 +14,6 @@ class BookmarkFragment : Fragment() {
 
     private lateinit var viewDataBinding: BookmarkFragBinding
     private lateinit var bookmarkAdapter: BookmarkAdapter
-    private lateinit var categoryAdapter: CategoryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,8 +79,6 @@ class BookmarkFragment : Fragment() {
         if (viewModel != null) {
             bookmarkAdapter = BookmarkAdapter(ArrayList(0), viewModel)
             viewDataBinding.bookmarksList.adapter = bookmarkAdapter
-            categoryAdapter = CategoryAdapter(ArrayList(0), viewModel)
-            viewDataBinding.categoryList.adapter = categoryAdapter
         } else {
             Log.w(TAG, "ViewModel not initialized when attempting to set up adapter.")
         }

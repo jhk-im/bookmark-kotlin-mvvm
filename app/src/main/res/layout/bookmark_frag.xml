@@ -33,7 +33,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:visibility="@{viewModel.empty ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -51,15 +50,15 @@
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:text="@{context.getString(viewModel.currentFilteringLabel)}" />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <com.google.android.material.chip.ChipGroup
                     android:id="@+id/category_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
-                    app:categories="@{viewModel.categories}"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="5" />
-
+                    app:singleSelection="true"
+                    app:selectionRequired="true"
+                    app:viewModel="@{viewModel}"
+                    app:categories="@{viewModel.categories}" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/bookmarks_list"
