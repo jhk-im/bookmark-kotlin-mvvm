@@ -9,7 +9,7 @@ class BookmarkDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.bookmark_detail_activity)
+        setContentView(R.layout.bookmark_detail_act)
 
 
     }
