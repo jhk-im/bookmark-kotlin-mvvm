@@ -115,7 +115,7 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNav
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun openBookmarkDetails(bookmarkId: String) {
         val intent = Intent(this, BookmarkDetailActivity::class.java).apply {
-            putExtra(BookmarkDetailActivity.EXTRA_BOOKMARK_ID, taskId)
+            putExtra(BookmarkDetailActivity.EXTRA_BOOKMARK_ID, bookmarkId)
         }
         val options = ActivityOptions
             .makeSceneTransitionAnimation(

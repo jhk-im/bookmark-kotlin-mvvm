@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.bookmarkse_kotlin.addeditbookmark.AddEditBookmarkViewModel
 import com.example.bookmarkse_kotlin.bookmark.BookmarkViewModel
+import com.example.bookmarkse_kotlin.bookmarkdetail.BookmarkDetailViewModel
 import com.example.bookmarkse_kotlin.data.Injection
 import com.example.bookmarkse_kotlin.data.source.ItemsRepository
 import java.lang.IllegalArgumentException
@@ -22,6 +23,8 @@ class ViewModelFactory private constructor(
                    BookmarkViewModel(itemsRepository)
                isAssignableFrom(AddEditBookmarkViewModel::class.java) ->
                    AddEditBookmarkViewModel(itemsRepository)
+               isAssignableFrom(BookmarkDetailViewModel::class.java) ->
+                   BookmarkDetailViewModel(itemsRepository)
                else ->
                    throw IllegalArgumentException("Unknown ViewModel Class: ${modelClass.name}")
            }
