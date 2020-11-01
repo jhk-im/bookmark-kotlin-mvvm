@@ -5,8 +5,6 @@
 
     <data>
 
-        <import type="android.view.View" />
-
         <variable
             name="viewModel"
             type="com.example.bookmarkse_kotlin.bookmarkdetail.BookmarkDetailViewModel" />
@@ -17,6 +15,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bookmark_detail_cl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".bookmarkdetail.BookmarkDetailActivity">
@@ -37,13 +36,13 @@
 
         <TextView
             android:id="@+id/tv_bookmark_title"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:maxLines="1"
-            android:text="title"
+            android:text="@{viewModel.bookmark.title}"
             android:textSize="20sp"
             android:transitionName="@string/transition_title"
             app:layout_constraintEnd_toEndOf="@+id/iv_url_image"
@@ -53,12 +52,12 @@
 
         <TextView
             android:id="@+id/tv_bookmark_url"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:maxLines="1"
-            android:text="url"
+            android:text="@{viewModel.bookmark.url}"
             android:textSize="10sp"
             android:transitionName="@string/transition_url"
             app:layout_constraintEnd_toEndOf="@+id/tv_bookmark_title"

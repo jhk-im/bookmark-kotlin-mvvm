@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.example.bookmarkse_kotlin.ViewModelFactory
+import com.example.bookmarkse_kotlin.bookmarkdetail.BookmarkDetailViewModel
 
 const val ADD_EDIT_RESULT_OK = Activity.RESULT_FIRST_USER + 1
 const val DETAIL_RESULT_OK = Activity.RESULT_FIRST_USER + 2
@@ -36,4 +37,4 @@ private inline fun FragmentManager.transact(action: FragmentTransaction.() -> Un
 }
 
 fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>,owner: ViewModelStoreOwner) =
-    ViewModelProvider(this, ViewModelFactory.getInstance(application)).get(viewModelClass)
+    ViewModelProvider(owner, ViewModelFactory.getInstance(application)).get(viewModelClass)
