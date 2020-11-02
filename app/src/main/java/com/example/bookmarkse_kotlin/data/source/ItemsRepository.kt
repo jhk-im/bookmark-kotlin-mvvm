@@ -35,11 +35,11 @@ class ItemsRepository(
                 bookmark,
                 object : ItemsDataSource.GetCategoryCallback {
                     override fun onCategoryLoaded(categoryId: String) {
-                        TODO("Not yet implemented")
+                        val nothing = null
                     }
 
                     override fun onDataNotAvailable() {
-                        TODO("Not yet implemented")
+                        val nothing = null
                     }
                 })
         }

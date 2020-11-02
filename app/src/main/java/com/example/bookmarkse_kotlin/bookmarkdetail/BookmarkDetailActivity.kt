@@ -36,7 +36,7 @@ class BookmarkDetailActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        setResult(DETAIL_RESULT_OK)
+        finish()
     }
 
     companion object {
