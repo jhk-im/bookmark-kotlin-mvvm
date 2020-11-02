@@ -14,12 +14,17 @@ interface ItemsDataSource {
         fun onBookmarkLoaded(book: Bookmark)
         fun onDataNotAvailable()
     }
+
+    interface GetCategoryCallback {
+        fun onCategoryLoaded(categoryId: String)
+        fun onDataNotAvailable()
+    }
     
     fun getItems(callback: LoadItemsCallback)
 
     fun getBookmark(bookmarkId: String, callback: GetBookmarkCallback)
 
-    fun saveBookmark(categoryTitle: String, bookmark: Bookmark)
+    fun saveBookmark(categoryTitle: String, bookmark: Bookmark, callback: GetCategoryCallback)
 
     fun saveCategory(category: Category)
 

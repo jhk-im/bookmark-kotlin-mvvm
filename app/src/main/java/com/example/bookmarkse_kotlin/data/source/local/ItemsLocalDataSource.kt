@@ -1,5 +1,6 @@
 package com.example.bookmarkse_kotlin.data.source.local
 
+import android.util.Log
 import androidx.annotation.VisibleForTesting
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
@@ -43,12 +44,18 @@ class ItemsLocalDataSource private constructor(
         }
     }
 
-    override fun saveBookmark(categoryTitle: String, bookmark: Bookmark) {
+    override fun saveBookmark(
+        categoryTitle: String,
+        bookmark: Bookmark,
+        callback: ItemsDataSource.GetCategoryCallback
+    ) {
+
         appExecutors.diskIO.execute {
-            categoryTitle.let{
+            categoryTitle.let {
                 val getCategory = categoryDao.getCategoryByTitle(categoryTitle)
-                if (getCategory != null) {
-                    bookmark.categoryId = getCategory.id
+                bookmark.categoryId = getCategory!!.id
+                appExecutors.mainThread.execute {
+                    callback.onCategoryLoaded(getCategory.id)
                 }
                 val selected = Date()
                 bookmark.selectedAt = selected

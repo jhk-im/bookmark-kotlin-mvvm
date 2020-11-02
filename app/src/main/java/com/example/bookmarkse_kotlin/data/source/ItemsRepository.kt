@@ -30,7 +30,18 @@ class ItemsRepository(
     private fun refreshLocalDataSource(bookmarks: List<Bookmark>, categories: List<Category>) {
         itemsLocalDataSource.deleteAllItems()
         for (bookmark in bookmarks) {
-            itemsLocalDataSource.saveBookmark("", bookmark)
+            itemsLocalDataSource.saveBookmark(
+                "",
+                bookmark,
+                object : ItemsDataSource.GetCategoryCallback {
+                    override fun onCategoryLoaded(categoryId: String) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onDataNotAvailable() {
+                        TODO("Not yet implemented")
+                    }
+                })
         }
         for (category in categories) {
             itemsLocalDataSource.saveCategory(category)
@@ -42,7 +53,10 @@ class ItemsRepository(
             override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
                 refreshCache(bookmarks, categories)
                 refreshLocalDataSource(bookmarks, categories)
-                callback.onItemsLoaded(ArrayList(cachedBookmarks.values),ArrayList(cachedCategories.values))
+                callback.onItemsLoaded(
+                    ArrayList(cachedBookmarks.values),
+                    ArrayList(cachedCategories.values)
+                )
             }
 
             override fun onDataNotAvailable() {
@@ -88,10 +102,10 @@ class ItemsRepository(
             getItemsFromRemoteDataSource(callback)
         } else {
 
-            itemsLocalDataSource.getItems(object: ItemsDataSource.LoadItemsCallback {
+            itemsLocalDataSource.getItems(object : ItemsDataSource.LoadItemsCallback {
                 override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
                     refreshCache(bookmarks, categories)
-                    callback.onItemsLoaded(bookmarks,categories)
+                    callback.onItemsLoaded(bookmarks, categories)
                 }
 
                 override fun onDataNotAvailable() {
@@ -143,10 +157,26 @@ class ItemsRepository(
             })
     }
 
-    override fun saveBookmark(categoryTitle: String, bookmark: Bookmark) {
+    override fun saveBookmark(
+        categoryTitle: String,
+        bookmark: Bookmark,
+        callback: ItemsDataSource.GetCategoryCallback
+    ) {
+
         cacheBookmarkAndPerform(bookmark) {
-            itemsLocalDataSource.saveBookmark(categoryTitle, it)
-            itemsRemoteDataSource.saveBookmark(categoryTitle, it)
+            itemsLocalDataSource.saveBookmark(
+                categoryTitle,
+                it,
+                object : ItemsDataSource.GetCategoryCallback {
+                    override fun onCategoryLoaded(categoryId: String) {
+                        callback.onCategoryLoaded(categoryId)
+                    }
+
+                    override fun onDataNotAvailable() {
+                        callback.onDataNotAvailable()
+                    }
+                })
+            // itemsRemoteDataSource.saveBookmark(categoryTitle, it)
         }
     }
 

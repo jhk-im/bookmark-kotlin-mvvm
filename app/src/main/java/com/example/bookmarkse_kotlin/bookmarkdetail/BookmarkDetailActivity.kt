@@ -17,19 +17,16 @@ class BookmarkDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.bookmark_detail_act)
         viewBinding = DataBindingUtil.setContentView(this, R.layout.bookmark_detail_act)
         viewModel = obtainViewModel(BookmarkDetailViewModel::class.java, this)
         viewBinding.viewModel = obtainViewModel(BookmarkDetailViewModel::class.java, this)
         viewModel.start(intent.getStringExtra(EXTRA_BOOKMARK_ID))
 
-        Log.e("title","${viewModel.bookmark.value?.title}")
-        Log.e("url","${viewModel.bookmark.value?.url}")
-        setBookmarkData()
+        setFaviconImage()
 
     }
 
-    private fun setBookmarkData() {
+    private fun setFaviconImage() {
         Glide.with(viewBinding.root)
             .load(viewModel.bookmark.value?.favicon)
             .placeholder(R.drawable.logo)

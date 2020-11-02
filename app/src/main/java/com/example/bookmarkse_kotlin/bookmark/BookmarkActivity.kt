@@ -94,7 +94,9 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNav
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        viewModel.handleActivityResult(requestCode, resultCode)
+
+        val categoryId = data?.getStringExtra(AddEditBookmarkActivity.CATEGORY_ID)
+        viewModel.handleActivityResult(requestCode, resultCode, categoryId)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
@@ -122,7 +124,8 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNav
                 this,
                 UtilPair(viewModel.bookmarkImage.value, "transition_img"),
                 UtilPair(viewModel.bookmarkTitle.value, "transition_title"),
-                UtilPair(viewModel.bookmarkUrl.value, "transition_url"))
+                UtilPair(viewModel.bookmarkUrl.value, "transition_url")
+            )
         //startActivity(intent, options.toBundle())
         startActivityForResult(
             intent,
