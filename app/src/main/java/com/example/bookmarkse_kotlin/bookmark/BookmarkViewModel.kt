@@ -93,8 +93,8 @@ class BookmarkViewModel(
 
     init {
         setFiltering(BookmarkFilterType.RECENT_BOOKMARKS)
-         //itemsRepository.deleteAllItems()
-         //testLocalDatabase()
+        //itemsRepository.deleteAllItems()
+        //testLocalDatabase()
     }
 
     fun start() {
@@ -133,25 +133,34 @@ class BookmarkViewModel(
         _newBookmarkEvent.value = Event(Unit)
     }
 
-    internal fun openBookmark(bookmarkId: String, image: ImageView, title: TextView, url:TextView) {
+    internal fun openBookmark(
+        bookmarkId: String,
+        image: ImageView,
+        title: TextView,
+        url: TextView
+    ) {
         _bookmarkImage.value = image
         _bookmarkTitle.value = title
         _bookmarkUrl.value = url
         _openBookmarkEvent.value = Event(bookmarkId)
     }
 
-    internal fun clickedCategory(categoryId: String){
+    internal fun clickedCategory(categoryId: String) {
         _currentCategory.value = categoryId
         _isCategoriesSetup.value = false
         loadItems(false, showLoadingUI = false)
     }
 
-    fun handleActivityResult(requestCode: Int, resultCode: Int) {
+    fun handleActivityResult(requestCode: Int, resultCode: Int, categoryId: String?) {
         if (requestCode == AddEditBookmarkActivity.REQUEST_CODE) {
             when (resultCode) {
                 ADD_EDIT_RESULT_OK -> {
+                    setFiltering(BookmarkFilterType.CATEGORY_BOOKMARKS)
+                    _currentCategory.value = categoryId
+                    _isCategoriesSetup.value = true
                     _snackbarText.value = Event(R.string.successfully_saved_message)
-                    start()
+                    loadItems(false)
+                    Log.e("handle", "$categoryId")
                 }
 //                DETAIL_RESULT_OK -> {
 //                    _isCategoriesSetup.value = false
@@ -240,29 +249,71 @@ class BookmarkViewModel(
         }
         val newCategory = Category("One")
         itemsRepository.saveCategory(newCategory)
-        itemsRepository.saveBookmark(newCategory.title, newBookmark)
+        itemsRepository.saveBookmark(
+            newCategory.title,
+            newBookmark,
+            object : ItemsDataSource.GetCategoryCallback {
+                override fun onCategoryLoaded(categoryId: String) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onDataNotAvailable() {
+                    TODO("Not yet implemented")
+                }
+            })
 
         val newBookmark2 = Bookmark("Naver", "https://www.naver.com").apply {
             favicon = "https://www.naver.com/favicon.ico"
         }
         val newCategory2 = Category("Two")
         itemsRepository.saveCategory(newCategory2)
-        itemsRepository.saveBookmark(newCategory2.title, newBookmark2)
+        itemsRepository.saveBookmark(
+            newCategory2.title,
+            newBookmark2,
+            object : ItemsDataSource.GetCategoryCallback {
+                override fun onCategoryLoaded(categoryId: String) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onDataNotAvailable() {
+                    TODO("Not yet implemented")
+                }
+            })
 
         val newBookmark3 = Bookmark("Daum", "https://www.daum.net").apply {
             favicon = "https://www.daum.net/favicon.ico"
         }
         val newCategory3 = Category("Three")
         itemsRepository.saveCategory(newCategory3)
-        itemsRepository.saveBookmark(newCategory3.title, newBookmark3)
+        itemsRepository.saveBookmark(
+            newCategory3.title,
+            newBookmark3,
+            object : ItemsDataSource.GetCategoryCallback {
+                override fun onCategoryLoaded(categoryId: String) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onDataNotAvailable() {
+                    TODO("Not yet implemented")
+                }
+            })
 
         val newBookmark4 = Bookmark("Nate", "https://www.nate.com").apply {
             favicon = "https://www.nate.com/favicon.ico"
         }
         val newCategory4 = Category("One")
         itemsRepository.saveCategory(newCategory4)
-        itemsRepository.saveBookmark(newCategory4.title, newBookmark4)
+        itemsRepository.saveBookmark(
+            newCategory4.title,
+            newBookmark4,
+            object : ItemsDataSource.GetCategoryCallback {
+                override fun onCategoryLoaded(categoryId: String) {
+                    TODO("Not yet implemented")
+                }
 
-
+                override fun onDataNotAvailable() {
+                    TODO("Not yet implemented")
+                }
+            })
     }
 }

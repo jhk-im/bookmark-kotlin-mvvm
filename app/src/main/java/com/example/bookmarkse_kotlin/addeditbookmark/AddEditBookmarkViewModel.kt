@@ -1,6 +1,8 @@
 package com.example.bookmarkse_kotlin.addeditbookmark
 
 import android.util.Log
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,11 +17,23 @@ import java.util.regex.Pattern
 
 class AddEditBookmarkViewModel(
     private val itemsRepository: ItemsRepository
-): ViewModel(), ItemsDataSource.GetBookmarkCallback {
+) : ViewModel(), ItemsDataSource.GetBookmarkCallback {
 
     val bookmarkTitle = MutableLiveData<String>()
     val urlAddress = MutableLiveData<String>()
     val categoryTitle = MutableLiveData<String>()
+
+    private val _title = MutableLiveData<TextView>()
+    val title: LiveData<TextView>
+        get() = _title
+
+    private val _bookmarkUrl = MutableLiveData<TextView>()
+    val bookmarkUrl: LiveData<TextView>
+        get() = _bookmarkUrl
+
+    private val _bookmarkImage = MutableLiveData<ImageView>()
+    val bookmarkImage: LiveData<ImageView>
+        get() = _bookmarkImage
 
     private var bookmarkId: String? = null
     private var getFavicon: String? = null
@@ -32,13 +46,13 @@ class AddEditBookmarkViewModel(
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean>
-        get() =_dataLoading
+        get() = _dataLoading
 
-    private val _itemUpdated = MutableLiveData<Event<Unit>>()
-    val itemUpdatedEvent: LiveData<Event<Unit>>
+    private val _itemUpdated = MutableLiveData<Event<String>>()
+    val itemUpdatedEvent: LiveData<Event<String>>
         get() = _itemUpdated
 
-    fun start(bookmarkId: String?){
+    fun start(bookmarkId: String?) {
 
         _dataLoading.value?.let { isLoading ->
             if (isLoading) return
@@ -78,12 +92,12 @@ class AddEditBookmarkViewModel(
         val currentUrl = urlAddress.value
         val currentCategory = categoryTitle.value
 
-        if( currentTitle == null || currentUrl == null || currentCategory == null){
+        if (currentTitle == null || currentUrl == null || currentCategory == null) {
             _snackbarText.value = Event(R.string.empty_input_message)
             return
         }
 
-        if( !checkUrlValidation() ) {
+        if (!checkUrlValidation()) {
             _snackbarText.value = Event(R.string.url_validation_check)
             return
         }
@@ -104,14 +118,25 @@ class AddEditBookmarkViewModel(
             ).apply { favicon = getFavicon.toString() }
         }
         if (newBookmark != null) {
-            itemsRepository.saveBookmark(currentCategory,newBookmark)
+            itemsRepository.saveBookmark(
+                currentCategory,
+                newBookmark,
+                object : ItemsDataSource.GetCategoryCallback {
+                    override fun onCategoryLoaded(categoryId: String) {
+                        _itemUpdated.value = Event(categoryId)
+                    }
+
+                    override fun onDataNotAvailable() {
+                        TODO("Not yet implemented")
+                    }
+                })
         }
-        _itemUpdated.value = Event(Unit)
     }
 
-    private fun checkUrlValidation() : Boolean{
+    private fun checkUrlValidation(): Boolean {
         val checkUrl = urlAddress.value
-        val regex = "^((http|https)://){1}([a-zA-Z0-9]+[.]{1})?([a-zA-Z0-9]+){1}[.]{1}[a-z]+([/]{1}[a-zA-Z0-9]*)*"
+        val regex =
+            "^((http|https)://){1}([a-zA-Z0-9]+[.]{1})?([a-zA-Z0-9]+){1}[.]{1}[a-z]+([/]{1}[a-zA-Z0-9]*)*"
         val match = Objects.requireNonNull(checkUrl)!!.matches(regex.toRegex())
         val urlPattern = Pattern.compile("^(https?):\\/\\/([^:\\/\\s]+)((\\/[^\\s\\/]+)*)")
 

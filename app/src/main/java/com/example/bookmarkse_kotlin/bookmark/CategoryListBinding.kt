@@ -21,7 +21,7 @@ object CategoryListBinding {
             if(!viewModel.isCategoriesSetup.value!!)
                 return
 
-            Log.e("","toHere")
+
             val context = view.context
             view.removeAllViews()
             for (category in categories) {
@@ -31,6 +31,12 @@ object CategoryListBinding {
                 view.addView(chip)
                 chip.setOnClickListener{
                     viewModel.clickedCategory(category.id)
+                }
+                Log.e("category", category.id)
+                Log.e("livedata","${viewModel.currentCategory.value}")
+                if (viewModel.currentCategory.value == category.id) {
+                    Log.e("","here")
+                    chip.performClick()
                 }
             }
         }

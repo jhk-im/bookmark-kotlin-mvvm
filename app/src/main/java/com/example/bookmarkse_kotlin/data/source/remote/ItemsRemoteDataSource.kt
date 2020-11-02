@@ -24,7 +24,7 @@ object ItemsRemoteDataSource : ItemsDataSource {
     private fun addItems(title: String, category: String, url: String) {
         val selected = Date()
         val newCategory = Category(category).apply { selectedAt = selected }
-        if(CATEGORIES_SERVICE_DATA[newCategory.title] == null){
+        if (CATEGORIES_SERVICE_DATA[newCategory.title] == null) {
             val newBookmark =
                 Bookmark(title, url).apply {
                     selectedAt = selected
@@ -71,10 +71,17 @@ object ItemsRemoteDataSource : ItemsDataSource {
         }
     }
 
-    override fun saveBookmark(categoryTitle: String,bookmark: Bookmark) {
+    override fun saveBookmark(
+        categoryTitle: String,
+        bookmark: Bookmark,
+        callback: ItemsDataSource.GetCategoryCallback
+    ) {
         val categoryId = CATEGORIES_SERVICE_DATA[categoryTitle]?.id
         if (categoryId != null) {
             bookmark.categoryId = categoryId
+            callback.onCategoryLoaded(categoryId)
+        } else {
+            callback.onDataNotAvailable()
         }
         BOOKMARKS_SERVICE_DATA[bookmark.id] = bookmark
     }
