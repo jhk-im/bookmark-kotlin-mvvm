@@ -254,11 +254,11 @@ class BookmarkViewModel(
             newBookmark,
             object : ItemsDataSource.GetCategoryCallback {
                 override fun onCategoryLoaded(categoryId: String) {
-                    TODO("Not yet implemented")
+                    val nothing = null
                 }
 
                 override fun onDataNotAvailable() {
-                    TODO("Not yet implemented")
+                    val nothing = null
                 }
             })
 
@@ -272,11 +272,11 @@ class BookmarkViewModel(
             newBookmark2,
             object : ItemsDataSource.GetCategoryCallback {
                 override fun onCategoryLoaded(categoryId: String) {
-                    TODO("Not yet implemented")
+                    val nothing = null
                 }
 
                 override fun onDataNotAvailable() {
-                    TODO("Not yet implemented")
+                    val nothing = null
                 }
             })
 
@@ -290,11 +290,11 @@ class BookmarkViewModel(
             newBookmark3,
             object : ItemsDataSource.GetCategoryCallback {
                 override fun onCategoryLoaded(categoryId: String) {
-                    TODO("Not yet implemented")
+                    val nothing = null
                 }
 
                 override fun onDataNotAvailable() {
-                    TODO("Not yet implemented")
+                    val nothing = null
                 }
             })
 
@@ -308,11 +308,11 @@ class BookmarkViewModel(
             newBookmark4,
             object : ItemsDataSource.GetCategoryCallback {
                 override fun onCategoryLoaded(categoryId: String) {
-                    TODO("Not yet implemented")
+                    val nothing = null
                 }
 
                 override fun onDataNotAvailable() {
-                    TODO("Not yet implemented")
+                    val nothing = null
                 }
             })
     }
