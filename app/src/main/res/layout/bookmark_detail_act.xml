@@ -14,57 +14,183 @@
             type="com.example.bookmarkse_kotlin.bookmarkdetail.BookMarkDetailUserActionListener" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/bookmark_detail_cl"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="12dp"
+        android:padding="10dp"
         tools:context=".bookmarkdetail.BookmarkDetailActivity">
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="6dp"
+            android:maxLines="1"
+            android:text="@string/bookmark"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            tools:targetApi="lollipop" />
 
         <ImageView
             android:id="@+id/iv_url_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
+            android:padding="8dp"
+            android:layout_marginTop="6dp"
             android:src="@drawable/logo"
+            android:layout_gravity="center"
             android:transitionName="@string/transition_img"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:targetApi="lollipop" />
 
         <TextView
             android:id="@+id/tv_bookmark_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
             android:maxLines="1"
             android:text="@{viewModel.bookmark.title}"
             android:textSize="20sp"
             android:transitionName="@string/transition_title"
-            app:layout_constraintEnd_toEndOf="@+id/iv_url_image"
-            app:layout_constraintStart_toStartOf="@+id/iv_url_image"
-            app:layout_constraintTop_toBottomOf="@+id/iv_url_image"
+            tools:targetApi="lollipop" />
+
+        <TextView
+            android:id="@+id/tv_bookmark_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:maxLines="1"
+            android:text="@{viewModel.bookmark.categoryId}"
+            android:textStyle="italic"
+            android:textSize="14sp"
+            android:transitionName="@string/transition_category"
+            tools:targetApi="lollipop" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:text="@string/address"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:transitionName="@string/transition_url"
+            tools:ignore="SmallSp"
             tools:targetApi="lollipop" />
 
         <TextView
             android:id="@+id/tv_bookmark_url"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
             android:maxLines="1"
             android:text="@{viewModel.bookmark.url}"
             android:textSize="10sp"
             android:transitionName="@string/transition_url"
-            app:layout_constraintEnd_toEndOf="@+id/tv_bookmark_title"
-            app:layout_constraintStart_toStartOf="@+id/tv_bookmark_title"
-            app:layout_constraintTop_toBottomOf="@+id/tv_bookmark_title"
             tools:ignore="SmallSp"
             tools:targetApi="lollipop" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:text="@string/last_selected"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:transitionName="@string/transition_url"
+            tools:ignore="SmallSp"
+            tools:targetApi="lollipop" />
+
+        <TextView
+            android:id="@+id/tv_bookmark_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:maxLines="1"
+            android:text="2020.09.10 20:00:03"
+            android:textSize="10sp"
+            android:transitionName="@string/transition_url"
+            tools:ignore="SmallSp"
+            tools:targetApi="lollipop" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/web_button"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginTop="8dp"
+            android:padding="4dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bookmark_touch_feedback"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="12sp"
+                android:text="@string/web"
+                android:textColor="#ffffff"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/edit_button"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginTop="8dp"
+            android:padding="4dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bookmark_touch_feedback"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="12sp"
+                android:text="@string/edit"
+                android:textColor="#ffffff"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/share_button"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:padding="4dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bookmark_touch_feedback"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="12sp"
+                android:text="@string/share"
+                android:textColor="#ffffff"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>
