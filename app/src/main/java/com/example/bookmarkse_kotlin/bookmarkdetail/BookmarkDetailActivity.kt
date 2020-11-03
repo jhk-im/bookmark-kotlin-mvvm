@@ -1,17 +1,18 @@
 package com.example.bookmarkse_kotlin.bookmarkdetail
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
-import android.view.Window
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.example.bookmarkse_kotlin.R
+import com.example.bookmarkse_kotlin.addeditbookmark.AddEditBookmarkActivity
+import com.example.bookmarkse_kotlin.addeditbookmark.AddEditBookmarkFragment
 import com.example.bookmarkse_kotlin.databinding.BookmarkDetailActBinding
 import com.example.bookmarkse_kotlin.util.obtainViewModel
 
-class BookmarkDetailActivity : AppCompatActivity() {
+class BookmarkDetailActivity : AppCompatActivity(), BookMarkDetailUserActionListener {
 
     private lateinit var viewBinding: BookmarkDetailActBinding
     private lateinit var viewModel: BookmarkDetailViewModel
@@ -23,10 +24,16 @@ class BookmarkDetailActivity : AppCompatActivity() {
         viewBinding.viewModel = obtainViewModel(BookmarkDetailViewModel::class.java, this)
         viewModel.start(intent.getStringExtra(EXTRA_BOOKMARK_ID))
 
-        this.setFinishOnTouchOutside(true)
-
-
         setFaviconImage()
+
+        setOnclickListener()
+
+    }
+
+    private fun setOnclickListener() {
+        viewBinding.editButton.setOnClickListener {
+            openEditItem(viewModel.bookmarkId!!)
+        }
     }
 
     private fun setFaviconImage() {
@@ -40,6 +47,22 @@ class BookmarkDetailActivity : AppCompatActivity() {
     override fun onBackPressed() {
         //super.onBackPressed()
         finish()
+    }
+
+    override fun openWeb() {
+        TODO("Not yet implemented")
+    }
+
+    override fun openEditItem(bookmarkId: String) {
+        val intent = Intent(this, AddEditBookmarkActivity::class.java).apply {
+            putExtra(AddEditBookmarkFragment.ARGUMENT_EDIT_ID, bookmarkId)
+        }
+        startActivityForResult(intent, AddEditBookmarkActivity.REQUEST_CODE)
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout)
+    }
+
+    override fun shareUrl() {
+        TODO("Not yet implemented")
     }
 
     companion object {

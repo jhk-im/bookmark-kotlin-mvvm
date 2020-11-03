@@ -23,18 +23,29 @@ class AddEditBookmarkViewModel(
     val urlAddress = MutableLiveData<String>()
     val categoryTitle = MutableLiveData<String>()
 
-    private val _title = MutableLiveData<TextView>()
-    val title: LiveData<TextView>
-        get() = _title
+    private val _categories = MutableLiveData<List<Category>>().apply { value = emptyList() }
+    val categories: LiveData<List<Category>>
+        get() = _categories
 
-    private val _bookmarkUrl = MutableLiveData<TextView>()
-    val bookmarkUrl: LiveData<TextView>
-        get() = _bookmarkUrl
+    fun categoryCheck(input: String?) {
+        var isNewCategory = true
+        var categoryId = ""
+        for (category in categories.value!!) {
+            if (category.title == input) {
+                isNewCategory = false
+                categoryId = category.id
+            }
+        }
+        categoryTitle.value = input
 
-    private val _bookmarkImage = MutableLiveData<ImageView>()
-    val bookmarkImage: LiveData<ImageView>
-        get() = _bookmarkImage
+        if (isNewCategory) {
+            onCategoriesLoaded(categoryId)
+        } else {
+            onCategoriesLoaded(categoryId)
+        }
+    }
 
+    var isCategoryClicked: Boolean = false
     private var bookmarkId: String? = null
     private var getFavicon: String? = null
     private var isNewItem: Boolean = false
@@ -61,6 +72,7 @@ class AddEditBookmarkViewModel(
         this.bookmarkId = bookmarkId
         if (bookmarkId == null) {
             isNewItem = true
+            onCategoriesLoaded("")
             return
         }
 
@@ -77,7 +89,7 @@ class AddEditBookmarkViewModel(
     override fun onBookmarkLoaded(book: Bookmark) {
         bookmarkTitle.value = book.title
         urlAddress.value = book.url
-        //itemsRepository.getCategory
+        onCategoriesLoaded(book.categoryId)
         _dataLoading.value = false
         isDataLoaded = true
     }
@@ -131,6 +143,24 @@ class AddEditBookmarkViewModel(
                     }
                 })
         }
+    }
+
+    private fun onCategoriesLoaded(categoryId: String?) {
+        itemsRepository.getItems(object : ItemsDataSource.LoadItemsCallback {
+            override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
+                _categories.value = emptyList()
+                for (category in categories) {
+                    _categories.value = categories
+                    if (categoryId == category.id) {
+                        categoryTitle.value = category.title
+                    }
+                }
+            }
+
+            override fun onDataNotAvailable() {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
     private fun checkUrlValidation(): Boolean {

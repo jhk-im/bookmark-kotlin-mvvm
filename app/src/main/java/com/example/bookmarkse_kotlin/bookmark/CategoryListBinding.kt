@@ -1,9 +1,7 @@
 package com.example.bookmarkse_kotlin.bookmark
 
-import android.util.Log
 import androidx.annotation.NonNull
 import androidx.databinding.BindingAdapter
-import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.data.Category
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -21,7 +19,6 @@ object CategoryListBinding {
             if(!viewModel.isCategoriesSetup.value!!)
                 return
 
-
             val context = view.context
             view.removeAllViews()
             for (category in categories) {
@@ -29,14 +26,11 @@ object CategoryListBinding {
                 chip.text = category.title
                 chip.isCheckable = true
                 view.addView(chip)
+                if (viewModel.currentCategory.value == category.id) {
+                    chip.performClick()
+                }
                 chip.setOnClickListener{
                     viewModel.clickedCategory(category.id)
-                }
-                Log.e("category", category.id)
-                Log.e("livedata","${viewModel.currentCategory.value}")
-                if (viewModel.currentCategory.value == category.id) {
-                    Log.e("","here")
-                    chip.performClick()
                 }
             }
         }

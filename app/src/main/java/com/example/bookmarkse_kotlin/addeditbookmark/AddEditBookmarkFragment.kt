@@ -1,9 +1,11 @@
 package com.example.bookmarkse_kotlin.addeditbookmark
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.databinding.AddEditBookmarkFragBinding
@@ -35,7 +37,18 @@ class AddEditBookmarkFragment : Fragment() {
         }
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
         retainInstance = false
+
+        setupCategoryChangeListener()
+
         return viewDataBinding.root
+    }
+
+    private fun setupCategoryChangeListener() {
+        viewDataBinding.categoryEt.addTextChangedListener {
+            //Log.e("categoryET",it.toString())
+            if(!viewDataBinding.viewModel?.isCategoryClicked!!)
+            viewDataBinding.viewModel?.categoryCheck(it.toString())
+        }
     }
 
     private fun loadData() {
