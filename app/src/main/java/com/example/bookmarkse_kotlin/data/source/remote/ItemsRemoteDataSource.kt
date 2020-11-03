@@ -95,6 +95,10 @@ object ItemsRemoteDataSource : ItemsDataSource {
         }
     }
 
+    override fun deleteCategory(categoryId: String) {
+        CATEGORIES_SERVICE_DATA.remove(categoryId)
+    }
+
     override fun deleteAllItems() {
         CATEGORIES_SERVICE_DATA.clear()
         BOOKMARKS_SERVICE_DATA.clear()

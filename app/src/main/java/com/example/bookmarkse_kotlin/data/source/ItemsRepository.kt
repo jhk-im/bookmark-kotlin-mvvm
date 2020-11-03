@@ -187,6 +187,12 @@ class ItemsRepository(
         }
     }
 
+    override fun deleteCategory(categoryId: String) {
+        itemsLocalDataSource.deleteCategory(categoryId)
+        // itemsRemoteDataSource.deleteCategory(categoryId)
+        cachedCategories.remove(categoryId)
+    }
+
     override fun deleteAllItems() {
         itemsLocalDataSource.deleteAllItems()
         itemsRemoteDataSource.deleteAllItems()

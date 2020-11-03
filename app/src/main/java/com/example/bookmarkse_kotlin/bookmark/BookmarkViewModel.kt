@@ -92,13 +92,12 @@ class BookmarkViewModel(
     }
 
     init {
-        setFiltering(BookmarkFilterType.RECENT_BOOKMARKS)
+        setFiltering(BookmarkFilterType.CATEGORY_BOOKMARKS)
         //itemsRepository.deleteAllItems()
         //testLocalDatabase()
     }
 
     fun start() {
-        // _isCategoriesSetup.value = true
         loadItems(false)
     }
 
@@ -117,6 +116,7 @@ class BookmarkViewModel(
                     R.drawable.ic_bookmark_grey,
                     true
                 )
+
             }
             BookmarkFilterType.CATEGORY_BOOKMARKS -> {
                 setFilter(
@@ -157,10 +157,9 @@ class BookmarkViewModel(
                 ADD_EDIT_RESULT_OK -> {
                     setFiltering(BookmarkFilterType.CATEGORY_BOOKMARKS)
                     _currentCategory.value = categoryId
-                    _isCategoriesSetup.value = true
                     _snackbarText.value = Event(R.string.successfully_saved_message)
                     loadItems(false)
-                    Log.e("handle", "$categoryId")
+                    // Log.e("handle", "$categoryId")
                 }
 //                DETAIL_RESULT_OK -> {
 //                    _isCategoriesSetup.value = false
@@ -204,8 +203,16 @@ class BookmarkViewModel(
                 for (category in categories) {
 //                    if (_currentCategory.value == null && categories.indexOf(category) == 0)
 //                        _currentCategory.value = category.id
-
-                    categoriesToShow.add(category)
+                    var isBookmarkEmpty = true
+                    for (bookmark in bookmarks){
+                        if(bookmark.categoryId == category.id)
+                            isBookmarkEmpty = false
+                    }
+                    if (isBookmarkEmpty){
+                        itemsRepository.deleteCategory(category.id)
+                    } else {
+                        categoriesToShow.add(category)
+                    }
                 }
 
                 for (bookmark in bookmarks) {
@@ -213,7 +220,6 @@ class BookmarkViewModel(
                         BookmarkFilterType.RECENT_BOOKMARKS -> {
                             bookmarksToShow.add(bookmark)
                             _currentCategory.value = null
-                            _isCategoriesSetup.value = true
                             categoriesToShow.clear()
                         }
                         BookmarkFilterType.CATEGORY_BOOKMARKS -> {
@@ -232,6 +238,8 @@ class BookmarkViewModel(
                 _bookmarks.value = bookmarksValue
                 val categoriesValue = ArrayList(categoriesToShow)
                 _categories.value = categoriesValue
+
+                _isCategoriesSetup.value = true
             }
 
             override fun onDataNotAvailable() {

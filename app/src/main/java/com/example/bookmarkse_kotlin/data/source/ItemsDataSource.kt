@@ -28,6 +28,8 @@ interface ItemsDataSource {
 
     fun saveCategory(category: Category)
 
+    fun deleteCategory(categoryId: String)
+
     fun deleteAllItems()
 
     fun deleteBookmark(bookmarkId: String)

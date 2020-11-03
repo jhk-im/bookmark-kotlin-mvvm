@@ -15,6 +15,7 @@ import com.example.bookmarkse_kotlin.util.replaceFragmentInActivity
 import androidx.lifecycle.Observer
 import com.example.bookmarkse_kotlin.Event
 import com.example.bookmarkse_kotlin.bookmark.BookmarkActivity
+import com.example.bookmarkse_kotlin.bookmarkdetail.BookmarkDetailActivity
 import com.example.bookmarkse_kotlin.util.ADD_EDIT_RESULT_OK
 
 class AddEditBookmarkActivity : AppCompatActivity(), AddEditBookmarkNavigator {
@@ -76,11 +77,17 @@ class AddEditBookmarkActivity : AppCompatActivity(), AddEditBookmarkNavigator {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onItemSaved(categoryId: String) {
 
-        val intent = Intent(this, BookmarkActivity::class.java).apply {
-            putExtra(CATEGORY_ID, categoryId)
+        if(viewModel.isNewItem) {
+            val intent = Intent(this, BookmarkActivity::class.java).apply {
+                putExtra(CATEGORY_ID, categoryId)
+            }
+            setResult(ADD_EDIT_RESULT_OK, intent)
+        } else {
+            val intent = Intent(this, BookmarkDetailActivity::class.java).apply {
+                putExtra(CATEGORY_ID, categoryId)
+            }
+            setResult(ADD_EDIT_RESULT_OK, intent)
         }
-
-        setResult(ADD_EDIT_RESULT_OK, intent)
         finish()
         overridePendingTransition(R.anim.fadein, R.anim.fadeout)
     }

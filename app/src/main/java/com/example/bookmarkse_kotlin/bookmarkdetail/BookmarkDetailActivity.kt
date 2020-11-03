@@ -9,7 +9,9 @@ import com.bumptech.glide.Glide
 import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.addeditbookmark.AddEditBookmarkActivity
 import com.example.bookmarkse_kotlin.addeditbookmark.AddEditBookmarkFragment
+import com.example.bookmarkse_kotlin.bookmark.BookmarkActivity
 import com.example.bookmarkse_kotlin.databinding.BookmarkDetailActBinding
+import com.example.bookmarkse_kotlin.util.ADD_EDIT_RESULT_OK
 import com.example.bookmarkse_kotlin.util.obtainViewModel
 
 class BookmarkDetailActivity : AppCompatActivity(), BookMarkDetailUserActionListener {
@@ -23,6 +25,8 @@ class BookmarkDetailActivity : AppCompatActivity(), BookMarkDetailUserActionList
         viewModel = obtainViewModel(BookmarkDetailViewModel::class.java, this)
         viewBinding.viewModel = obtainViewModel(BookmarkDetailViewModel::class.java, this)
         viewModel.start(intent.getStringExtra(EXTRA_BOOKMARK_ID))
+
+        this.setFinishOnTouchOutside(false)
 
         setFaviconImage()
 
@@ -44,8 +48,26 @@ class BookmarkDetailActivity : AppCompatActivity(), BookMarkDetailUserActionList
             .into(viewBinding.ivUrlImage)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AddEditBookmarkActivity.REQUEST_CODE) {
+            when (resultCode) {
+                ADD_EDIT_RESULT_OK -> {
+                    val intent = Intent(this, BookmarkActivity::class.java).apply {
+                        putExtra(
+                            AddEditBookmarkActivity.CATEGORY_ID,
+                            data?.getStringExtra(AddEditBookmarkActivity.CATEGORY_ID)
+                        )
+                    }
+                    setResult(ADD_EDIT_RESULT_OK, intent)
+
+                    finish()
+                }
+            }
+        }
+    }
+
     override fun onBackPressed() {
-        //super.onBackPressed()
         finish()
     }
 
