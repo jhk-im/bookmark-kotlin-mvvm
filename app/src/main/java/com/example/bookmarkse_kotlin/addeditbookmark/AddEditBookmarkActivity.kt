@@ -15,8 +15,6 @@ import com.example.bookmarkse_kotlin.util.replaceFragmentInActivity
 import androidx.lifecycle.Observer
 import com.example.bookmarkse_kotlin.Event
 import com.example.bookmarkse_kotlin.bookmark.BookmarkActivity
-import com.example.bookmarkse_kotlin.bookmarkdetail.BookmarkDetailActivity
-import android.util.Pair as UtilPair
 import com.example.bookmarkse_kotlin.util.ADD_EDIT_RESULT_OK
 
 class AddEditBookmarkActivity : AppCompatActivity(), AddEditBookmarkNavigator {

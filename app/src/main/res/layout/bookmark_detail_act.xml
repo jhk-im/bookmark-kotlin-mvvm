@@ -8,10 +8,6 @@
         <variable
             name="viewModel"
             type="com.example.bookmarkse_kotlin.bookmarkdetail.BookmarkDetailViewModel" />
-
-        <variable
-            name="listener"
-            type="com.example.bookmarkse_kotlin.bookmarkdetail.BookMarkDetailUserActionListener" />
     </data>
 
     <LinearLayout

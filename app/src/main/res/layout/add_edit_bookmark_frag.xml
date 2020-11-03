@@ -98,19 +98,22 @@
                     android:drawablePadding="12dp"
                     android:ems="10"
                     android:hint="@string/nav_category"
-                    android:text="@={viewModel.categoryTitle}"
+                    android:text="@{viewModel.categoryTitle}"
                     android:inputType="text"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:textSize="14sp" />
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/category_cg"
+                    android:id="@+id/category_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:layout_marginTop="15dp">
-                </com.google.android.material.chip.ChipGroup>
+                    android:layout_marginTop="15dp"
+                    app:singleSelection="true"
+                    app:selectionRequired="true"
+                    app:editViewModel="@{viewModel}"
+                    app:editCategories="@{viewModel.categories}" />
             </LinearLayout>
         </ScrollView>
 <!--    </com.example.bookmarkse_kotlin.ScrollChildSwipeRefreshLayout>-->
