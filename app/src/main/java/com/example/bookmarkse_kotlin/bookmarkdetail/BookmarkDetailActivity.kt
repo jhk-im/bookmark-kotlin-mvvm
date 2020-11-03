@@ -3,11 +3,12 @@ package com.example.bookmarkse_kotlin.bookmarkdetail
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
+import android.view.Window
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.databinding.BookmarkDetailActBinding
-import com.example.bookmarkse_kotlin.util.DETAIL_RESULT_OK
 import com.example.bookmarkse_kotlin.util.obtainViewModel
 
 class BookmarkDetailActivity : AppCompatActivity() {
@@ -22,8 +23,10 @@ class BookmarkDetailActivity : AppCompatActivity() {
         viewBinding.viewModel = obtainViewModel(BookmarkDetailViewModel::class.java, this)
         viewModel.start(intent.getStringExtra(EXTRA_BOOKMARK_ID))
 
-        setFaviconImage()
+        this.setFinishOnTouchOutside(true)
 
+
+        setFaviconImage()
     }
 
     private fun setFaviconImage() {
@@ -35,7 +38,7 @@ class BookmarkDetailActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        //super.onBackPressed()
         finish()
     }
 

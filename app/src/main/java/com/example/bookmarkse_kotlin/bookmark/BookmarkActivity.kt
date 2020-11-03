@@ -36,7 +36,7 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNav
         setupActionBar(R.id.toolbar) {
             // setHomeAsUpIndicator(R.drawable.ic_menu)
             // setDisplayHomeAsUpEnabled(true)
-            setTitle(R.string.bookmark_title)
+            setTitle(R.string.bookmark)
         }
 
         // setupNavigationDrawer()
