@@ -1,7 +1,6 @@
 package com.example.bookmarkse_kotlin.addeditbookmark
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,8 +45,11 @@ class AddEditBookmarkFragment : Fragment() {
     private fun setupCategoryChangeListener() {
         viewDataBinding.categoryEt.addTextChangedListener {
             //Log.e("categoryET",it.toString())
-            if(!viewDataBinding.viewModel?.isCategoryClicked!!)
-            viewDataBinding.viewModel?.categoryCheck(it.toString())
+            if (it.toString() == "") {
+                viewDataBinding.viewModel?.categoryCheck(null)
+            } else {
+                viewDataBinding.viewModel?.categoryCheck(it.toString())
+            }
         }
     }
 

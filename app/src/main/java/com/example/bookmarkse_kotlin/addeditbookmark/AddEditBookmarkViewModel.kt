@@ -1,8 +1,5 @@
 package com.example.bookmarkse_kotlin.addeditbookmark
 
-import android.util.Log
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -45,10 +42,9 @@ class AddEditBookmarkViewModel(
         }
     }
 
-    var isCategoryClicked: Boolean = false
-    private var bookmarkId: String? = null
+    var bookmarkId: String? = null
     private var getFavicon: String? = null
-    private var isNewItem: Boolean = false
+    var isNewItem: Boolean = false
     private var isDataLoaded = false
 
     private val _snackbarText = MutableLiveData<Event<Int>>()
@@ -104,7 +100,7 @@ class AddEditBookmarkViewModel(
         val currentUrl = urlAddress.value
         val currentCategory = categoryTitle.value
 
-        if (currentTitle == null || currentUrl == null || currentCategory == null) {
+        if (currentTitle == null || currentUrl == null  || currentCategory == null) {
             _snackbarText.value = Event(R.string.empty_input_message)
             return
         }
@@ -148,13 +144,24 @@ class AddEditBookmarkViewModel(
     private fun onCategoriesLoaded(categoryId: String?) {
         itemsRepository.getItems(object : ItemsDataSource.LoadItemsCallback {
             override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
+                val categoriesToShow = ArrayList<Category>()
                 _categories.value = emptyList()
                 for (category in categories) {
-                    _categories.value = categories
+                    var isBookmarkEmpty = true
+                    for (bookmark in bookmarks){
+                        if(bookmark.categoryId == category.id)
+                            isBookmarkEmpty = false
+                    }
+                    if (isBookmarkEmpty){
+                        itemsRepository.deleteCategory(category.id)
+                    } else {
+                        categoriesToShow.add(category)
+                    }
                     if (categoryId == category.id) {
                         categoryTitle.value = category.title
                     }
                 }
+                _categories.value = categoriesToShow
             }
 
             override fun onDataNotAvailable() {

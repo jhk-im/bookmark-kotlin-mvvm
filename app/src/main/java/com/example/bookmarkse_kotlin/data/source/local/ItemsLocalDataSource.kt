@@ -77,6 +77,10 @@ class ItemsLocalDataSource private constructor(
         }
     }
 
+    override fun deleteCategory(categoryId: String) {
+        appExecutors.diskIO.execute { categoryDao.deleteCategoryById(categoryId) }
+    }
+
     override fun deleteAllItems() {
         appExecutors.diskIO.execute {
             bookmarkDao.deleteBookmarks()
