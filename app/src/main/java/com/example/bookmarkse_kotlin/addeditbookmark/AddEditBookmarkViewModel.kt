@@ -10,8 +10,19 @@ import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
 import com.example.bookmarkse_kotlin.data.source.ItemsDataSource
 import com.example.bookmarkse_kotlin.data.source.ItemsRepository
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import org.jsoup.Jsoup
+import org.xmlpull.v1.XmlPullParser
+import org.xmlpull.v1.XmlPullParserFactory
+import java.io.StringReader
+import java.lang.Exception
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.system.measureTimeMillis
 
 class AddEditBookmarkViewModel(
     private val itemsRepository: ItemsRepository
@@ -44,7 +55,7 @@ class AddEditBookmarkViewModel(
     }
 
     var bookmarkId: String? = null
-    private var getFavicon: String? = null
+    var getFavicon: String? = ""
     var isNewItem: Boolean = false
     private var isDataLoaded = false
 
@@ -83,9 +94,11 @@ class AddEditBookmarkViewModel(
         itemsRepository.getBookmark(bookmarkId, this)
     }
 
+    @ExperimentalCoroutinesApi
     override fun onBookmarkLoaded(book: Bookmark) {
         bookmarkTitle.value = book.title
         urlAddress.value = book.url
+        // getFavicon(urlAddress.value!!)
         onCategoriesLoaded(book.categoryId)
         _dataLoading.value = false
         isDataLoaded = true
@@ -160,11 +173,11 @@ class AddEditBookmarkViewModel(
                     }
                     if (categoryId == category.id) {
                         categoryTitle.value = category.title
-                        Log.e("","${categoryTitle.value}")
+                        //Log.e("","${categoryTitle.value}")
                     }
                 }
                 _categories.value = categoriesToShow
-                Log.e("","${categoryTitle.value}")
+                //Log.e("","${categoryTitle.value}")
             }
 
             override fun onDataNotAvailable() {
@@ -192,4 +205,24 @@ class AddEditBookmarkViewModel(
             false
         }
     }
+
+//    @ExperimentalCoroutinesApi
+//    fun getFavicon(URL: String) {
+//        val job = GlobalScope.launch(Dispatchers.Default) {
+//            getFavicon = getFaviconFromUrl(URL)
+//            Log.e("","$getFavicon")
+//        }
+//    }
+//
+//    private fun getFaviconFromUrl(url: String): String? {
+//        return try {
+//            val doc = Jsoup.connect(url).get().head().html() // 오래걸림 (0.4초 이상)
+//            // val favicon = doc.select("meta[property=og:title]").first().html()
+//            // Log.e("doc",doc)
+//            doc
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            ""
+//        }
+//    }
 }

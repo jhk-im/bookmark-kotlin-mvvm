@@ -1,11 +1,12 @@
 package com.example.bookmarkse_kotlin.bookmark
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.FrameLayout
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.databinding.BookmarkFragBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -14,6 +15,11 @@ class BookmarkFragment : Fragment() {
 
     private lateinit var viewDataBinding: BookmarkFragBinding
     private lateinit var bookmarkAdapter: BookmarkAdapter
+
+    private lateinit var fab1: FloatingActionButton
+    private lateinit var fab2: FloatingActionButton
+    private lateinit var fab3: FloatingActionButton
+    private lateinit var floatingScreen: FrameLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,11 +90,51 @@ class BookmarkFragment : Fragment() {
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     private fun setupFab() {
+        var isFabClicked = false
+        activity?.findViewById<FloatingActionButton>(R.id.fab_edit_items)?.let {
+            fab1 = it
+            fab1.setOnClickListener {
+                // viewDataBinding.viewModel?.addNewBookmarks()
+                isFabClicked = if (!isFabClicked) {
+                    fab1.isHovered = true
+                    floatingScreen.visibility = View.VISIBLE
+                    fab2.show()
+                    fab3.show()
+                    true
+                } else {
+                    fab1.isHovered = false
+                    floatingScreen.visibility = View.GONE
+                    fab2.hide()
+                    fab3.hide()
+                    false
+                }
+            }
+        }
         activity?.findViewById<FloatingActionButton>(R.id.fab_add_items)?.let {
-            it.setImageResource(R.drawable.ic_add)
-            it.setOnClickListener {
+            fab2 = it
+            fab2.hide()
+            fab2.setOnClickListener {
                 viewDataBinding.viewModel?.addNewBookmarks()
+            }
+        }
+        activity?.findViewById<FloatingActionButton>(R.id.fab_delete_items)?.let {
+            fab3 = it
+            fab3.hide()
+            fab3.setOnClickListener {
+                // viewDataBinding.viewModel?.addNewBookmarks()
+            }
+        }
+        activity?.findViewById<FrameLayout>(R.id.floating_screen_frame)?.let {
+            floatingScreen = it
+            floatingScreen.visibility = View.GONE
+            floatingScreen.setOnClickListener {
+                fab1.isHovered = false
+                floatingScreen.visibility = View.GONE
+                fab2.hide()
+                fab3.hide()
+                isFabClicked = false
             }
         }
     }
