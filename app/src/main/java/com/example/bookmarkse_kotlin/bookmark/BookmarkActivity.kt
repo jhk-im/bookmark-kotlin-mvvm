@@ -14,7 +14,6 @@ import com.example.bookmarkse_kotlin.Event
 import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.addeditbookmark.AddEditBookmarkActivity
 import com.example.bookmarkse_kotlin.bookmarkdetail.BookmarkDetailActivity
-import com.example.bookmarkse_kotlin.notice.NoticeActivity
 import com.example.bookmarkse_kotlin.util.obtainViewModel
 import com.example.bookmarkse_kotlin.util.replaceFragmentInActivity
 import com.example.bookmarkse_kotlin.util.setupActionBar
@@ -66,12 +65,12 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNav
             ?: replaceFragmentInActivity(BookmarkFragment.newInstance(), R.id.content_frame)
     }
 
-    private fun setupNavigationDrawer() {
-        mDrawerLayout = (findViewById<DrawerLayout>(R.id.drawer_layout)).apply {
-            setStatusBarBackground(R.color.colorPrimaryDark)
-        }
-        setupDrawerContent(findViewById(R.id.navigation_view))
-    }
+//    private fun setupNavigationDrawer() {
+//        mDrawerLayout = (findViewById<DrawerLayout>(R.id.drawer_layout)).apply {
+//            setStatusBarBackground(R.color.colorPrimaryDark)
+//        }
+//        setupDrawerContent(findViewById(R.id.navigation_view))
+//    }
 
     private fun setupDrawerContent(navigationView: NavigationView) {
         navigationView.setNavigationItemSelectedListener { menuItem ->
@@ -80,10 +79,7 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNav
                     //
                 }
                 R.id.navigation_menu_notice -> {
-                    val intent = Intent(this@BookmarkActivity, NoticeActivity::class.java).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    }
-                    startActivity(intent)
+                    //
                 }
             }
             menuItem.isChecked = true

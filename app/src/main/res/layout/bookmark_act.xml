@@ -52,25 +52,66 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_add_items"
+            <FrameLayout
+                android:id="@+id/floating_screen_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@color/colorTranslucent" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/fab_margin"
-                android:src="@drawable/ic_add"
-                android:tint="@color/colorAccent"
-                app:fabSize="normal"
+                android:orientation="vertical"
                 app:layout_anchor="@id/content_frame"
-                app:layout_anchorGravity="bottom|right|end" />
+                app:layout_anchorGravity="bottom|right|end">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_delete_items"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_delete"
+                    android:layout_gravity="center"
+                    app:tint="@color/colorWhite"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:fabSize="mini"
+                    android:contentDescription="@string/delete_bookmark" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_add_items"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add"
+                    android:layout_gravity="center"
+                    app:tint="@color/colorWhite"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:fabSize="mini"
+                    android:contentDescription="@string/add_bookmark_eng" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_edit_items"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/ic_edit"
+                    android:layout_gravity="center"
+                    app:tint="@color/colorWhite"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:fabSize="normal"
+                    android:contentDescription="@string/edit_bookmark" />
+            </LinearLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </LinearLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_actions" />
+<!--    <com.google.android.material.navigation.NavigationView-->
+<!--        android:id="@+id/navigation_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_gravity="start"-->
+<!--        android:fitsSystemWindows="true"-->
+<!--        app:headerLayout="@layout/nav_header"-->
+<!--        app:menu="@menu/drawer_actions" />-->
 </androidx.drawerlayout.widget.DrawerLayout>
