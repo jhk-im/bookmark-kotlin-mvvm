@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -60,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:maxLines="1"
-            android:text="@{viewModel.bookmark.categoryId}"
+            android:text="@{viewModel.categoryTitle}"
             android:textStyle="italic"
             android:textSize="14sp"
             android:transitionName="@string/transition_category"
@@ -110,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:maxLines="1"
-            android:text="2020.09.10 20:00:03"
+            android:text="@{viewModel.selectedAt}"
             android:textSize="10sp"
             android:transitionName="@string/transition_url"
             tools:ignore="SmallSp"
@@ -169,7 +170,6 @@
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:padding="4dp"
             android:layout_gravity="center"
             android:background="@drawable/bookmark_touch_feedback"
@@ -182,6 +182,31 @@
                 android:layout_margin="10dp"
                 android:textSize="12sp"
                 android:text="@string/share"
+                android:textColor="#ffffff"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/complete_button"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:padding="4dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bookmark_touch_feedback"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="12sp"
+                android:text="@string/complete"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

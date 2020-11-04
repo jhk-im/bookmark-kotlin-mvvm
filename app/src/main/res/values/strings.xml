@@ -60,4 +60,6 @@
     <string name="edit">Edit</string>
     <string name="web">Web</string>
     <string name="share">Share</string>
+    <string name="ok">OK</string>
+    <string name="complete">Complete</string>
 </resources>

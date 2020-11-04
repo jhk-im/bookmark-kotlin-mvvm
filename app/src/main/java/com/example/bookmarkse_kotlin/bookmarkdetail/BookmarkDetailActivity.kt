@@ -25,7 +25,7 @@ class BookmarkDetailActivity : AppCompatActivity(), BookMarkDetailUserActionList
         viewModel = obtainViewModel(BookmarkDetailViewModel::class.java, this)
         viewBinding.viewModel = obtainViewModel(BookmarkDetailViewModel::class.java, this)
         viewModel.start(intent.getStringExtra(EXTRA_BOOKMARK_ID))
-
+        viewBinding.lifecycleOwner = this
         this.setFinishOnTouchOutside(false)
 
         setFaviconImage()
@@ -36,7 +36,10 @@ class BookmarkDetailActivity : AppCompatActivity(), BookMarkDetailUserActionList
 
     private fun setOnclickListener() {
         viewBinding.editButton.setOnClickListener {
-            openEditItem(viewModel.bookmarkId!!)
+            openEditItem()
+        }
+        viewBinding.completeButton.setOnClickListener {
+            complete()
         }
     }
 
@@ -75,9 +78,9 @@ class BookmarkDetailActivity : AppCompatActivity(), BookMarkDetailUserActionList
         TODO("Not yet implemented")
     }
 
-    override fun openEditItem(bookmarkId: String) {
+    override fun openEditItem() {
         val intent = Intent(this, AddEditBookmarkActivity::class.java).apply {
-            putExtra(AddEditBookmarkFragment.ARGUMENT_EDIT_ID, bookmarkId)
+            putExtra(AddEditBookmarkFragment.ARGUMENT_EDIT_ID, viewModel.bookmarkId)
         }
         startActivityForResult(intent, AddEditBookmarkActivity.REQUEST_CODE)
         overridePendingTransition(R.anim.fadein, R.anim.fadeout)
@@ -85,6 +88,18 @@ class BookmarkDetailActivity : AppCompatActivity(), BookMarkDetailUserActionList
 
     override fun shareUrl() {
         TODO("Not yet implemented")
+    }
+
+    override fun complete() {
+        val intent = Intent(this, BookmarkActivity::class.java).apply {
+            putExtra(
+                AddEditBookmarkActivity.CATEGORY_ID,
+                viewModel.categoryId
+            )
+        }
+        setResult(ADD_EDIT_RESULT_OK, intent)
+
+        finish()
     }
 
     companion object {
