@@ -20,6 +20,7 @@ class BookmarkFragment : Fragment() {
     private lateinit var fab2: FloatingActionButton
     private lateinit var fab3: FloatingActionButton
     private lateinit var floatingScreen: FrameLayout
+    var isFabClicked = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,8 +63,12 @@ class BookmarkFragment : Fragment() {
     private fun setUpFilteringPopUpMenu() {
         val view = activity?.findViewById<View>(R.id.menu_filter) ?: return
         PopupMenu(requireContext(), view).run {
+            fab1.isHovered = false
+            floatingScreen.visibility = View.GONE
+            fab2.hide()
+            fab3.hide()
+            isFabClicked = false
             menuInflater.inflate(R.menu.filter_tasks, menu)
-
             setOnMenuItemClickListener {
                 viewDataBinding.viewModel?.run {
                     setFiltering(
@@ -92,7 +97,6 @@ class BookmarkFragment : Fragment() {
 
     @SuppressLint("ResourceAsColor")
     private fun setupFab() {
-        var isFabClicked = false
         activity?.findViewById<FloatingActionButton>(R.id.fab_edit_items)?.let {
             fab1 = it
             fab1.setOnClickListener {
@@ -117,13 +121,23 @@ class BookmarkFragment : Fragment() {
             fab2.hide()
             fab2.setOnClickListener {
                 viewDataBinding.viewModel?.addNewBookmarks()
+                fab1.isHovered = false
+                floatingScreen.visibility = View.GONE
+                fab2.hide()
+                fab3.hide()
+                isFabClicked = false
             }
         }
         activity?.findViewById<FloatingActionButton>(R.id.fab_delete_items)?.let {
             fab3 = it
             fab3.hide()
             fab3.setOnClickListener {
-                // viewDataBinding.viewModel?.addNewBookmarks()
+                viewDataBinding.viewModel?.deleteBookmarks()
+                fab1.isHovered = false
+                floatingScreen.visibility = View.GONE
+                fab2.hide()
+                fab3.hide()
+                isFabClicked = false
             }
         }
         activity?.findViewById<FrameLayout>(R.id.floating_screen_frame)?.let {
