@@ -1,5 +1,6 @@
 package com.example.bookmarkse_kotlin.addeditbookmark
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -159,9 +160,11 @@ class AddEditBookmarkViewModel(
                     }
                     if (categoryId == category.id) {
                         categoryTitle.value = category.title
+                        Log.e("","${categoryTitle.value}")
                     }
                 }
                 _categories.value = categoriesToShow
+                Log.e("","${categoryTitle.value}")
             }
 
             override fun onDataNotAvailable() {

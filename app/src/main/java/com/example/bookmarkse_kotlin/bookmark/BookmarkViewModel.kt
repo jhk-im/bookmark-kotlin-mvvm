@@ -31,7 +31,7 @@ class BookmarkViewModel(
     val categories: LiveData<List<Category>>
         get() = _categories
 
-    private val _currentCategory = MutableLiveData<String>()
+    val _currentCategory = MutableLiveData<String>()
     val currentCategory: LiveData<String>
         get() = _currentCategory
 
@@ -198,11 +198,11 @@ class BookmarkViewModel(
 
                 val bookmarksToShow = ArrayList<Bookmark>()
                 val categoriesToShow = ArrayList<Category>()
-                //val sd = SimpleDateFormat("HH:mm:ss.SSS")
 
                 for (category in categories) {
-//                    if (_currentCategory.value == null && categories.indexOf(category) == 0)
-//                        _currentCategory.value = category.id
+                    if (_currentCategory.value == null && categories.indexOf(category) == 0)
+                        _currentCategory.value = category.id
+
                     var isBookmarkEmpty = true
                     for (bookmark in bookmarks){
                         if(bookmark.categoryId == category.id)
