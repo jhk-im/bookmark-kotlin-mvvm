@@ -31,7 +31,7 @@ class BookmarkViewModel(
     val categories: LiveData<List<Category>>
         get() = _categories
 
-    val _currentCategory = MutableLiveData<String>()
+    private val _currentCategory = MutableLiveData<String>()
     val currentCategory: LiveData<String>
         get() = _currentCategory
 
@@ -63,10 +63,6 @@ class BookmarkViewModel(
     val snackbarMessage: LiveData<Event<Int>>
         get() = _snackbarText
 
-    private val _openBookmarkEvent = MutableLiveData<Event<String>>()
-    val openBookmarkEvent: LiveData<Event<String>>
-        get() = _openBookmarkEvent
-
     private val _bookmarkTitle = MutableLiveData<TextView>()
     val bookmarkTitle: LiveData<TextView>
         get() = _bookmarkTitle
@@ -79,13 +75,21 @@ class BookmarkViewModel(
     val bookmarkImage: LiveData<ImageView>
         get() = _bookmarkImage
 
+    private val _openBookmarkEvent = MutableLiveData<Event<String>>()
+    val openBookmarkEvent: LiveData<Event<String>>
+        get() = _openBookmarkEvent
+
     private val _newBookmarkEvent = MutableLiveData<Event<Unit>>()
     val newBookmarkEvent: LiveData<Event<Unit>>
         get() = _newBookmarkEvent
 
+    private val _deleteBookmarkEvent = MutableLiveData<Event<Unit>>()
+    val deleteBookmarkEvent: LiveData<Event<Unit>>
+        get() = _deleteBookmarkEvent
+
     private val isDataLoadingError = MutableLiveData<Boolean>()
 
-    private var currentFiltering = BookmarkFilterType.RECENT_BOOKMARKS
+    private var currentFiltering = BookmarkFilterType.CATEGORY_BOOKMARKS
 
     val empty: LiveData<Boolean> = Transformations.map(_bookmarks) {
         it.isEmpty()
@@ -131,6 +135,10 @@ class BookmarkViewModel(
 
     fun addNewBookmarks() {
         _newBookmarkEvent.value = Event(Unit)
+    }
+
+    fun deleteBookmarks() {
+        _deleteBookmarkEvent.value = Event(Unit)
     }
 
     internal fun openBookmark(

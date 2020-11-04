@@ -64,4 +64,6 @@
     <string name="complete">Complete</string>
     <string name="add_bookmark_eng">Add Bookmark</string>
     <string name="delete_bookmark">Delete Bookmark</string>
+    <string name="done">Done</string>
+    <string name="delete_bookmarks">Delete Bookmarks</string>
 </resources>

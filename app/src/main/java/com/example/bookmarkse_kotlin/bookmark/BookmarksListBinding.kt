@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookmarkse_kotlin.data.Bookmark
+import com.example.bookmarkse_kotlin.deletebookmark.DeleteBookmarkAdapter
 
 object BookmarksListBinding {
 

@@ -1,7 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="androidx.core.content.ContextCompat" />
+
+        <variable
+            name="viewModel"
+            type="com.example.bookmarkse_kotlin.deletebookmark.DeleteBookmarkViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/delete_frag_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/list_item_padding"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/list_item_padding"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:gravity="center_vertical"
+            android:text="@string/delete_bookmarks"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/category_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            app:selectionRequired="true"
+            app:singleSelection="true"
+            app:deleteViewModel="@{viewModel}"
+            app:deleteCategories="@{viewModel.categories}"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bookmarks_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp"
+            app:deleteBookmarks="@{viewModel.bookmarks}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </LinearLayout>
+</layout>

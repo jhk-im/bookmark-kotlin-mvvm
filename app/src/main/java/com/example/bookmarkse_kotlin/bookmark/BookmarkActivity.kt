@@ -14,6 +14,7 @@ import com.example.bookmarkse_kotlin.Event
 import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.addeditbookmark.AddEditBookmarkActivity
 import com.example.bookmarkse_kotlin.bookmarkdetail.BookmarkDetailActivity
+import com.example.bookmarkse_kotlin.deletebookmark.DeleteBookmarkActivity
 import com.example.bookmarkse_kotlin.util.obtainViewModel
 import com.example.bookmarkse_kotlin.util.replaceFragmentInActivity
 import com.example.bookmarkse_kotlin.util.setupActionBar
@@ -45,6 +46,12 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNav
             newBookmarkEvent.observe(this@BookmarkActivity, Observer<Event<Unit>> { event ->
                 event.getContentIfNotHandled()?.let {
                     this@BookmarkActivity.addNewItem()
+                }
+            })
+
+            deleteBookmarkEvent.observe(this@BookmarkActivity, Observer<Event<Unit>> { event ->
+                event.getContentIfNotHandled()?.let {
+                    this@BookmarkActivity.deleteItem()
                 }
             })
 
@@ -107,6 +114,12 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNav
     override fun addNewItem() {
         val intent = Intent(this, AddEditBookmarkActivity::class.java)
         startActivityForResult(intent, AddEditBookmarkActivity.REQUEST_CODE)
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout)
+    }
+
+    override fun deleteItem() {
+        val intent = Intent(this, DeleteBookmarkActivity::class.java)
+        startActivityForResult(intent, DeleteBookmarkActivity.REQUEST_CODE)
         overridePendingTransition(R.anim.fadein, R.anim.fadeout)
     }
 

@@ -1,22 +1,28 @@
-package com.example.bookmarkse_kotlin.bookmark
+package com.example.bookmarkse_kotlin.deletebookmark
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.bookmarkse_kotlin.R
+import com.example.bookmarkse_kotlin.bookmark.BookmarkAdapter
+import com.example.bookmarkse_kotlin.bookmark.BookmarkViewModel
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.databinding.BookmarkItemBinding
+import com.example.bookmarkse_kotlin.databinding.DeleteBookmarkItemBinding
 
-class BookmarkAdapter(
+class DeleteBookmarkAdapter(
     private var bookmarks: List<Bookmark>,
-    private var viewModel: BookmarkViewModel
-) : RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder>() {
+    private var viewModel: DeleteBookmarkViewModel
+) : RecyclerView.Adapter<DeleteBookmarkAdapter.BookmarkViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BookmarkViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = BookmarkItemBinding.inflate(inflater,parent,false)
-        return BookmarkViewHolder(view, viewModel)
+        val view = DeleteBookmarkItemBinding.inflate(inflater,parent,false)
+        return DeleteBookmarkAdapter.BookmarkViewHolder(view, viewModel)
     }
 
     override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
@@ -32,11 +38,14 @@ class BookmarkAdapter(
 
     fun replaceBookmarks(bookmarks: List<Bookmark>) = setBookmarks(bookmarks)
 
-    class BookmarkViewHolder(private val viewBinding: BookmarkItemBinding, private val viewModel: BookmarkViewModel) :
+    class BookmarkViewHolder(
+        private val viewBinding: DeleteBookmarkItemBinding,
+        private val viewModel: DeleteBookmarkViewModel
+    ) :
         RecyclerView.ViewHolder(viewBinding.root) {
 
         fun bindViewHolder(bookmark: Bookmark, position: Int) {
-            with(viewBinding){
+            with(viewBinding) {
                 this.bookmark = bookmark
                 Glide.with(viewBinding.root)
                     .load(bookmark.favicon)
@@ -47,12 +56,7 @@ class BookmarkAdapter(
             }
 
             viewBinding.clBookmark.setOnClickListener {
-                viewModel.openBookmark(
-                    bookmark.id,
-                    viewBinding.ivUrlImage,
-                    viewBinding.tvBookmarkTitle,
-                    viewBinding.tvBookmarkUrl
-                )
+
             }
         }
     }

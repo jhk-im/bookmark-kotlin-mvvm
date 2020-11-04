@@ -76,7 +76,7 @@
                     android:src="@drawable/ic_delete"
                     android:layout_gravity="center"
                     app:tint="@color/colorWhite"
-                    app:backgroundTint="@color/colorPrimary"
+                    app:backgroundTint="@color/colorAccent"
                     app:fabSize="mini"
                     android:contentDescription="@string/delete_bookmark" />
 
@@ -87,7 +87,7 @@
                     android:src="@drawable/ic_add"
                     android:layout_gravity="center"
                     app:tint="@color/colorWhite"
-                    app:backgroundTint="@color/colorPrimary"
+                    app:backgroundTint="@color/colorAccent"
                     app:fabSize="mini"
                     android:contentDescription="@string/add_bookmark_eng" />
 
@@ -99,7 +99,7 @@
                     android:src="@drawable/ic_edit"
                     android:layout_gravity="center"
                     app:tint="@color/colorWhite"
-                    app:backgroundTint="@color/colorPrimary"
+                    app:backgroundTint="@color/colorAccent"
                     app:fabSize="normal"
                     android:contentDescription="@string/edit_bookmark" />
             </LinearLayout>
