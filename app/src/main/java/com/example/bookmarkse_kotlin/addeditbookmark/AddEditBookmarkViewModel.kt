@@ -164,7 +164,7 @@ class AddEditBookmarkViewModel(
                     }
 
                     override fun onDataNotAvailable() {
-                        TODO("Not yet implemented")
+                        Log.e("EditViewModel","Failed bookmark save")
                     }
                 })
         }
@@ -196,7 +196,7 @@ class AddEditBookmarkViewModel(
             }
 
             override fun onDataNotAvailable() {
-                TODO("Not yet implemented")
+                Log.e("EditViewModel","Categories is empty")
             }
         })
     }

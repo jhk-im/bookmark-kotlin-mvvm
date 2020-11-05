@@ -46,19 +46,15 @@ class BookmarkDetailViewModel(
     val snackBarMessage: LiveData<Event<Int>>
         get() = _snackBarText
 
+    private val _selectedAt = MutableLiveData<String>()
+    val selectedAt: LiveData<String>
+        get() = _selectedAt
+
     val bookmarkId: String?
         get() = bookmark.value?.id
 
     val categoryId: String?
         get() = bookmark.value?.categoryId
-
-    val selectedAt: String?
-        @SuppressLint("SimpleDateFormat")
-        get() {
-            val sd = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-            @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-            return sd.format(bookmark.value?.selectedAt)
-        }
 
     fun start(bookmarkId: String?) {
         if (bookmarkId != null) {
@@ -67,11 +63,14 @@ class BookmarkDetailViewModel(
     }
 
     private fun setBookmark(bookmark: Bookmark?) {
-        this._bookmark.value = bookmark
+        _bookmark.value = bookmark
         _isDataAvailable.value = bookmark != null
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onBookmarkLoaded(bookmark: Bookmark) {
+        val sd = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        _selectedAt.value = sd.format(bookmark.selectedAt!!)
         setBookmark(bookmark)
         onCategoriesLoaded()
     }
@@ -92,7 +91,7 @@ class BookmarkDetailViewModel(
             }
 
             override fun onDataNotAvailable() {
-                TODO("Not yet implemented")
+                Log.e("DetailViewModel","category not available")
             }
         })
     }

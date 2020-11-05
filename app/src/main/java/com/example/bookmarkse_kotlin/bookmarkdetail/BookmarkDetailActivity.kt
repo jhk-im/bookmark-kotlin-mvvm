@@ -38,10 +38,10 @@ class BookmarkDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = DataBindingUtil.setContentView(this, R.layout.bookmark_detail_act)
+        viewBinding.lifecycleOwner = this
         viewModel = obtainViewModel(BookmarkDetailViewModel::class.java, this)
         viewBinding.viewModel = obtainViewModel(BookmarkDetailViewModel::class.java, this)
         viewModel.start(intent.getStringExtra(EXTRA_BOOKMARK_ID))
-        viewBinding.lifecycleOwner = this
         this.setFinishOnTouchOutside(false)
 
         setFaviconImage()

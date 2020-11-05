@@ -25,142 +25,31 @@ class ItemsRepository(
     private val itemsRemoteDataSource: ItemsDataSource
 ) : ItemsDataSource {
 
-    var cachedBookmarks: LinkedHashMap<String, Bookmark> = LinkedHashMap()
-    var cachedCategories: LinkedHashMap<String, Category> = LinkedHashMap()
-    var cacheIsDirty = false
+    override fun getItems(callback: ItemsDataSource.LoadItemsCallback) {
 
-    private fun refreshCache(bookmarks: List<Bookmark>, categories: List<Category>) {
-        cachedBookmarks.clear()
-        bookmarks.forEach {
-            cacheBookmarkAndPerform(it) {}
-        }
-        cachedCategories.clear()
-        categories.forEach {
-            cacheCategoryAndPerform(it) {}
-        }
-
-        cacheIsDirty = false
-    }
-
-    private fun refreshLocalDataSource(bookmarks: List<Bookmark>, categories: List<Category>) {
-        itemsLocalDataSource.deleteAllItems()
-        for (bookmark in bookmarks) {
-            itemsLocalDataSource.saveBookmark(
-                "",
-                bookmark,
-                object : ItemsDataSource.GetCategoryCallback {
-                    override fun onCategoryLoaded(categoryId: String) {
-                        val nothing = null
-                    }
-
-                    override fun onDataNotAvailable() {
-                        val nothing = null
-                    }
-                })
-        }
-        for (category in categories) {
-            itemsLocalDataSource.saveCategory(category)
-        }
-    }
-
-    private fun getItemsFromRemoteDataSource(callback: ItemsDataSource.LoadItemsCallback) {
-        itemsRemoteDataSource.getItems(object : ItemsDataSource.LoadItemsCallback {
+        itemsLocalDataSource.getItems(object : ItemsDataSource.LoadItemsCallback {
             override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
-                refreshCache(bookmarks, categories)
-                refreshLocalDataSource(bookmarks, categories)
-                callback.onItemsLoaded(
-                    ArrayList(cachedBookmarks.values),
-                    ArrayList(cachedCategories.values)
-                )
+                callback.onItemsLoaded(bookmarks, categories)
             }
 
             override fun onDataNotAvailable() {
-                TODO("Not yet implemented")
+                callback.onDataNotAvailable()
             }
 
         })
+
     }
 
-    private fun getBookmarkId(id: String) = cachedBookmarks[id]
-
-    private inline fun cacheBookmarkAndPerform(bookmark: Bookmark, perform: (Bookmark) -> Unit) {
-        val cachedBookmark =
-            Bookmark(
-                bookmark.title, bookmark.url, bookmark.id
-            ).apply {
-                categoryId = bookmark.categoryId
-                favicon = bookmark.favicon
-                selectedAt = bookmark.selectedAt
-            }
-
-        cachedBookmarks[cachedBookmark.id] = cachedBookmark
-        perform(cachedBookmark)
-    }
-
-    private inline fun cacheCategoryAndPerform(category: Category, perform: (Category) -> Unit) {
-        val cachedCategory =
-            Category(category.title, category.id)
-        cachedCategories[cachedCategory.title] = cachedCategory
-        perform(cachedCategory)
-    }
-
-    override fun getItems(callback: ItemsDataSource.LoadItemsCallback) {
-
-        if (cacheIsDirty) {
-            getItemsFromRemoteDataSource(callback)
-        } else {
-
-            itemsLocalDataSource.getItems(object : ItemsDataSource.LoadItemsCallback {
-                override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
-                    refreshCache(bookmarks, categories)
-                    callback.onItemsLoaded(bookmarks, categories)
-                }
-
-                override fun onDataNotAvailable() {
-                    getItemsFromRemoteDataSource(callback)
-                }
-
-            })
-        }
-    }
-
-    override fun getBookmark(
-        bookmarkId: String,
-        callback: ItemsDataSource.GetBookmarkCallback
-    ) {
-        val bookmarkInCache = getBookmarkId(bookmarkId)
-
-        if (bookmarkInCache != null) {
-            callback.onBookmarkLoaded(bookmarkInCache)
-            return
-        }
-
+    override fun getBookmark(bookmarkId: String, callback: ItemsDataSource.GetBookmarkCallback) {
         itemsLocalDataSource.getBookmark(
             bookmarkId,
             object : ItemsDataSource.GetBookmarkCallback {
-
                 override fun onBookmarkLoaded(bookmark: Bookmark) {
-
-                    cacheBookmarkAndPerform(bookmark) {
-                        callback.onBookmarkLoaded(it)
-                    }
+                    callback.onBookmarkLoaded(bookmark)
                 }
 
                 override fun onDataNotAvailable() {
-                    itemsRemoteDataSource.getBookmark(
-                        bookmarkId,
-                        object : ItemsDataSource.GetBookmarkCallback {
-
-                            override fun onBookmarkLoaded(bookmark: Bookmark) {
-                                cacheBookmarkAndPerform(bookmark) {
-                                    callback.onBookmarkLoaded(it)
-                                }
-                            }
-
-                            override fun onDataNotAvailable() {
-                                callback.onDataNotAvailable()
-                            }
-                        })
+                    callback.onDataNotAvailable()
                 }
             })
     }
@@ -170,64 +59,52 @@ class ItemsRepository(
         bookmark: Bookmark,
         callback: ItemsDataSource.GetCategoryCallback
     ) {
+        itemsLocalDataSource.saveBookmark(
+            categoryTitle,
+            bookmark,
+            object : ItemsDataSource.GetCategoryCallback {
+                override fun onCategoryLoaded(categoryId: String) {
+                    callback.onCategoryLoaded(categoryId)
+                }
 
-        cacheBookmarkAndPerform(bookmark) {
-            itemsLocalDataSource.saveBookmark(
-                categoryTitle,
-                it,
-                object : ItemsDataSource.GetCategoryCallback {
-                    override fun onCategoryLoaded(categoryId: String) {
-                        callback.onCategoryLoaded(categoryId)
-                    }
-
-                    override fun onDataNotAvailable() {
-                        callback.onDataNotAvailable()
-                    }
-                })
-            // itemsRemoteDataSource.saveBookmark(categoryTitle, it)
-        }
+                override fun onDataNotAvailable() {
+                    callback.onDataNotAvailable()
+                }
+            })
     }
 
     override fun saveCategory(category: Category) {
-        cacheCategoryAndPerform(category) {
-            itemsLocalDataSource.saveCategory(it)
-            itemsRemoteDataSource.saveCategory(it)
-        }
+        itemsLocalDataSource.saveCategory(category)
+        // itemsRemoteDataSource.saveCategory(category)
     }
 
     override fun deleteCategory(categoryId: String) {
         itemsLocalDataSource.deleteCategory(categoryId)
         // itemsRemoteDataSource.deleteCategory(categoryId)
-        cachedCategories.remove(categoryId)
     }
 
     override fun deleteAllItems() {
         itemsLocalDataSource.deleteAllItems()
-        itemsRemoteDataSource.deleteAllItems()
-        cachedBookmarks.clear()
+        // itemsRemoteDataSource.deleteAllItems()
     }
 
     override fun deleteBookmark(bookmarkId: String) {
         itemsLocalDataSource.deleteBookmark(bookmarkId)
-        itemsRemoteDataSource.deleteBookmark(bookmarkId)
-        cachedBookmarks.remove(bookmarkId)
+        // itemsRemoteDataSource.deleteBookmark(bookmarkId)
     }
 
     override fun refreshBookmark() {
-        cacheIsDirty = true
+        // cacheIsDirty = true
     }
 
     override fun selectedBookmark(bookmarkId: String) {
-        getBookmarkId(bookmarkId)?.let {
-            selectedBookmark(it)
-        }
+        itemsLocalDataSource.selectedBookmark(bookmarkId)
+        //itemsRemoteDataSource.selectedBookmark(bookmarkId)
     }
 
     override fun selectedBookmark(bookmark: Bookmark) {
-        cacheBookmarkAndPerform(bookmark) {
-            itemsLocalDataSource.selectedBookmark(it)
-            itemsRemoteDataSource.selectedBookmark(it)
-        }
+        itemsLocalDataSource.selectedBookmark(bookmark)
+        //itemsRemoteDataSource.selectedBookmark(bookmark)
     }
 
     companion object {
@@ -238,13 +115,12 @@ class ItemsRepository(
         fun getInstance(
             itemsLocalDataSource: ItemsDataSource,
             itemsRemoteDataSource: ItemsDataSource
-        ) =
-            INSTANCE ?: synchronized(ItemsRepository::class.java) {
-                INSTANCE ?: ItemsRepository(
-                    itemsLocalDataSource,
-                    itemsRemoteDataSource
-                ).also { INSTANCE = it }
-            }
+        ) = INSTANCE ?: synchronized(ItemsRepository::class.java) {
+            INSTANCE ?: ItemsRepository(
+                itemsLocalDataSource,
+                itemsRemoteDataSource
+            ).also { INSTANCE = it }
+        }
 
         @JvmStatic
         fun destroyInstance() {
