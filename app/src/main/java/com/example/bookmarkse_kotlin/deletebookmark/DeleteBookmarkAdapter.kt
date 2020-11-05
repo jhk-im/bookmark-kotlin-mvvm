@@ -21,12 +21,12 @@ class DeleteBookmarkAdapter(
         viewType: Int
     ): BookmarkViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = DeleteBookmarkItemBinding.inflate(inflater,parent,false)
-        return DeleteBookmarkAdapter.BookmarkViewHolder(view, viewModel)
+        val view = DeleteBookmarkItemBinding.inflate(inflater, parent, false)
+        return BookmarkViewHolder(view, viewModel)
     }
 
     override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
-        holder.bindViewHolder(bookmarks[position], position)
+        holder.bindViewHolder(bookmarks[position])
     }
 
     override fun getItemCount(): Int = bookmarks.size
@@ -44,7 +44,7 @@ class DeleteBookmarkAdapter(
     ) :
         RecyclerView.ViewHolder(viewBinding.root) {
 
-        fun bindViewHolder(bookmark: Bookmark, position: Int) {
+        fun bindViewHolder(bookmark: Bookmark) {
             with(viewBinding) {
                 this.bookmark = bookmark
                 Glide.with(viewBinding.root)
@@ -55,8 +55,18 @@ class DeleteBookmarkAdapter(
                 executePendingBindings()
             }
 
-            viewBinding.clBookmark.setOnClickListener {
+            viewBinding.clBookmark.isSelected = viewModel.isSelectedAll.value!!
 
+            viewBinding.clBookmark.setOnClickListener {
+                if (!viewModel.isSelectedAll.value!!){
+                    if (!viewBinding.clBookmark.isSelected){
+                        viewBinding.clBookmark.isSelected = true
+                        viewModel.selectBookmark(bookmark.id, true)
+                    } else {
+                        viewBinding.clBookmark.isSelected = false
+                        viewModel.selectBookmark(bookmark.id, false)
+                    }
+                }
             }
         }
     }

@@ -12,7 +12,9 @@ import com.example.bookmarkse_kotlin.bookmark.BookmarkAdapter
 import com.example.bookmarkse_kotlin.bookmark.BookmarkFragment
 import com.example.bookmarkse_kotlin.databinding.BookmarkFragBinding
 import com.example.bookmarkse_kotlin.databinding.DeleteBookmarkFragBinding
+import com.example.bookmarkse_kotlin.util.setupSnackbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 
 class DeleteBookmarkFragment : Fragment() {
 
@@ -39,8 +41,26 @@ class DeleteBookmarkFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewBinding.lifecycleOwner = this.viewLifecycleOwner
+        viewBinding.viewModel?.let {
+            view?.setupSnackbar(this,it.snackbarMessage, Snackbar.LENGTH_SHORT)
+        }
         setupFab()
         setUpListAdapter()
+        setUpSelectAll()
+    }
+
+    private fun setUpSelectAll() {
+        viewBinding.selectAllCb.isSelected = false
+        viewBinding.selectAllCb.setOnCheckedChangeListener { buttonView, isChecked ->
+            when(isChecked) {
+                true -> {
+                    viewBinding.viewModel?.selectAllBookmark(true)
+                }
+                false -> {
+                    viewBinding.viewModel?.selectAllBookmark(false)
+                }
+            }
+        }
     }
 
     private fun setUpListAdapter() {
@@ -56,7 +76,7 @@ class DeleteBookmarkFragment : Fragment() {
     private fun setupFab() {
         activity?.findViewById<FloatingActionButton>(R.id.fab_edit_done)?.let {
             it.setImageResource(R.drawable.ic_done)
-            // it.setOnClickListener { viewBinding.viewModel?.saveItem() }
+            it.setOnClickListener { viewBinding.viewModel?.deleteBookmarks() }
         }
     }
 
