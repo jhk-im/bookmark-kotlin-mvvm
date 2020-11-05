@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017, The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.example.bookmarkse_kotlin.bookmark
 
 import android.util.Log
@@ -97,8 +112,6 @@ class BookmarkViewModel(
 
     init {
         setFiltering(BookmarkFilterType.CATEGORY_BOOKMARKS)
-        // itemsRepository.deleteAllItems()
-        // testLocalDatabase()
     }
 
     fun start() {
@@ -169,15 +182,12 @@ class BookmarkViewModel(
                     loadItems(false)
                     // Log.e("handle", "$categoryId")
                 }
-//                DETAIL_RESULT_OK -> {
-//                    _isCategoriesSetup.value = false
-//                }
             }
         }
     }
 
     private fun showSnackbarMessage(message: Int) {
-        //_snackbarText.value = Event(message)
+        _snackbarText.value = Event(message)
     }
 
     private fun setFilter(
@@ -255,81 +265,5 @@ class BookmarkViewModel(
                 _dataLoading.value = false
             }
         })
-    }
-
-
-    private fun testLocalDatabase() {
-
-        val newBookmark = Bookmark("Google", "https://www.google.com").apply {
-            favicon = "https://www.google.com/favicon.ico"
-        }
-        val newCategory = Category("One")
-        itemsRepository.saveCategory(newCategory)
-        itemsRepository.saveBookmark(
-            newCategory.title,
-            newBookmark,
-            object : ItemsDataSource.GetCategoryCallback {
-                override fun onCategoryLoaded(categoryId: String) {
-                    val nothing = null
-                }
-
-                override fun onDataNotAvailable() {
-                    val nothing = null
-                }
-            })
-
-        val newBookmark2 = Bookmark("Naver", "https://www.naver.com").apply {
-            favicon = "https://www.naver.com/favicon.ico"
-        }
-        val newCategory2 = Category("Two")
-        itemsRepository.saveCategory(newCategory2)
-        itemsRepository.saveBookmark(
-            newCategory2.title,
-            newBookmark2,
-            object : ItemsDataSource.GetCategoryCallback {
-                override fun onCategoryLoaded(categoryId: String) {
-                    val nothing = null
-                }
-
-                override fun onDataNotAvailable() {
-                    val nothing = null
-                }
-            })
-
-        val newBookmark3 = Bookmark("Daum", "https://www.daum.net").apply {
-            favicon = "https://www.daum.net/favicon.ico"
-        }
-        val newCategory3 = Category("Three")
-        itemsRepository.saveCategory(newCategory3)
-        itemsRepository.saveBookmark(
-            newCategory3.title,
-            newBookmark3,
-            object : ItemsDataSource.GetCategoryCallback {
-                override fun onCategoryLoaded(categoryId: String) {
-                    val nothing = null
-                }
-
-                override fun onDataNotAvailable() {
-                    val nothing = null
-                }
-            })
-
-        val newBookmark4 = Bookmark("Nate", "https://www.nate.com").apply {
-            favicon = "https://www.nate.com/favicon.ico"
-        }
-        val newCategory4 = Category("One")
-        itemsRepository.saveCategory(newCategory4)
-        itemsRepository.saveBookmark(
-            newCategory4.title,
-            newBookmark4,
-            object : ItemsDataSource.GetCategoryCallback {
-                override fun onCategoryLoaded(categoryId: String) {
-                    val nothing = null
-                }
-
-                override fun onDataNotAvailable() {
-                    val nothing = null
-                }
-            })
     }
 }

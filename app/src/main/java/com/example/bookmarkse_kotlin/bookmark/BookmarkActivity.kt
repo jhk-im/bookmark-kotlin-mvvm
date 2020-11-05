@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017, The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.example.bookmarkse_kotlin.bookmark
 
 import android.app.ActivityOptions
@@ -23,8 +38,6 @@ import android.util.Pair as UtilPair
 
 class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNavigator {
 
-    private lateinit var mDrawerLayout: DrawerLayout
-
     private lateinit var viewModel: BookmarkViewModel
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -34,12 +47,9 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNav
         setContentView(R.layout.bookmark_act)
 
         setupActionBar(R.id.toolbar) {
-            // setHomeAsUpIndicator(R.drawable.ic_menu)
-            // setDisplayHomeAsUpEnabled(true)
             setTitle(R.string.bookmark)
         }
 
-        // setupNavigationDrawer()
         setupFragment()
 
         viewModel = obtainViewModel().apply {
@@ -72,28 +82,6 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNav
             ?: replaceFragmentInActivity(BookmarkFragment.newInstance(), R.id.content_frame)
     }
 
-//    private fun setupNavigationDrawer() {
-//        mDrawerLayout = (findViewById<DrawerLayout>(R.id.drawer_layout)).apply {
-//            setStatusBarBackground(R.color.colorPrimaryDark)
-//        }
-//        setupDrawerContent(findViewById(R.id.navigation_view))
-//    }
-
-    private fun setupDrawerContent(navigationView: NavigationView) {
-        navigationView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.navigation_menu_bookmark -> {
-                    //
-                }
-                R.id.navigation_menu_notice -> {
-                    //
-                }
-            }
-            menuItem.isChecked = true
-            mDrawerLayout.closeDrawers()
-            true
-        }
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -101,15 +89,6 @@ class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNav
         val categoryId = data?.getStringExtra(AddEditBookmarkActivity.CATEGORY_ID)
         viewModel.handleActivityResult(requestCode, resultCode, categoryId)
     }
-
-    override fun onOptionsItemSelected(item: MenuItem) =
-        when (item.itemId) {
-            android.R.id.home -> {
-                mDrawerLayout.openDrawer(GravityCompat.START)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
 
     override fun addNewItem() {
         val intent = Intent(this, AddEditBookmarkActivity::class.java)
