@@ -45,14 +45,6 @@ class BookmarkDetailViewModel(
             return sd.format(bookmark.value?.selectedAt)
         }
 
-    fun editBookmark() {
-
-    }
-
-    fun openWeb() {
-
-    }
-
     fun start(bookmarkId: String?) {
         if (bookmarkId != null) {
             itemRepository.getBookmark(bookmarkId, this)

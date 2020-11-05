@@ -1,12 +1,10 @@
 package com.example.bookmarkse_kotlin.deletebookmark
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.bookmarkse_kotlin.Event
 import com.example.bookmarkse_kotlin.R
-import com.example.bookmarkse_kotlin.bookmark.BookmarkFilterType
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
 import com.example.bookmarkse_kotlin.data.source.ItemsDataSource
@@ -20,9 +18,9 @@ class DeleteBookmarkViewModel(
     val bookmarks: LiveData<List<Bookmark>>
         get() = _bookmarks
 
-    private val _deleteBookmarks = MutableLiveData<List<String>>().apply { value = emptyList() }
-    val deleteBookmarks: LiveData<List<String>>
-        get() = _deleteBookmarks
+//    private val _deleteBookmarks = MutableLiveData<List<String>>().apply { value = emptyList() }
+//    val deleteBookmarks: LiveData<List<String>>
+//        get() = _deleteBookmarks
     private val deleteBookmarkList = ArrayList<String>()
 
     private val _categories = MutableLiveData<List<Category>>().apply { value = emptyList() }
@@ -54,7 +52,7 @@ class DeleteBookmarkViewModel(
     internal fun clickedCategory(categoryId: String) {
         _currentCategory.value = categoryId
         _isCategoriesSetup.value = false
-        _deleteBookmarks.value = emptyList()
+        // _deleteBookmarks.value = emptyList()
         deleteBookmarkList.clear()
         loadItems(false, showLoadingUI = false)
     }
@@ -66,13 +64,13 @@ class DeleteBookmarkViewModel(
             deleteBookmarkList.remove(bookmarkId)
         }
         // Log.e("", "$deleteBookmarkList")
-        _deleteBookmarks.value = deleteBookmarkList
+        // _deleteBookmarks.value = deleteBookmarkList
     }
 
     fun selectAllBookmark(isSelected: Boolean) {
         _isCategoriesSetup.value = false
         _isSelectedAll.value = isSelected
-        _deleteBookmarks.value = emptyList()
+        // _deleteBookmarks.value = emptyList()
         deleteBookmarkList.clear()
 
         if(isSelected){
@@ -80,7 +78,7 @@ class DeleteBookmarkViewModel(
                 deleteBookmarkList.add(bookmark.id)
             }
         }
-        _deleteBookmarks.value = deleteBookmarkList
+        // _deleteBookmarks.value = deleteBookmarkList
         loadItems(false, showLoadingUI = false)
         // Log.e("", "$deleteBookmarkList")
     }
@@ -93,7 +91,7 @@ class DeleteBookmarkViewModel(
                 itemsRepository.deleteBookmark(bookmarkId)
             }
             deleteBookmarkList.clear()
-            _deleteBookmarks.value = emptyList()
+            // _deleteBookmarks.value = emptyList()
             _snackbarText.value = Event(R.string.deleted_bookmarks)
             _isCategoriesSetup.value = false
             _isSelectedAll.value = false

@@ -97,8 +97,8 @@ class BookmarkViewModel(
 
     init {
         setFiltering(BookmarkFilterType.CATEGORY_BOOKMARKS)
-        //itemsRepository.deleteAllItems()
-        //testLocalDatabase()
+        // itemsRepository.deleteAllItems()
+        // testLocalDatabase()
     }
 
     fun start() {

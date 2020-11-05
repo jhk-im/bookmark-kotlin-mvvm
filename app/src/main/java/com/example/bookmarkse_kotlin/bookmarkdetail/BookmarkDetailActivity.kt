@@ -14,7 +14,7 @@ import com.example.bookmarkse_kotlin.databinding.BookmarkDetailActBinding
 import com.example.bookmarkse_kotlin.util.ADD_EDIT_RESULT_OK
 import com.example.bookmarkse_kotlin.util.obtainViewModel
 
-class BookmarkDetailActivity : AppCompatActivity(), BookMarkDetailUserActionListener {
+class BookmarkDetailActivity : AppCompatActivity() {
 
     private lateinit var viewBinding: BookmarkDetailActBinding
     private lateinit var viewModel: BookmarkDetailViewModel
@@ -40,6 +40,9 @@ class BookmarkDetailActivity : AppCompatActivity(), BookMarkDetailUserActionList
         }
         viewBinding.completeButton.setOnClickListener {
             complete()
+        }
+        viewBinding.shareButton.setOnClickListener {
+            shareUrl()
         }
     }
 
@@ -74,11 +77,11 @@ class BookmarkDetailActivity : AppCompatActivity(), BookMarkDetailUserActionList
         finish()
     }
 
-    override fun openWeb() {
+    private fun openWeb() {
         TODO("Not yet implemented")
     }
 
-    override fun openEditItem() {
+    private fun openEditItem() {
         val intent = Intent(this, AddEditBookmarkActivity::class.java).apply {
             putExtra(AddEditBookmarkFragment.ARGUMENT_EDIT_ID, viewModel.bookmarkId)
         }
@@ -86,11 +89,18 @@ class BookmarkDetailActivity : AppCompatActivity(), BookMarkDetailUserActionList
         overridePendingTransition(R.anim.fadein, R.anim.fadeout)
     }
 
-    override fun shareUrl() {
-        TODO("Not yet implemented")
+    private fun shareUrl() {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, viewModel.bookmark.value?.url)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
-    override fun complete() {
+    private fun complete() {
         val intent = Intent(this, BookmarkActivity::class.java).apply {
             putExtra(
                 AddEditBookmarkActivity.CATEGORY_ID,
