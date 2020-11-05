@@ -13,6 +13,7 @@ import com.example.bookmarkse_kotlin.bookmark.BookmarkActivity
 import com.example.bookmarkse_kotlin.databinding.BookmarkDetailActBinding
 import com.example.bookmarkse_kotlin.util.ADD_EDIT_RESULT_OK
 import com.example.bookmarkse_kotlin.util.obtainViewModel
+import com.example.bookmarkse_kotlin.webview.WebViewActivity
 
 class BookmarkDetailActivity : AppCompatActivity() {
 
@@ -43,6 +44,9 @@ class BookmarkDetailActivity : AppCompatActivity() {
         }
         viewBinding.shareButton.setOnClickListener {
             shareUrl()
+        }
+        viewBinding.webButton.setOnClickListener {
+            openWeb()
         }
     }
 
@@ -78,7 +82,11 @@ class BookmarkDetailActivity : AppCompatActivity() {
     }
 
     private fun openWeb() {
-        TODO("Not yet implemented")
+        val intent = Intent(this, WebViewActivity::class.java).apply {
+            putExtra(BOOKMARK_URL, viewModel.bookmark.value?.url)
+        }
+        startActivityForResult(intent, AddEditBookmarkActivity.REQUEST_CODE)
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout)
     }
 
     private fun openEditItem() {
@@ -114,5 +122,6 @@ class BookmarkDetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_BOOKMARK_ID = "BOOKMARK_ID"
+        const val BOOKMARK_URL = "BOOKMARK_URL"
     }
 }
