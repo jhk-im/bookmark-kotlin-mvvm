@@ -17,7 +17,7 @@
     <string name="popup_add_item_et_title">제목</string>
     <string name="popup_add_item_et_url">주소</string>
     <string name="popup_add_item_category">카테고리</string>
-    <string name="loading">로딩중</string>
+    <string name="loading">loading...</string>
     <string name="https">https://</string>
     <string name="http">http://</string>
     <string name="edit_item_title">Title</string>
@@ -69,4 +69,6 @@
     <string name="deleted_bookmarks">Deleted Bookmarks</string>
     <string name="no_items_selected">No items selected</string>
     <string name="select_all">Select All</string>
+    <string name="refresh">Refresh</string>
+    <string name="close">Close</string>
 </resources>

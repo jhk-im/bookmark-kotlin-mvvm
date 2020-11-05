@@ -22,7 +22,7 @@ fun View.showSnackbar(snackbarText: String, timeLength: Int) {
                 EspressoIdlingResource.decrement()
             }
         })
-        show()
+
     }
 }
 
