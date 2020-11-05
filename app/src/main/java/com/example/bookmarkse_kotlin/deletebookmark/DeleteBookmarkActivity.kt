@@ -1,10 +1,14 @@
 package com.example.bookmarkse_kotlin.deletebookmark
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.Observer
+import com.example.bookmarkse_kotlin.Event
 import com.example.bookmarkse_kotlin.R
+import com.example.bookmarkse_kotlin.bookmark.BookmarkActivity
 import com.example.bookmarkse_kotlin.bookmark.BookmarkFragment
 import com.example.bookmarkse_kotlin.bookmark.BookmarkViewModel
 import com.example.bookmarkse_kotlin.util.obtainViewModel

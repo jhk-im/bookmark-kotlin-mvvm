@@ -31,6 +31,7 @@ object CategoryListBinding {
                 }
                 chip.setOnClickListener{
                     viewModel.clickedCategory(category.id)
+
                 }
             }
         }

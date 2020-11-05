@@ -6,5 +6,4 @@ import com.example.bookmarkse_kotlin.data.Category
 interface ItemUserActionsListener {
 
     fun onBookmarkClicked(bookmark: Bookmark)
-    fun onCategoryClicked(category: Category)
 }
