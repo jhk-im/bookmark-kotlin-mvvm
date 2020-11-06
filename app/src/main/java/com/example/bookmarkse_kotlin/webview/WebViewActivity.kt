@@ -32,11 +32,11 @@ import android.widget.EditText
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
+import com.example.bookmarkse_kotlin.Injection
 import com.example.bookmarkse_kotlin.R
 import com.example.bookmarkse_kotlin.bookmarkdetail.BookmarkDetailActivity
 import com.example.bookmarkse_kotlin.data.Bookmark
 import com.example.bookmarkse_kotlin.data.Category
-import com.example.bookmarkse_kotlin.data.Injection
 import com.example.bookmarkse_kotlin.data.source.ItemsDataSource
 import com.example.bookmarkse_kotlin.data.source.ItemsRepository
 import com.example.bookmarkse_kotlin.util.setupActionBar
