@@ -24,11 +24,11 @@
 
         <variable
             name="bookmark"
-            type="com.example.bookmarkse_kotlin.data.Bookmark" />
+            type="com.jroomdev.bookmark_kotlin.data.Bookmark" />
 
         <variable
             name="listener"
-            type="com.example.bookmarkse_kotlin.deletebookmark.DeleteActionsListener" />
+            type="com.jroomdev.bookmark_kotlin.deletebookmark.DeleteActionsListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.bookmarkse_kotlin">
+    package="com.jroomdev.bookmark_kotlin">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -14,14 +14,14 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".webview.WebViewActivity"></activity>
-        <activity android:name=".deletebookmark.DeleteBookmarkActivity" />
+        <activity android:name="com.jroomdev.bookmark_kotlin.webview.WebViewActivity"></activity>
+        <activity android:name="com.jroomdev.bookmark_kotlin.deletebookmark.DeleteBookmarkActivity" />
         <activity
-            android:name=".bookmarkdetail.BookmarkDetailActivity"
+            android:name="com.jroomdev.bookmark_kotlin.bookmarkdetail.BookmarkDetailActivity"
             android:theme="@style/Base.PopupTheme" />
-        <activity android:name=".addeditbookmark.AddEditBookmarkActivity" />
+        <activity android:name="com.jroomdev.bookmark_kotlin.addeditbookmark.AddEditBookmarkActivity" />
         <activity
-            android:name=".bookmark.BookmarkActivity"
+            android:name="com.jroomdev.bookmark_kotlin.bookmark.BookmarkActivity"
             android:theme="@style/Base.AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

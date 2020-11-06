@@ -23,7 +23,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.bookmarkse_kotlin.addeditbookmark.AddEditBookmarkViewModel" />
+            type="com.jroomdev.bookmark_kotlin.addeditbookmark.AddEditBookmarkViewModel" />
     </data>
 
     <ScrollView

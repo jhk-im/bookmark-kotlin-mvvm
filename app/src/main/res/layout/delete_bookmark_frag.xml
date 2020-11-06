@@ -25,7 +25,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.bookmarkse_kotlin.deletebookmark.DeleteBookmarkViewModel" />
+            type="com.jroomdev.bookmark_kotlin.deletebookmark.DeleteBookmarkViewModel" />
     </data>
 
     <LinearLayout
