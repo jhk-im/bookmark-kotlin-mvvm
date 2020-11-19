@@ -19,5 +19,5 @@ import com.jrooms.bookmark_kotlin.data.Bookmark
 
 interface DeleteActionsListener {
 
-    fun onBookmarkClicked(bookmark: Bookmark)
+  fun onBookmarkClicked(bookmark: Bookmark)
 }

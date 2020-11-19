@@ -18,67 +18,69 @@ package com.jrooms.bookmark_kotlin.deletebookmark
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.jrooms.bookmark_kotlin.R
 import com.jrooms.bookmark_kotlin.data.Bookmark
 import com.jrooms.bookmark_kotlin.databinding.BookmarkItemBinding
 import com.jrooms.bookmark_kotlin.databinding.DeleteBookmarkItemBinding
 
 class DeleteBookmarkAdapter(
-    private var bookmarks: List<Bookmark>,
-    private var viewModel: DeleteBookmarkViewModel
+  private var bookmarks: List<Bookmark>,
+  private var viewModel: DeleteBookmarkViewModel
 ) : RecyclerView.Adapter<DeleteBookmarkAdapter.BookmarkViewHolder>() {
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): BookmarkViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val view = DeleteBookmarkItemBinding.inflate(inflater, parent, false)
-        return BookmarkViewHolder(view, viewModel)
-    }
+  override fun onCreateViewHolder(
+    parent: ViewGroup,
+    viewType: Int
+  ): BookmarkViewHolder {
+    val inflater = LayoutInflater.from(parent.context)
+    val view = DeleteBookmarkItemBinding.inflate(inflater, parent, false)
+    return BookmarkViewHolder(view, viewModel)
+  }
 
-    override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
-        holder.bindViewHolder(bookmarks[position])
-    }
+  override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
+    holder.bindViewHolder(bookmarks[position])
+  }
 
-    override fun getItemCount(): Int = bookmarks.size
+  override fun getItemCount(): Int = bookmarks.size
 
-    private fun setBookmarks(bookmarks: List<Bookmark>) {
-        this.bookmarks = bookmarks
-        notifyDataSetChanged()
-    }
+  private fun setBookmarks(bookmarks: List<Bookmark>) {
+    this.bookmarks = bookmarks
+    notifyDataSetChanged()
+  }
 
-    fun replaceBookmarks(bookmarks: List<Bookmark>) = setBookmarks(bookmarks)
+  fun replaceBookmarks(bookmarks: List<Bookmark>) = setBookmarks(bookmarks)
 
-    class BookmarkViewHolder(
-        private val viewBinding: DeleteBookmarkItemBinding,
-        private val viewModel: DeleteBookmarkViewModel
-    ) :
-        RecyclerView.ViewHolder(viewBinding.root) {
+  class BookmarkViewHolder(
+    private val viewBinding: DeleteBookmarkItemBinding,
+    private val viewModel: DeleteBookmarkViewModel
+  ) :
+    RecyclerView.ViewHolder(viewBinding.root) {
 
-        fun bindViewHolder(bookmark: Bookmark) {
-            with(viewBinding) {
-                this.bookmark = bookmark
-                Glide.with(viewBinding.root)
-                    .load(bookmark.favicon)
-                    .placeholder(R.drawable.logo)
-                    .error(R.drawable.logo)
-                    .into(ivUrlImage)
-                executePendingBindings()
-            }
+    fun bindViewHolder(bookmark: Bookmark) {
+      with(viewBinding) {
+        this.bookmark = bookmark
+        Glide.with(viewBinding.root)
+          .load(bookmark.favicon)
+          .placeholder(R.drawable.logo)
+          .error(R.drawable.logo)
+          .into(ivUrlImage)
+        executePendingBindings()
+      }
 
-            viewBinding.clBookmark.isSelected = viewModel.isSelectedAll.value!!
+      viewBinding.clBookmark.isSelected = viewModel.isSelectedAll.value!!
 
-            viewBinding.clBookmark.setOnClickListener {
-                if (!viewModel.isSelectedAll.value!!){
-                    if (!viewBinding.clBookmark.isSelected){
-                        viewBinding.clBookmark.isSelected = true
-                        viewModel.selectBookmark(bookmark.id, true)
-                    } else {
-                        viewBinding.clBookmark.isSelected = false
-                        viewModel.selectBookmark(bookmark.id, false)
-                    }
-                }
-            }
+      viewBinding.clBookmark.setOnClickListener {
+        if (!viewModel.isSelectedAll.value!!) {
+          if (!viewBinding.clBookmark.isSelected) {
+            viewBinding.clBookmark.isSelected = true
+            viewModel.selectBookmark(bookmark.id, true)
+          } else {
+            viewBinding.clBookmark.isSelected = false
+            viewModel.selectBookmark(bookmark.id, false)
+          }
         }
+      }
     }
+  }
 }

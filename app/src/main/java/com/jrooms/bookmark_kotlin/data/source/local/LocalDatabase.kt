@@ -27,30 +27,30 @@ import com.jrooms.bookmark_kotlin.data.Category
 @TypeConverters(Converters::class)
 abstract class LocalDatabase : RoomDatabase() {
 
-    abstract fun bookmarkDao(): BookmarkDao
+  abstract fun bookmarkDao(): BookmarkDao
 
-    abstract fun categoryDao(): CategoryDao
+  abstract fun categoryDao(): CategoryDao
 
-    companion object {
+  companion object {
 
-        private var INSTANCE: LocalDatabase? = null
+    private var INSTANCE: LocalDatabase? = null
 
-        private val lock = Any()
+    private val lock = Any()
 
-        fun getInstance(context: Context): LocalDatabase {
+    fun getInstance(context: Context): LocalDatabase {
 
-            synchronized(lock) {
+      synchronized(lock) {
 
-                if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(
-                        context.applicationContext,
-                        LocalDatabase::class.java,
-                        "localDatabase.db"
-                    ).build()
-                }
-
-                return  INSTANCE!!
-            }
+        if (INSTANCE == null) {
+          INSTANCE = Room.databaseBuilder(
+              context.applicationContext,
+              LocalDatabase::class.java,
+              "localDatabase.db"
+          ).build()
         }
+
+        return INSTANCE!!
+      }
     }
+  }
 }

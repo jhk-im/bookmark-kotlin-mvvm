@@ -28,70 +28,70 @@ import com.jrooms.bookmark_kotlin.data.source.ItemsRepository
 import java.text.SimpleDateFormat
 
 class BookmarkDetailViewModel(
-    private val itemRepository: ItemsRepository
+  private val itemRepository: ItemsRepository
 ) : ViewModel(), ItemsDataSource.GetBookmarkCallback {
 
-    val categoryTitle = MutableLiveData<String>()
+  val categoryTitle = MutableLiveData<String>()
 
-    private val _bookmark = MutableLiveData<Bookmark>()
-    val bookmark: LiveData<Bookmark>
-        get() = _bookmark
+  private val _bookmark = MutableLiveData<Bookmark>()
+  val bookmark: LiveData<Bookmark>
+    get() = _bookmark
 
-    private val _isDataAvailable = MutableLiveData<Boolean>()
-    val isDataAvailable: LiveData<Boolean>
-        get() = _isDataAvailable
+  private val _isDataAvailable = MutableLiveData<Boolean>()
+  val isDataAvailable: LiveData<Boolean>
+    get() = _isDataAvailable
 
-    private val _snackBarText = MutableLiveData<Event<Int>>()
-    val snackBarMessage: LiveData<Event<Int>>
-        get() = _snackBarText
+  private val _snackBarText = MutableLiveData<Event<Int>>()
+  val snackBarMessage: LiveData<Event<Int>>
+    get() = _snackBarText
 
-    private val _selectedAt = MutableLiveData<String>()
-    val selectedAt: LiveData<String>
-        get() = _selectedAt
+  private val _selectedAt = MutableLiveData<String>()
+  val selectedAt: LiveData<String>
+    get() = _selectedAt
 
-    val bookmarkId: String?
-        get() = bookmark.value?.id
+  val bookmarkId: String?
+    get() = bookmark.value?.id
 
-    val categoryId: String?
-        get() = bookmark.value?.categoryId
+  val categoryId: String?
+    get() = bookmark.value?.categoryId
 
-    fun start(bookmarkId: String?) {
-        if (bookmarkId != null) {
-            itemRepository.getBookmark(bookmarkId, this)
+  fun start(bookmarkId: String?) {
+    if (bookmarkId != null) {
+      itemRepository.getBookmark(bookmarkId, this)
+    }
+  }
+
+  private fun setBookmark(bookmark: Bookmark?) {
+    _bookmark.value = bookmark
+    _isDataAvailable.value = bookmark != null
+  }
+
+  @SuppressLint("SimpleDateFormat")
+  override fun onBookmarkLoaded(bookmark: Bookmark) {
+    val sd = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    _selectedAt.value = sd.format(bookmark.selectedAt!!)
+    setBookmark(bookmark)
+    onCategoriesLoaded()
+  }
+
+  override fun onDataNotAvailable() {
+    _bookmark.value = null
+    _isDataAvailable.value = false
+  }
+
+  private fun onCategoriesLoaded() {
+    itemRepository.getItems(object : ItemsDataSource.LoadItemsCallback {
+      override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
+
+        for (category in categories) {
+          if (categoryId == category.id)
+            categoryTitle.value = category.title
         }
-    }
+      }
 
-    private fun setBookmark(bookmark: Bookmark?) {
-        _bookmark.value = bookmark
-        _isDataAvailable.value = bookmark != null
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    override fun onBookmarkLoaded(bookmark: Bookmark) {
-        val sd = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        _selectedAt.value = sd.format(bookmark.selectedAt!!)
-        setBookmark(bookmark)
-        onCategoriesLoaded()
-    }
-
-    override fun onDataNotAvailable() {
-        _bookmark.value = null
-        _isDataAvailable.value = false
-    }
-
-    private fun onCategoriesLoaded() {
-        itemRepository.getItems(object : ItemsDataSource.LoadItemsCallback {
-            override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
-
-                for (category in categories) {
-                    if (categoryId == category.id)
-                        categoryTitle.value = category.title
-                }
-            }
-
-            override fun onDataNotAvailable() {
-                Log.e("DetailViewModel","category not available")
-            }
-        })
-    }
+      override fun onDataNotAvailable() {
+        Log.e("DetailViewModel", "category not available")
+      }
+    })
+  }
 }

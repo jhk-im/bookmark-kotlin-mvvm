@@ -23,31 +23,31 @@ import com.google.android.material.chip.ChipGroup
 
 object DeleteCategoriesBinding {
 
-    @BindingAdapter(value = ["app:deleteCategories", "app:deleteViewModel"])
-    @JvmStatic
-    fun setDeleteCategories(
-        view: ChipGroup,
-        @NonNull categories: List<Category>,
-        @NonNull viewModel: DeleteBookmarkViewModel
-    ){
-        if(viewModel.isCategoriesSetup.value != null) {
-            if(!viewModel.isCategoriesSetup.value!!)
-                return
+  @BindingAdapter(value = ["app:deleteCategories", "app:deleteViewModel"])
+  @JvmStatic
+  fun setDeleteCategories(
+    view: ChipGroup,
+    @NonNull categories: List<Category>,
+    @NonNull viewModel: DeleteBookmarkViewModel
+  ) {
+    if (viewModel.isCategoriesSetup.value != null) {
+      if (!viewModel.isCategoriesSetup.value!!)
+        return
 
-            val context = view.context
-            view.removeAllViews()
-            for (category in categories) {
-                val chip = Chip(context)
-                chip.text = category.title
-                chip.isCheckable = true
-                view.addView(chip)
-                if (viewModel.currentCategory.value == category.id) {
-                    chip.performClick()
-                }
-                chip.setOnClickListener{
-                    viewModel.clickedCategory(category.id)
-                }
-            }
+      val context = view.context
+      view.removeAllViews()
+      for (category in categories) {
+        val chip = Chip(context)
+        chip.text = category.title
+        chip.isCheckable = true
+        view.addView(chip)
+        if (viewModel.currentCategory.value == category.id) {
+          chip.performClick()
         }
+        chip.setOnClickListener {
+          viewModel.clickedCategory(category.id)
+        }
+      }
     }
+  }
 }

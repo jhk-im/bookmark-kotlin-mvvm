@@ -17,5 +17,5 @@ package com.jrooms.bookmark_kotlin.bookmark
 
 interface BookmarkItemNavigator {
 
-    fun openBookmarkDetails(bookmarkId: String)
+  fun openBookmarkDetails(bookmarkId: String)
 }

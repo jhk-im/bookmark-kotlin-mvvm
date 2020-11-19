@@ -20,38 +20,38 @@ import com.jrooms.bookmark_kotlin.data.Category
 
 interface ItemsDataSource {
 
-    interface LoadItemsCallback {
-        fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>)
-        fun onDataNotAvailable()
-    }
+  interface LoadItemsCallback {
+    fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>)
+    fun onDataNotAvailable()
+  }
 
-    interface GetBookmarkCallback {
-        fun onBookmarkLoaded(book: Bookmark)
-        fun onDataNotAvailable()
-    }
+  interface GetBookmarkCallback {
+    fun onBookmarkLoaded(book: Bookmark)
+    fun onDataNotAvailable()
+  }
 
-    interface GetCategoryCallback {
-        fun onCategoryLoaded(categoryId: String)
-        fun onDataNotAvailable()
-    }
-    
-    fun getItems(callback: LoadItemsCallback)
+  interface GetCategoryCallback {
+    fun onCategoryLoaded(categoryId: String)
+    fun onDataNotAvailable()
+  }
 
-    fun getBookmark(bookmarkId: String, callback: GetBookmarkCallback)
+  fun getItems(callback: LoadItemsCallback)
 
-    fun saveBookmark(categoryTitle: String, bookmark: Bookmark, callback: GetCategoryCallback)
+  fun getBookmark(bookmarkId: String, callback: GetBookmarkCallback)
 
-    fun saveCategory(category: Category)
+  fun saveBookmark(categoryTitle: String, bookmark: Bookmark, callback: GetCategoryCallback)
 
-    fun deleteCategory(categoryId: String)
+  fun saveCategory(category: Category)
 
-    fun deleteAllItems()
+  fun deleteCategory(categoryId: String)
 
-    fun deleteBookmark(bookmarkId: String)
+  fun deleteAllItems()
 
-    fun refreshBookmark()
+  fun deleteBookmark(bookmarkId: String)
 
-    fun selectedBookmark(bookmarkId: String)
+  fun refreshBookmark()
 
-    fun selectedBookmark(bookmark: Bookmark)
+  fun selectedBookmark(bookmarkId: String)
+
+  fun selectedBookmark(bookmark: Bookmark)
 }

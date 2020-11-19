@@ -18,112 +18,111 @@ package com.jrooms.bookmark_kotlin.data.source
 import com.jrooms.bookmark_kotlin.data.Bookmark
 import com.jrooms.bookmark_kotlin.data.Category
 
-
 class ItemsRepository(
-    private val itemsLocalDataSource: ItemsDataSource,
-    private val itemsRemoteDataSource: ItemsDataSource
+  private val itemsLocalDataSource: ItemsDataSource,
+  private val itemsRemoteDataSource: ItemsDataSource
 ) : ItemsDataSource {
 
-    override fun getItems(callback: ItemsDataSource.LoadItemsCallback) {
+  override fun getItems(callback: ItemsDataSource.LoadItemsCallback) {
 
-        itemsLocalDataSource.getItems(object : ItemsDataSource.LoadItemsCallback {
-            override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
-                callback.onItemsLoaded(bookmarks, categories)
-            }
+    itemsLocalDataSource.getItems(object : ItemsDataSource.LoadItemsCallback {
+      override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
+        callback.onItemsLoaded(bookmarks, categories)
+      }
 
-            override fun onDataNotAvailable() {
-                callback.onDataNotAvailable()
-            }
+      override fun onDataNotAvailable() {
+        callback.onDataNotAvailable()
+      }
 
-        })
+    })
 
-    }
+  }
 
-    override fun getBookmark(bookmarkId: String, callback: ItemsDataSource.GetBookmarkCallback) {
-        itemsLocalDataSource.getBookmark(
-            bookmarkId,
-            object : ItemsDataSource.GetBookmarkCallback {
-                override fun onBookmarkLoaded(bookmark: Bookmark) {
-                    callback.onBookmarkLoaded(bookmark)
-                }
-
-                override fun onDataNotAvailable() {
-                    callback.onDataNotAvailable()
-                }
-            })
-    }
-
-    override fun saveBookmark(
-        categoryTitle: String,
-        bookmark: Bookmark,
-        callback: ItemsDataSource.GetCategoryCallback
-    ) {
-        itemsLocalDataSource.saveBookmark(
-            categoryTitle,
-            bookmark,
-            object : ItemsDataSource.GetCategoryCallback {
-                override fun onCategoryLoaded(categoryId: String) {
-                    callback.onCategoryLoaded(categoryId)
-                }
-
-                override fun onDataNotAvailable() {
-                    callback.onDataNotAvailable()
-                }
-            })
-    }
-
-    override fun saveCategory(category: Category) {
-        itemsLocalDataSource.saveCategory(category)
-        // itemsRemoteDataSource.saveCategory(category)
-    }
-
-    override fun deleteCategory(categoryId: String) {
-        itemsLocalDataSource.deleteCategory(categoryId)
-        // itemsRemoteDataSource.deleteCategory(categoryId)
-    }
-
-    override fun deleteAllItems() {
-        itemsLocalDataSource.deleteAllItems()
-        // itemsRemoteDataSource.deleteAllItems()
-    }
-
-    override fun deleteBookmark(bookmarkId: String) {
-        itemsLocalDataSource.deleteBookmark(bookmarkId)
-        // itemsRemoteDataSource.deleteBookmark(bookmarkId)
-    }
-
-    override fun refreshBookmark() {
-        // cacheIsDirty = true
-    }
-
-    override fun selectedBookmark(bookmarkId: String) {
-        itemsLocalDataSource.selectedBookmark(bookmarkId)
-        //itemsRemoteDataSource.selectedBookmark(bookmarkId)
-    }
-
-    override fun selectedBookmark(bookmark: Bookmark) {
-        itemsLocalDataSource.selectedBookmark(bookmark)
-        //itemsRemoteDataSource.selectedBookmark(bookmark)
-    }
-
-    companion object {
-
-        private var INSTANCE: ItemsRepository? = null
-
-        @JvmStatic
-        fun getInstance(
-            itemsLocalDataSource: ItemsDataSource,
-            itemsRemoteDataSource: ItemsDataSource
-        ) = INSTANCE ?: synchronized(ItemsRepository::class.java) {
-            INSTANCE ?: ItemsRepository(
-                itemsLocalDataSource,
-                itemsRemoteDataSource
-            ).also { INSTANCE = it }
+  override fun getBookmark(bookmarkId: String, callback: ItemsDataSource.GetBookmarkCallback) {
+    itemsLocalDataSource.getBookmark(
+      bookmarkId,
+      object : ItemsDataSource.GetBookmarkCallback {
+        override fun onBookmarkLoaded(bookmark: Bookmark) {
+          callback.onBookmarkLoaded(bookmark)
         }
 
-        @JvmStatic
-        fun destroyInstance() {
-            INSTANCE = null
+        override fun onDataNotAvailable() {
+          callback.onDataNotAvailable()
         }
+      })
+  }
+
+  override fun saveBookmark(
+    categoryTitle: String,
+    bookmark: Bookmark,
+    callback: ItemsDataSource.GetCategoryCallback
+  ) {
+    itemsLocalDataSource.saveBookmark(
+      categoryTitle,
+      bookmark,
+      object : ItemsDataSource.GetCategoryCallback {
+        override fun onCategoryLoaded(categoryId: String) {
+          callback.onCategoryLoaded(categoryId)
+        }
+
+        override fun onDataNotAvailable() {
+          callback.onDataNotAvailable()
+        }
+      })
+  }
+
+  override fun saveCategory(category: Category) {
+    itemsLocalDataSource.saveCategory(category)
+    // itemsRemoteDataSource.saveCategory(category)
+  }
+
+  override fun deleteCategory(categoryId: String) {
+    itemsLocalDataSource.deleteCategory(categoryId)
+    // itemsRemoteDataSource.deleteCategory(categoryId)
+  }
+
+  override fun deleteAllItems() {
+    itemsLocalDataSource.deleteAllItems()
+    // itemsRemoteDataSource.deleteAllItems()
+  }
+
+  override fun deleteBookmark(bookmarkId: String) {
+    itemsLocalDataSource.deleteBookmark(bookmarkId)
+    // itemsRemoteDataSource.deleteBookmark(bookmarkId)
+  }
+
+  override fun refreshBookmark() {
+    // cacheIsDirty = true
+  }
+
+  override fun selectedBookmark(bookmarkId: String) {
+    itemsLocalDataSource.selectedBookmark(bookmarkId)
+    //itemsRemoteDataSource.selectedBookmark(bookmarkId)
+  }
+
+  override fun selectedBookmark(bookmark: Bookmark) {
+    itemsLocalDataSource.selectedBookmark(bookmark)
+    //itemsRemoteDataSource.selectedBookmark(bookmark)
+  }
+
+  companion object {
+
+    private var INSTANCE: ItemsRepository? = null
+
+    @JvmStatic
+    fun getInstance(
+      itemsLocalDataSource: ItemsDataSource,
+      itemsRemoteDataSource: ItemsDataSource
+    ) = INSTANCE ?: synchronized(ItemsRepository::class.java) {
+      INSTANCE ?: ItemsRepository(
+        itemsLocalDataSource,
+        itemsRemoteDataSource
+      ).also { INSTANCE = it }
     }
+
+    @JvmStatic
+    fun destroyInstance() {
+      INSTANCE = null
+    }
+  }
 }

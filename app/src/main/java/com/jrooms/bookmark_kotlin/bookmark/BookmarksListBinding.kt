@@ -22,12 +22,12 @@ import com.jrooms.bookmark_kotlin.data.Bookmark
 
 object BookmarksListBinding {
 
-    @BindingAdapter("app:bookmarks")
-    @JvmStatic
-    fun setBookmarks(list: RecyclerView,@NonNull bookmarks: List<Bookmark>) {
+  @BindingAdapter("app:bookmarks")
+  @JvmStatic
+  fun setBookmarks(list: RecyclerView, @NonNull bookmarks: List<Bookmark>) {
 
-        with(list.adapter as? BookmarkAdapter) {
-            this?.replaceBookmarks(bookmarks)
-        }
+    with(list.adapter as? BookmarkAdapter) {
+      this?.replaceBookmarks(bookmarks)
     }
+  }
 }

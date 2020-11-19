@@ -22,11 +22,11 @@ import com.jrooms.bookmark_kotlin.data.Bookmark
 
 object DeleteBookmarksBinding {
 
-    @BindingAdapter("app:deleteBookmarks")
-    @JvmStatic
-    fun setDeleteBookmarks(list: RecyclerView, @NonNull bookmarks: List<Bookmark>) {
-        with(list.adapter as? DeleteBookmarkAdapter) {
-            this?.replaceBookmarks(bookmarks)
-        }
+  @BindingAdapter("app:deleteBookmarks")
+  @JvmStatic
+  fun setDeleteBookmarks(list: RecyclerView, @NonNull bookmarks: List<Bookmark>) {
+    with(list.adapter as? DeleteBookmarkAdapter) {
+      this?.replaceBookmarks(bookmarks)
     }
+  }
 }

@@ -17,7 +17,7 @@ package com.jrooms.bookmark_kotlin.bookmark
 
 enum class BookmarkFilterType {
 
-    RECENT_BOOKMARKS,
+  RECENT_BOOKMARKS,
 
-    CATEGORY_BOOKMARKS,
+  CATEGORY_BOOKMARKS,
 }

@@ -17,6 +17,6 @@ package com.jrooms.bookmark_kotlin.bookmark
 
 interface BookmarkNavigator {
 
-    fun addNewItem()
-    fun deleteItem()
+  fun addNewItem()
+  fun deleteItem()
 }

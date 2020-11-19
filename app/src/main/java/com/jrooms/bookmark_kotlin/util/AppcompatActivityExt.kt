@@ -30,25 +30,27 @@ import com.jrooms.bookmark_kotlin.ViewModelFactory
 const val ADD_EDIT_RESULT_OK = Activity.RESULT_FIRST_USER + 1
 const val DETAIL_RESULT_OK = Activity.RESULT_FIRST_USER + 2
 
-
 fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.() -> Unit) {
-    setSupportActionBar(findViewById(toolbarId))
-    supportActionBar?.run {
-        action()
-    }
+  setSupportActionBar(findViewById(toolbarId))
+  supportActionBar?.run {
+    action()
+  }
 }
 
 fun AppCompatActivity.replaceFragmentInActivity(fragment: Fragment, frameId: Int) {
-    supportFragmentManager.transact {
-        replace(frameId, fragment)
-    }
+  supportFragmentManager.transact {
+    replace(frameId, fragment)
+  }
 }
 
 private inline fun FragmentManager.transact(action: FragmentTransaction.() -> Unit) {
-    beginTransaction().apply {
-        action()
-    }.commit()
+  beginTransaction().apply {
+    action()
+  }.commit()
 }
 
-fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>,owner: ViewModelStoreOwner) =
-    ViewModelProvider(owner, ViewModelFactory.getInstance(application)).get(viewModelClass)
+fun <T : ViewModel> AppCompatActivity.obtainViewModel(
+  viewModelClass: Class<T>,
+  owner: ViewModelStoreOwner
+) =
+  ViewModelProvider(owner, ViewModelFactory.getInstance(application)).get(viewModelClass)

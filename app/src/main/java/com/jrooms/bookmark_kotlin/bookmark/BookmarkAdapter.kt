@@ -18,55 +18,60 @@ package com.jrooms.bookmark_kotlin.bookmark
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.jrooms.bookmark_kotlin.R
 import com.jrooms.bookmark_kotlin.data.Bookmark
 import com.jrooms.bookmark_kotlin.databinding.BookmarkItemBinding
 
 class BookmarkAdapter(
-    private var bookmarks: List<Bookmark>,
-    private var viewModel: BookmarkViewModel
+  private var bookmarks: List<Bookmark>,
+  private var viewModel: BookmarkViewModel
 ) : RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val view = BookmarkItemBinding.inflate(inflater,parent,false)
-        return BookmarkViewHolder(view, viewModel)
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkViewHolder {
+    val inflater = LayoutInflater.from(parent.context)
+    val view = BookmarkItemBinding.inflate(inflater, parent, false)
+    return BookmarkViewHolder(view, viewModel)
+  }
+
+  override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
+    holder.bindViewHolder(bookmarks[position], position)
+  }
+
+  override fun getItemCount(): Int = bookmarks.size
+
+  private fun setBookmarks(bookmarks: List<Bookmark>) {
+    this.bookmarks = bookmarks
+    notifyDataSetChanged()
+  }
+
+  fun replaceBookmarks(bookmarks: List<Bookmark>) = setBookmarks(bookmarks)
+
+  class BookmarkViewHolder(
+    private val viewBinding: BookmarkItemBinding,
+    private val viewModel: BookmarkViewModel
+  ) :
+    RecyclerView.ViewHolder(viewBinding.root) {
+
+    fun bindViewHolder(bookmark: Bookmark, position: Int) {
+      with(viewBinding) {
+        this.bookmark = bookmark
+        Glide.with(viewBinding.root)
+          .load(bookmark.favicon)
+          .placeholder(R.drawable.logo)
+          .error(R.drawable.logo)
+          .into(ivUrlImage)
+        executePendingBindings()
+      }
+
+      viewBinding.clBookmark.setOnClickListener {
+        viewModel.openBookmark(
+          bookmark.id,
+          viewBinding.ivUrlImage,
+          viewBinding.tvBookmarkTitle,
+          viewBinding.tvBookmarkUrl
+        )
+      }
     }
-
-    override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
-        holder.bindViewHolder(bookmarks[position], position)
-    }
-
-    override fun getItemCount(): Int = bookmarks.size
-
-    private fun setBookmarks(bookmarks: List<Bookmark>) {
-        this.bookmarks = bookmarks
-        notifyDataSetChanged()
-    }
-
-    fun replaceBookmarks(bookmarks: List<Bookmark>) = setBookmarks(bookmarks)
-
-    class BookmarkViewHolder(private val viewBinding: BookmarkItemBinding, private val viewModel: BookmarkViewModel) :
-        RecyclerView.ViewHolder(viewBinding.root) {
-
-        fun bindViewHolder(bookmark: Bookmark, position: Int) {
-            with(viewBinding){
-                this.bookmark = bookmark
-                Glide.with(viewBinding.root)
-                    .load(bookmark.favicon)
-                    .placeholder(R.drawable.logo)
-                    .error(R.drawable.logo)
-                    .into(ivUrlImage)
-                executePendingBindings()
-            }
-
-            viewBinding.clBookmark.setOnClickListener {
-                viewModel.openBookmark(
-                    bookmark.id,
-                    viewBinding.ivUrlImage,
-                    viewBinding.tvBookmarkTitle,
-                    viewBinding.tvBookmarkUrl
-                )
-            }
-        }
-    }
+  }
 }

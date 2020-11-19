@@ -28,39 +28,41 @@ import com.jrooms.bookmark_kotlin.deletebookmark.DeleteBookmarkViewModel
 import java.lang.IllegalArgumentException
 
 class ViewModelFactory private constructor(
-    private val itemsRepository: ItemsRepository
+  private val itemsRepository: ItemsRepository
 ) : ViewModelProvider.NewInstanceFactory() {
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>) =
-        with(modelClass) {
-           when {
-               isAssignableFrom(BookmarkViewModel::class.java) ->
-                   BookmarkViewModel(itemsRepository)
-               isAssignableFrom(AddEditBookmarkViewModel::class.java) ->
-                   AddEditBookmarkViewModel(itemsRepository)
-               isAssignableFrom(BookmarkDetailViewModel::class.java) ->
-                   BookmarkDetailViewModel(itemsRepository)
-               isAssignableFrom(DeleteBookmarkViewModel::class.java) ->
-                   DeleteBookmarkViewModel(itemsRepository)
-               else ->
-                   throw IllegalArgumentException("Unknown ViewModel Class: ${modelClass.name}")
-           }
-        } as T
+  override fun <T : ViewModel?> create(modelClass: Class<T>) =
+    with(modelClass) {
+      when {
+        isAssignableFrom(BookmarkViewModel::class.java) ->
+          BookmarkViewModel(itemsRepository)
+        isAssignableFrom(AddEditBookmarkViewModel::class.java) ->
+          AddEditBookmarkViewModel(itemsRepository)
+        isAssignableFrom(BookmarkDetailViewModel::class.java) ->
+          BookmarkDetailViewModel(itemsRepository)
+        isAssignableFrom(DeleteBookmarkViewModel::class.java) ->
+          DeleteBookmarkViewModel(itemsRepository)
+        else ->
+          throw IllegalArgumentException("Unknown ViewModel Class: ${modelClass.name}")
+      }
+    } as T
 
-    companion object {
+  companion object {
 
-        @SuppressLint("StaticFieldLeak")
-        @Volatile private var INSTANCE: ViewModelFactory? = null
+    @SuppressLint("StaticFieldLeak")
+    @Volatile
+    private var INSTANCE: ViewModelFactory? = null
 
-        fun getInstance(application: Application) =
-            INSTANCE ?: synchronized(ViewModelFactory::class.java) {
-                INSTANCE ?: ViewModelFactory(
-                    Injection.provideBookmarkRepository(application.applicationContext)
-                ).also { INSTANCE = it }
-            }
+    fun getInstance(application: Application) =
+      INSTANCE ?: synchronized(ViewModelFactory::class.java) {
+        INSTANCE ?: ViewModelFactory(
+          Injection.provideBookmarkRepository(application.applicationContext)
+        ).also { INSTANCE = it }
+      }
 
-        @VisibleForTesting fun destroyInstance() {
-            INSTANCE = null
-        }
+    @VisibleForTesting
+    fun destroyInstance() {
+      INSTANCE = null
     }
+  }
 }

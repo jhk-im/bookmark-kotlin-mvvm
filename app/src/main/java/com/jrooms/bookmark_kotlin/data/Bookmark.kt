@@ -21,19 +21,19 @@ import java.util.*
 
 @Entity(tableName = "bookmarks")
 data class Bookmark @JvmOverloads constructor(
-    @NonNull @ColumnInfo(name = "title") var title: String = "",
-    @NonNull @ColumnInfo(name = "url") var url: String = "",
-    @PrimaryKey @ColumnInfo(name = "id") var id: String = UUID.randomUUID().toString()
+  @NonNull @ColumnInfo(name = "title") var title: String = "",
+  @NonNull @ColumnInfo(name = "url") var url: String = "",
+  @PrimaryKey @ColumnInfo(name = "id") var id: String = UUID.randomUUID().toString()
 ) {
-    @ColumnInfo(name = "selectedAt")
-    var selectedAt: Date? = null
+  @ColumnInfo(name = "selectedAt")
+  var selectedAt: Date? = null
 
-    @ColumnInfo(name = "categoryId")
-    var categoryId: String = ""
+  @ColumnInfo(name = "categoryId")
+  var categoryId: String = ""
 
-    @ColumnInfo(name = "favicon")
-    var favicon: String = ""
+  @ColumnInfo(name = "favicon")
+  var favicon: String = ""
 
-    val isEmpty
-        get() = title.isEmpty()
+  val isEmpty
+    get() = title.isEmpty()
 }

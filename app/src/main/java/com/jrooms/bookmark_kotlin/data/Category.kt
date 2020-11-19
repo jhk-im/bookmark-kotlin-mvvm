@@ -23,11 +23,12 @@ import java.util.*
 
 @Entity(tableName = "categories")
 data class Category @JvmOverloads constructor(
-    @NonNull @ColumnInfo(name = "title") var title: String = "",
-    @PrimaryKey @ColumnInfo(name = "id") var id: String = UUID.randomUUID().toString()
+  @NonNull @ColumnInfo(name = "title") var title: String = "",
+  @PrimaryKey @ColumnInfo(name = "id") var id: String = UUID.randomUUID().toString()
 ) {
-    @ColumnInfo(name = "selectedAt") var selectedAt: Date? = null
+  @ColumnInfo(name = "selectedAt")
+  var selectedAt: Date? = null
 
-    val isEmpty
-        get() = title.isEmpty()
+  val isEmpty
+    get() = title.isEmpty()
 }

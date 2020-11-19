@@ -17,5 +17,5 @@ package com.jrooms.bookmark_kotlin.addeditbookmark
 
 interface AddEditBookmarkNavigator {
 
-    fun onItemSaved(categoryId: String)
+  fun onItemSaved(categoryId: String)
 }

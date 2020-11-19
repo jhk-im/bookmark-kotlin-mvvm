@@ -34,87 +34,87 @@ import android.util.Pair as UtilPair
 
 class BookmarkActivity : AppCompatActivity(), BookmarkNavigator, BookmarkItemNavigator {
 
-    private lateinit var viewModel: BookmarkViewModel
+  private lateinit var viewModel: BookmarkViewModel
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout)
-        setContentView(R.layout.bookmark_act)
+  @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    overridePendingTransition(R.anim.fadein, R.anim.fadeout)
+    setContentView(R.layout.bookmark_act)
 
-        setupActionBar(R.id.toolbar) {
-            setTitle(R.string.bookmark)
+    setupActionBar(R.id.toolbar) {
+      setTitle(R.string.bookmark)
+    }
+
+    setupFragment()
+
+    viewModel = obtainViewModel().apply {
+      newBookmarkEvent.observe(this@BookmarkActivity, Observer<Event<Unit>> { event ->
+        event.getContentIfNotHandled()?.let {
+          this@BookmarkActivity.addNewItem()
         }
+      })
 
-        setupFragment()
-
-        viewModel = obtainViewModel().apply {
-            newBookmarkEvent.observe(this@BookmarkActivity, Observer<Event<Unit>> { event ->
-                event.getContentIfNotHandled()?.let {
-                    this@BookmarkActivity.addNewItem()
-                }
-            })
-
-            deleteBookmarkEvent.observe(this@BookmarkActivity, Observer<Event<Unit>> { event ->
-                event.getContentIfNotHandled()?.let {
-                    this@BookmarkActivity.deleteItem()
-                }
-            })
-
-            openBookmarkEvent.observe(this@BookmarkActivity, Observer<Event<String>> { event ->
-                event.getContentIfNotHandled()?.let {
-                    openBookmarkDetails(it)
-                }
-            })
+      deleteBookmarkEvent.observe(this@BookmarkActivity, Observer<Event<Unit>> { event ->
+        event.getContentIfNotHandled()?.let {
+          this@BookmarkActivity.deleteItem()
         }
-    }
+      })
 
-    fun obtainViewModel(): BookmarkViewModel =
-        obtainViewModel(BookmarkViewModel::class.java, this)
-
-
-    private fun setupFragment() {
-        supportFragmentManager.findFragmentById(R.id.content_frame)
-            ?: replaceFragmentInActivity(BookmarkFragment.newInstance(), R.id.content_frame)
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        val categoryId = data?.getStringExtra(AddEditBookmarkActivity.CATEGORY_ID)
-        viewModel.handleActivityResult(requestCode, resultCode, categoryId)
-    }
-
-    override fun addNewItem() {
-        val intent = Intent(this, AddEditBookmarkActivity::class.java)
-        startActivityForResult(intent, AddEditBookmarkActivity.REQUEST_CODE)
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout)
-    }
-
-    override fun deleteItem() {
-        val intent = Intent(this, DeleteBookmarkActivity::class.java)
-        startActivityForResult(intent, DeleteBookmarkActivity.REQUEST_CODE)
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun openBookmarkDetails(bookmarkId: String) {
-        val intent = Intent(this, BookmarkDetailActivity::class.java).apply {
-            putExtra(BookmarkDetailActivity.EXTRA_BOOKMARK_ID, bookmarkId)
+      openBookmarkEvent.observe(this@BookmarkActivity, Observer<Event<String>> { event ->
+        event.getContentIfNotHandled()?.let {
+          openBookmarkDetails(it)
         }
-        val options = ActivityOptions
-            .makeSceneTransitionAnimation(
-                this,
-                UtilPair(viewModel.bookmarkImage.value, "transition_img"),
-                UtilPair(viewModel.bookmarkTitle.value, "transition_title"),
-                UtilPair(viewModel.bookmarkUrl.value, "transition_url")
-            )
-        //startActivity(intent, options.toBundle())
-        startActivityForResult(
-            intent,
-            AddEditBookmarkActivity.REQUEST_CODE,
-            options.toBundle()
-        )
+      })
     }
+  }
+
+  fun obtainViewModel(): BookmarkViewModel =
+    obtainViewModel(BookmarkViewModel::class.java, this)
+
+
+  private fun setupFragment() {
+    supportFragmentManager.findFragmentById(R.id.content_frame)
+      ?: replaceFragmentInActivity(BookmarkFragment.newInstance(), R.id.content_frame)
+  }
+
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+
+    val categoryId = data?.getStringExtra(AddEditBookmarkActivity.CATEGORY_ID)
+    viewModel.handleActivityResult(requestCode, resultCode, categoryId)
+  }
+
+  override fun addNewItem() {
+    val intent = Intent(this, AddEditBookmarkActivity::class.java)
+    startActivityForResult(intent, AddEditBookmarkActivity.REQUEST_CODE)
+    overridePendingTransition(R.anim.fadein, R.anim.fadeout)
+  }
+
+  override fun deleteItem() {
+    val intent = Intent(this, DeleteBookmarkActivity::class.java)
+    startActivityForResult(intent, DeleteBookmarkActivity.REQUEST_CODE)
+    overridePendingTransition(R.anim.fadein, R.anim.fadeout)
+  }
+
+  @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+  override fun openBookmarkDetails(bookmarkId: String) {
+    val intent = Intent(this, BookmarkDetailActivity::class.java).apply {
+      putExtra(BookmarkDetailActivity.EXTRA_BOOKMARK_ID, bookmarkId)
+    }
+    val options = ActivityOptions
+      .makeSceneTransitionAnimation(
+        this,
+        UtilPair(viewModel.bookmarkImage.value, "transition_img"),
+        UtilPair(viewModel.bookmarkTitle.value, "transition_title"),
+        UtilPair(viewModel.bookmarkUrl.value, "transition_url")
+      )
+    //startActivity(intent, options.toBundle())
+    startActivityForResult(
+      intent,
+      AddEditBookmarkActivity.REQUEST_CODE,
+      options.toBundle()
+    )
+  }
 }
