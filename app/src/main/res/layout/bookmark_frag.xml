@@ -24,7 +24,7 @@
 
         <variable
             name="viewModel"
-            type="com.jroomdev.bookmark_kotlin.bookmark.BookmarkViewModel" />
+            type="com.jrooms.bookmark_kotlin.bookmark.BookmarkViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -22,7 +22,7 @@
     android:layout_height="match_parent"
     android:id="@+id/web_view_container"
     android:fitsSystemWindows="true"
-    tools:context="com.jroomdev.bookmark_kotlin.webview.WebViewActivity">
+    tools:context="com.jrooms.bookmark_kotlin.webview.WebViewActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
