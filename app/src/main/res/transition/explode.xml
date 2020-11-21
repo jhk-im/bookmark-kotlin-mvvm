@@ -15,6 +15,5 @@
   ~ limitations under the License.
   -->
 <transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
-    <explode
-        android:duration="800" />
+    <explode android:duration="800" />
 </transitionSet>
