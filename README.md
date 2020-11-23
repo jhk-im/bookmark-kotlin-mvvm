@@ -6,7 +6,7 @@
 <!--   <a href="https://github.com/jroom-dev/bookmark-kotlin-mvvm/actions">
     <img alt="Build Status" src="https://img.shields.io/badge/androidCI-passing-yellow?logo=github&logoColor=white"/></a>  -->
   <a href="https://jroomstudio.tistory.com/"><img alt="Medium" src="https://img.shields.io/badge/blog-tistory-green"/></a>
-  <a href="https://github.com/jroom-dev"><img alt="Profile" src="https://img.shields.io/badge/github-jroom--dev-orange?logo=github&logoColor=white"/></a> 
+  <a href="https://github.com/jrooms"><img alt="Profile" src="https://img.shields.io/badge/github-jrooms-orange?logo=github&logoColor=white"/></a> 
 </p>
 
 <p align="left">  
