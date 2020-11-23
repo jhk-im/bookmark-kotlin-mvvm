@@ -49,6 +49,10 @@ class BookmarkDetailViewModel(
   val selectedAt: LiveData<String>
     get() = _selectedAt
 
+  private val _getBookmarkEvent = MutableLiveData<Event<String>>()
+  val getBookmarkEvent: LiveData<Event<String>>
+    get() = _getBookmarkEvent
+
   val bookmarkId: String?
     get() = bookmark.value?.id
 
@@ -70,6 +74,7 @@ class BookmarkDetailViewModel(
   override fun onBookmarkLoaded(bookmark: Bookmark) {
     val sd = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     _selectedAt.value = sd.format(bookmark.selectedAt!!)
+    _getBookmarkEvent.value = Event(bookmark.favicon)
     setBookmark(bookmark)
     onCategoriesLoaded()
   }

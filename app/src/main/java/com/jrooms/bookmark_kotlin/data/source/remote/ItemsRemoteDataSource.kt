@@ -65,13 +65,13 @@ object ItemsRemoteDataSource : ItemsDataSource {
 
     // Simulate network
     Handler(Looper.getMainLooper()).postDelayed({
-        callback.onItemsLoaded(bookmarks, categories)
+      callback.onItemsLoaded(bookmarks, categories)
     }, SERVICE_LATENCY_IN_MILLIS)
   }
 
   override fun getBookmark(
-      bookmarkId: String,
-      callback: ItemsDataSource.GetBookmarkCallback
+    bookmarkId: String,
+    callback: ItemsDataSource.GetBookmarkCallback
   ) {
 
     val bookmark = BOOKMARKS_SERVICE_DATA[bookmarkId]
@@ -87,9 +87,9 @@ object ItemsRemoteDataSource : ItemsDataSource {
   }
 
   override fun saveBookmark(
-      categoryTitle: String,
-      bookmark: Bookmark,
-      callback: ItemsDataSource.GetCategoryCallback
+    categoryTitle: String,
+    bookmark: Bookmark,
+    callback: ItemsDataSource.GetCategoryCallback
   ) {
     val categoryId = CATEGORIES_SERVICE_DATA[categoryTitle]?.id
     if (categoryId != null) {
@@ -122,10 +122,6 @@ object ItemsRemoteDataSource : ItemsDataSource {
   override fun deleteBookmark(bookmarkId: String) {
 
     BOOKMARKS_SERVICE_DATA.remove(bookmarkId)
-  }
-
-  override fun refreshBookmark() {
-    //
   }
 
   override fun selectedBookmark(bookmarkId: String) {

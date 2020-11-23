@@ -178,7 +178,6 @@ class BookmarkViewModel(
           _currentCategory.value = categoryId
           _snackbarText.value = Event(R.string.successfully_saved_message)
           loadItems(false)
-          // Log.e("handle", "$categoryId")
         }
       }
     }
@@ -203,10 +202,6 @@ class BookmarkViewModel(
   private fun loadItems(forceUpdate: Boolean, showLoadingUI: Boolean) {
     if (showLoadingUI) {
       _dataLoading.value = true
-    }
-
-    if (forceUpdate) {
-      itemsRepository.refreshBookmark()
     }
 
     itemsRepository.getItems(object : ItemsDataSource.LoadItemsCallback {

@@ -106,10 +106,6 @@ class ItemsLocalDataSource private constructor(
     appExecutors.diskIO.execute { bookmarkDao.deleteBookmarkById(bookmarkId) }
   }
 
-  override fun refreshBookmark() {
-    //
-  }
-
   override fun selectedBookmark(bookmarkId: String) {
     //
   }

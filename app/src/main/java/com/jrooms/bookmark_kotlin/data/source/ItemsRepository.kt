@@ -24,7 +24,7 @@ class ItemsRepository(
 ) : ItemsDataSource {
 
   override fun getItems(callback: ItemsDataSource.LoadItemsCallback) {
-
+    //itemsRemoteDataSource.getItems()
     itemsLocalDataSource.getItems(object : ItemsDataSource.LoadItemsCallback {
       override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
         callback.onItemsLoaded(bookmarks, categories)
@@ -39,6 +39,7 @@ class ItemsRepository(
   }
 
   override fun getBookmark(bookmarkId: String, callback: ItemsDataSource.GetBookmarkCallback) {
+    //itemsRemoteDataSource.getBookmark()
     itemsLocalDataSource.getBookmark(
       bookmarkId,
       object : ItemsDataSource.GetBookmarkCallback {
@@ -57,6 +58,7 @@ class ItemsRepository(
     bookmark: Bookmark,
     callback: ItemsDataSource.GetCategoryCallback
   ) {
+    // itemsRemoteDataSource.saveBookmark()
     itemsLocalDataSource.saveBookmark(
       categoryTitle,
       bookmark,
@@ -89,10 +91,6 @@ class ItemsRepository(
   override fun deleteBookmark(bookmarkId: String) {
     itemsLocalDataSource.deleteBookmark(bookmarkId)
     // itemsRemoteDataSource.deleteBookmark(bookmarkId)
-  }
-
-  override fun refreshBookmark() {
-    // cacheIsDirty = true
   }
 
   override fun selectedBookmark(bookmarkId: String) {

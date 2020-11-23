@@ -126,10 +126,6 @@ class DeleteBookmarkViewModel(
       _dataLoading.value = true
     }
 
-    if (forceUpdate) {
-      itemsRepository.refreshBookmark()
-    }
-
     itemsRepository.getItems(object : ItemsDataSource.LoadItemsCallback {
       override fun onItemsLoaded(bookmarks: List<Bookmark>, categories: List<Category>) {
 

@@ -49,8 +49,6 @@ interface ItemsDataSource {
 
   fun deleteBookmark(bookmarkId: String)
 
-  fun refreshBookmark()
-
   fun selectedBookmark(bookmarkId: String)
 
   fun selectedBookmark(bookmark: Bookmark)

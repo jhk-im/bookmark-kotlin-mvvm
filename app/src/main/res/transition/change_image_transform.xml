@@ -15,5 +15,6 @@
   ~ limitations under the License.
   -->
 <transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
-    <changeImageTransform android:duration="800" />
+    <changeImageTransform />
+    <changeBounds />
 </transitionSet>

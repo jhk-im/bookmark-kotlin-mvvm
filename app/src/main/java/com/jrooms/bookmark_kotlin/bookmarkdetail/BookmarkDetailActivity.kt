@@ -18,8 +18,11 @@ package com.jrooms.bookmark_kotlin.bookmarkdetail
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.jrooms.bookmark_kotlin.Event
 import com.jrooms.bookmark_kotlin.R
 import com.jrooms.bookmark_kotlin.addeditbookmark.AddEditBookmarkActivity
 import com.jrooms.bookmark_kotlin.addeditbookmark.AddEditBookmarkFragment
@@ -32,21 +35,22 @@ import com.jrooms.bookmark_kotlin.webview.WebViewActivity
 class BookmarkDetailActivity : AppCompatActivity() {
 
   private lateinit var viewBinding: BookmarkDetailActBinding
-  private lateinit var viewModel: BookmarkDetailViewModel
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     viewBinding = DataBindingUtil.setContentView(this, R.layout.bookmark_detail_act)
     viewBinding.lifecycleOwner = this
-    viewModel = obtainViewModel(BookmarkDetailViewModel::class.java, this)
-    viewBinding.viewModel = obtainViewModel(BookmarkDetailViewModel::class.java, this)
-    viewModel.start(intent.getStringExtra(EXTRA_BOOKMARK_ID))
+    viewBinding.viewModel = obtainViewModel(BookmarkDetailViewModel::class.java, this).apply {
+      getBookmarkEvent.observe(this@BookmarkDetailActivity, Observer<Event<String>> {
+        event ->
+        event.getContentIfNotHandled()?.let {
+          this@BookmarkDetailActivity.setFaviconImage(it)
+        }
+      })
+    }
+    viewBinding.viewModel?.start(intent.getStringExtra(EXTRA_BOOKMARK_ID))
     this.setFinishOnTouchOutside(false)
-
-    setFaviconImage()
-
     setOnclickListener()
-
   }
 
   private fun setOnclickListener() {
@@ -64,10 +68,10 @@ class BookmarkDetailActivity : AppCompatActivity() {
     }
   }
 
-  private fun setFaviconImage() {
+  private fun setFaviconImage(favicon: String) {
+    Log.e("", "${favicon}")
     Glide.with(viewBinding.root)
-      .load(viewModel.bookmark.value?.favicon)
-      .placeholder(R.drawable.logo)
+      .load(favicon)
       .error(R.drawable.logo)
       .into(viewBinding.ivUrlImage)
   }
@@ -84,7 +88,6 @@ class BookmarkDetailActivity : AppCompatActivity() {
             )
           }
           setResult(ADD_EDIT_RESULT_OK, intent)
-
           finish()
         }
       }
@@ -97,7 +100,7 @@ class BookmarkDetailActivity : AppCompatActivity() {
 
   private fun openWeb() {
     val intent = Intent(this, WebViewActivity::class.java).apply {
-      putExtra(BOOKMARK_URL, viewModel.bookmark.value?.url)
+      putExtra(BOOKMARK_URL, viewBinding.viewModel?.bookmark?.value?.url)
     }
     startActivityForResult(intent, AddEditBookmarkActivity.REQUEST_CODE)
     overridePendingTransition(R.anim.fadein, R.anim.fadeout)
@@ -105,7 +108,7 @@ class BookmarkDetailActivity : AppCompatActivity() {
 
   private fun openEditItem() {
     val intent = Intent(this, AddEditBookmarkActivity::class.java).apply {
-      putExtra(AddEditBookmarkFragment.ARGUMENT_EDIT_ID, viewModel.bookmarkId)
+      putExtra(AddEditBookmarkFragment.ARGUMENT_EDIT_ID, viewBinding.viewModel?.bookmarkId)
     }
     startActivityForResult(intent, AddEditBookmarkActivity.REQUEST_CODE)
     overridePendingTransition(R.anim.fadein, R.anim.fadeout)
@@ -114,7 +117,7 @@ class BookmarkDetailActivity : AppCompatActivity() {
   private fun shareUrl() {
     val sendIntent: Intent = Intent().apply {
       action = Intent.ACTION_SEND
-      putExtra(Intent.EXTRA_TEXT, viewModel.bookmark.value?.url)
+      putExtra(Intent.EXTRA_TEXT, viewBinding.viewModel?.bookmark?.value?.url)
       type = "text/plain"
     }
 
@@ -126,7 +129,7 @@ class BookmarkDetailActivity : AppCompatActivity() {
     val intent = Intent(this, BookmarkActivity::class.java).apply {
       putExtra(
         AddEditBookmarkActivity.CATEGORY_ID,
-        viewModel.categoryId
+        viewBinding.viewModel?.categoryId
       )
     }
     setResult(ADD_EDIT_RESULT_OK, intent)
