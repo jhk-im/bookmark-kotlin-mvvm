@@ -54,7 +54,7 @@ kotlin과 MVVM 디자인 패턴 학습을 위해 작성 되었으며,
 
 ## Referenced Project
 <p align="left">
-  <a href="https://github.com/jrooms/architecture-samples/tree/todo-mvvm-live-kotlin"><img alt="Pokedex" src="/readme/architecture_samples.png"/></a>
+  <a href="https://github.com/jrooms/architecture-samples/tree/todo-mvvm-live-kotlin"><img alt="architecture samples" src="/readme/architecture_samples.png"/></a>
 </p>
 </br>
 
