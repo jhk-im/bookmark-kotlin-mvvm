@@ -26,9 +26,6 @@
 </br>
 
 ## Blog Post
-해당 프로젝트는 기존에 java로 만들었던 동일한 프로젝트를 kotlin으로 리팩토링 한 것입니다.   
-kotlin과 MVVM 디자인 패턴 학습을 위해 작성 되었으며,  
-해당 프로젝트를 분석하고 구현하면서 공부했던 주요 내용들을 블로그에 정리해 두었습니다.   
 [개인 프로젝트(Bookmark-kotlin)를 통해 알아보는 MVC-MVP-MVVM](https://jroomstudio.tistory.com/70)    
 [개인 프로젝트(Bookmark-kotlin)를 통해 알아보는 DataBinding + ViewModel](https://jroomstudio.tistory.com/71)
 </br>
