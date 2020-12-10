@@ -27,7 +27,7 @@
 
 ## Blog Post
 [개인 프로젝트(Bookmark-kotlin)를 통해 알아보는 MVC-MVP-MVVM](https://jroomstudio.tistory.com/70)    
-[개인 프로젝트(Bookmark-kotlin)를 통해 알아보는 DataBinding + ViewModel](https://jroomstudio.tistory.com/71)
+[개인 프로젝트(Bookmark-kotlin)를 통해 알아보는 ViewModel의 생성](https://jroomstudio.tistory.com/71)
 </br>
 </br>
 
